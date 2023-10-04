@@ -1,6 +1,0 @@
-M2 U M2 U2 M2 U M2, oder
-M2 U' M2 U2 M2 U' M2, oder
-R2' r2 U' L2 l2' U2 R2' r2 U' L2 l2', oder
-F2 M2 F2 U' F2 M2 F2 U, oder
-x U2 M2 U2 B' U2 M2 U2 B, oder
-R U2 R' U' R' U' R2 U' R2 U2 R2 U2 R' U

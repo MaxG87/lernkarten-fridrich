@@ -1,4 +1,0 @@
-R U R' F' R U R' U' R' F R2 U' R' U', oder
-R U2 R' U' R U2 L' U R' U' L, oder
-y2 R L U2 L' U' L U2 R' U L' U', oder
-y2 r2 U' L' U r' U2 R B' R' U2
