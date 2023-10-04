@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{scrartcl}
+\documentclass[12pt,a4paper,landscape]{scrartcl}
 % evtl. nützliche Pakete
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -39,9 +39,13 @@
 \author{Max Görner}
 \date{\today}
 
-\newcommand{\pllimg}[1] {\includegraphics{pll#1.png}}
+\newlength{\cellwidth}
+\setlength{\cellwidth}{4.5cm}
+\newlength{\cellheight}
+\setlength{\cellheight}{1cm}
+\newcommand{\pllimg}[1] {\includegraphics{PLL#1.png}}
 \newcommand{\pllalgo}[1] {
-    \begin{minipage}{5cm}
+    \begin{minipage}{\cellwidth}
         \tiny
         \texttt{
             \input{pll#1.tex}
@@ -51,14 +55,22 @@
 
 \begin{document}
 
-\begin{tabular}{ccc}
-    \pllimg{01} & \pllimg{02} & \pllimg{03}
+\begin{tabular}{p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}}
+    \pllimg{01} & \pllimg{02} & \pllimg{03} & \pllimg{04} & \pllimg{05} \\\hline
+    \pllimg{06} & \pllimg{07} & \pllimg{08} & \pllimg{09} & \pllimg{10} \\\hline
+    \pllimg{11} & \pllimg{12} & \pllimg{13} & \pllimg{14} & \pllimg{15} \\\hline
+    \pllimg{16} & \pllimg{17} & \pllimg{18} & \pllimg{19} & \pllimg{20} \\\hline
+    \pllimg{21} \\\hline
 \end{tabular}
 
 \newpage
 
-\begin{tabular}{ccc}
-    \pllalgo{01} & \pllalgo{02} & \pllalgo{03}
+\begin{tabular}{p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}}
+    \pllalgo{01} & \pllalgo{02} & \pllalgo{03} & \pllalgo{04} & \pllalgo{05} \\\hline
+    \pllalgo{06} & \pllalgo{07} & \pllalgo{08} & \pllalgo{09} & \pllalgo{10} \\\hline
+    \pllalgo{11} & \pllalgo{12} & \pllalgo{13} & \pllalgo{14} & \pllalgo{15} \\\hline
+    \pllalgo{16} & \pllalgo{17} & \pllalgo{18} & \pllalgo{19} & \pllalgo{20} \\\hline
+    \pllalgo{21} \\\hline
 \end{tabular}
 
 
