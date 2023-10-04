@@ -1,0 +1,3 @@
+R' U' R y R2 Uw R' U R U' R Uw' R2, oder
+R' U' R B2 D L' U L U' L D' B2, oder
+y2 L' U' L y' R2' u R' U R U' R u' R2
