@@ -7,7 +7,7 @@
 \usepackage[right]{eurosym} % mit `\euro' oder `\euro{Betrag}' zu benutzen
 \usepackage[T1]{fontenc}
 \usepackage{fontspec}
-\usepackage[top=3.0cm,right=3.0cm,bottom=3.0cm,left=3.0cm]{geometry}
+\usepackage[top=0.5cm,right=0.5cm,bottom=0.5cm,left=0.5cm]{geometry}
 \usepackage{graphicx}
 \usepackage{hyperref} % verlinkt automatisch alle Referenzen, sodass am Rechner
                       % mit Mausklicken dort hin gesprungen wird.
@@ -39,39 +39,58 @@
 \author{Max Görner}
 \date{\today}
 
-\newlength{\cellwidth}
-\setlength{\cellwidth}{4.5cm}
+\newcounter{cardcounter}
 \newlength{\cellheight}
-\setlength{\cellheight}{1cm}
-\newcommand{\pllimg}[1] {\includegraphics{PLL#1.png}}
-\newcommand{\pllalgo}[1] {
-    \begin{minipage}{\cellwidth}
-        \tiny
-        \texttt{
-            \input{pll#1.tex}
-        }
+\setlength{\cellheight}{4cm}
+\newlength{\cellwidth}
+\setlength{\cellwidth}{1.618339887\cellheight}
+
+
+\newcommand{\cell}[1] {
+    \begin{minipage}[c][\cellheight][c]{\cellwidth}
+        #1
     \end{minipage}
+}
+
+
+\newcommand{\cubeimg}[1] {\cell{\includegraphics[width=0.9\cellwidth, height=0.9\cellheight, keepaspectratio]{icon-#1.png}}}
+\newcommand{\cubealgo}[1] {
+    \cell{
+        \footnotesize
+        \texttt{
+            \input{algo-#1.tex}
+        }
+    }
+}
+
+\newcommand{\cvalue} {\ifnum\value{cardcounter}<10 0\fi\the\value{cardcounter}}
+\newcommand{\cubeimgstep} {\cubeimg{\cvalue} \stepcounter{cardcounter}}
+\newcommand{\cubealgostep} {\cubealgo{\cvalue} \stepcounter{cardcounter}}
+
+\newcommand{\cubepage}[1] {
+    \setcounter{cardcounter}{#1}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+        \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+        \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+        \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+    \end{tabular}
+
+    \setcounter{cardcounter}{#1}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+        \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+        \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+        \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+    \end{tabular}
+
 }
 
 \begin{document}
 
-\begin{tabular}{p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}}
-    \pllimg{01} & \pllimg{02} & \pllimg{03} & \pllimg{04} & \pllimg{05} \\\hline
-    \pllimg{06} & \pllimg{07} & \pllimg{08} & \pllimg{09} & \pllimg{10} \\\hline
-    \pllimg{11} & \pllimg{12} & \pllimg{13} & \pllimg{14} & \pllimg{15} \\\hline
-    \pllimg{16} & \pllimg{17} & \pllimg{18} & \pllimg{19} & \pllimg{20} \\\hline
-    \pllimg{21} \\\hline
-\end{tabular}
-
-\newpage
-
-\begin{tabular}{p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}}
-    \pllalgo{01} & \pllalgo{02} & \pllalgo{03} & \pllalgo{04} & \pllalgo{05} \\\hline
-    \pllalgo{06} & \pllalgo{07} & \pllalgo{08} & \pllalgo{09} & \pllalgo{10} \\\hline
-    \pllalgo{11} & \pllalgo{12} & \pllalgo{13} & \pllalgo{14} & \pllalgo{15} \\\hline
-    \pllalgo{16} & \pllalgo{17} & \pllalgo{18} & \pllalgo{19} & \pllalgo{20} \\\hline
-    \pllalgo{21} \\\hline
-\end{tabular}
-
+\cubepage{1}
+\cubepage{17}
 
 \end{document}
