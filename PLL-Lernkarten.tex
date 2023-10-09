@@ -46,21 +46,20 @@
 \setlength{\cellwidth}{1.618339887\cellheight}
 
 
-\newcommand{\cell}[1] {
+\newcommand{\cubeimg}[1] {
     \begin{minipage}[b][\cellheight][c]{\cellwidth}
-        #1
+        \includegraphics[width=0.95\cellwidth, height=\cellheight, keepaspectratio]{icon-#1.png}
     \end{minipage}
 }
 
 
-\newcommand{\cubeimg}[1] {\includegraphics[width=0.95\cellwidth, height=\cellheight, keepaspectratio]{icon-#1.png}}
 \newcommand{\cubealgo}[1] {
-    \cell{
+    \begin{minipage}[b][\cellheight][c]{\cellwidth}
         \footnotesize
         \texttt{
             \input{algo-#1}
         }
-    }
+    \end{minipage}
 }
 
 \newcommand{\cvalue} {\ifnum\value{cardcounter}<10 0\fi\the\value{cardcounter}}
