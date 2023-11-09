@@ -15,6 +15,14 @@ vorausgesetzt. Ist dies gegeben, reicht zur Erstellung der PDF ein einfaches
 Sollte `make` nicht zur Verfügung stehen, kann auch manuell mehrfach `lualatex
 Lernkarten.tex` ausgeführt werden.
 
+## Mögliche Verbesserungen
+
+* Die Bilder sind teils etwas unscharf. Diese könnten mittels TikZ als
+  Vektorgrafik generiert werden.
+* Es ist momentan nur großer Sorgfalt zu verdanken, dass die Algorithmen zu den
+  Bildern passen. Es könnte überlegt werden, dies irgendwie programmatisch
+  sicherzustellen.
+
 ## Lizenz
 
 Sowohl die Schrittfolgen als auch die Bilder sind Anleitungen von
