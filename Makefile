@@ -19,3 +19,9 @@ Lernkarten.pdf: Lernkarten.tex $(BILDER) $(ALGOS)
 	      tr -Cd "RLUDFB'2" < $< |\
 		sed "s!^!http://cube.rider.biz/visualcube.php?size=300\&fmt=svg\&pzl=3\&stage=$${stage}\&view=plan\&alg=!" |\
 		xargs wget -O $@
+
+icon-%.$(ICON_FTYPE): oll-%.$(ICON_FTYPE)
+	cp $< $@
+
+icon-%.$(ICON_FTYPE): pll-%.$(ICON_FTYPE)
+	cp $< $@
