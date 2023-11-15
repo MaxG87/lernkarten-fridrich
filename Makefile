@@ -18,13 +18,15 @@ Lernkarten.pdf: Lernkarten.tex $(BILDER) $(ALGOS)
 %.svg: %.url
 	wget -O $@ "$$(cat $<)"
 
-%.url: %.tex
+%.url: %.seq
+	sed "s!^!http://cube.rider.biz/visualcube.php?size=300\&fmt=svg\&pzl=3\&stage=$${stage}\&view=plan\&case=!" $< > $@
+
+%.seq: %.tex
 	fname='$<'; \
 	      stage=$${fname%-*}; \
 	      head -n 1 $< | \
 	      sed 's/\\text//g' |\
-	      tr -d '^(){}$$ \\' |\
-	      sed "s!^!http://cube.rider.biz/visualcube.php?size=300\&fmt=svg\&pzl=3\&stage=$${stage}\&view=plan\&case=!" > $@
+	      tr -d '^(){}$$ \\' > $@
 
 icon-%: oll-%
 	cp $< $@
