@@ -18,8 +18,9 @@ Lernkarten.pdf: Lernkarten.tex $(BILDER) $(ALGOS)
 %.svg: %.tex
 	fname='$<'; \
 	      stage=$${fname%-*}; \
-	      tr -Cd "RLUDFB'2\n" < $< |\
-		sed "s!^!http://cube.rider.biz/visualcube.php?size=300\&fmt=svg\&pzl=3\&stage=$${stage}\&view=plan\&alg=!" |\
+	      head -n 1 $< | \
+	      tr -Cd "RLUDFB'2\n" |\
+		sed "s!^!http://cube.rider.biz/visualcube.php?size=300\&fmt=svg\&pzl=3\&stage=$${stage}\&view=plan\&case=!" |\
 		xargs -d "\n" wget -O $@
 
 icon-%: oll-%
