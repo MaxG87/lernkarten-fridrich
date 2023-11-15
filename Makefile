@@ -7,11 +7,13 @@ OLL_BILDER = $(OLL_ALGOS:.tex=.pdf)
 Lernkarten.pdf: Lernkarten.tex $(BILDER) $(ALGOS)
 	latexmk -lualatex Lernkarten.tex
 
-oll-%.pdf: oll-%.svg
+%.pdf: %.svg
 	inkscape --export-filename $@ $<
 
-oll-%.svg: oll-%.tex
-	cat $< |\
-		tr -Cd "RLUDFB'2" |\
-		sed 's!^!http://cube.rider.biz/visualcube.php?size=300\&fmt=svg\&pzl=3\&stage=oll\&view=plan\&alg=!' |\
+%.svg: %.tex
+	fname='$<'; \
+	      stage=$${fname%-*}; \
+	      echo $$stage; \
+	      tr -Cd "RLUDFB'2" < $< |\
+		sed "s!^!http://cube.rider.biz/visualcube.php?size=300\&fmt=svg\&pzl=3\&stage=$${stage}\&view=plan\&alg=!" |\
 		xargs wget -O $@
