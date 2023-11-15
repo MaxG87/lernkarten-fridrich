@@ -2,7 +2,7 @@ ALGOS = $(wildcard algo-*.tex)
 BILDER = $(subst algo,icon,$(patsubst %.tex,%.pdf,$(ALGOS)))
 
 OLL_ALGOS = $(wildcard oll-*.tex,$(ALGOS))
-OLL_BILDER = $(patsubst %.tex,%.pdf,$(OLL_ALGOS))
+OLL_BILDER = $(OLL_ALGOS:.tex=.pdf)
 
 Lernkarten.pdf: Lernkarten.tex $(BILDER) $(ALGOS)
 	latexmk -lualatex Lernkarten.tex
