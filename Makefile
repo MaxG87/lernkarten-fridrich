@@ -1,4 +1,4 @@
-ICON_FTYPE := eps
+ICON_FTYPE := pdf
 
 OLL_ALGOS = $(wildcard oll-*.tex)
 OLL_BILDER = $(OLL_ALGOS:.tex=.$(ICON_FTYPE))
