@@ -5,8 +5,8 @@ OLL_BILDER = $(OLL_ALGOS:.tex=.$(ICON_FTYPE))
 PLL_ALGOS = $(wildcard pll-*.tex)
 PLL_BILDER = $(PLL_ALGOS:.tex=.$(ICON_FTYPE))
 
-ALGOS = $(OLL_ALGOS) $(PLL_ALGOS)
-BILDER = $(OLL_BILDER) $(PLL_BILDER)
+ALGOS = $(subst oll,algo,$(OLL_ALGOS)) $(subst pll,algo,$(PLL_ALGOS))
+BILDER = $(subst oll,icon,$(OLL_BILDER)) $(subst pll,icon,$(PLL_BILDER))
 
 
 Lernkarten.pdf: Lernkarten.tex $(BILDER) $(ALGOS)
@@ -22,8 +22,14 @@ Lernkarten.pdf: Lernkarten.tex $(BILDER) $(ALGOS)
 		sed "s!^!http://cube.rider.biz/visualcube.php?size=300\&fmt=svg\&pzl=3\&stage=$${stage}\&view=plan\&alg=!" |\
 		xargs -d "\n" wget -O $@
 
-icon-%.$(ICON_FTYPE): oll-%.$(ICON_FTYPE)
+icon-%: oll-%
 	cp $< $@
 
-icon-%.$(ICON_FTYPE): pll-%.$(ICON_FTYPE)
+icon-%: pll-%
+	cp $< $@
+
+algo-%.tex: oll-%.tex
+	cp $< $@
+
+algo-%.tex: pll-%.tex
 	cp $< $@
