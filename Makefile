@@ -15,13 +15,16 @@ Lernkarten.pdf: Lernkarten.tex $(BILDER) $(ALGOS)
 %.$(ICON_FTYPE): %.svg
 	inkscape --export-filename $@ $<
 
-%.svg: %.tex
+%.svg: %.url
+	wget -O $@ "$$(cat $<)"
+
+%.url: %.tex
 	fname='$<'; \
 	      stage=$${fname%-*}; \
 	      head -n 1 $< | \
-	      tr -Cd "RLUDFB'2\n" |\
-		sed "s!^!http://cube.rider.biz/visualcube.php?size=300\&fmt=svg\&pzl=3\&stage=$${stage}\&view=plan\&case=!" |\
-		xargs -d "\n" wget -O $@
+	      sed 's/\\text//g' |\
+	      tr -d '^(){}$$ \\' |\
+	      sed "s!^!http://cube.rider.biz/visualcube.php?size=300\&fmt=svg\&pzl=3\&stage=$${stage}\&view=plan\&case=!" > $@
 
 icon-%: oll-%
 	cp $< $@
