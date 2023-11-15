@@ -1,15 +1,18 @@
-ALGOS = $(wildcard algo-*.tex)
-BILDER = $(subst algo,icon,$(patsubst %.tex,%.pdf,$(ALGOS)))
+ICON_FTYPE := eps
 
-OLL_ALGOS = $(wildcard oll-*.tex,$(ALGOS))
-OLL_BILDER = $(OLL_ALGOS:.tex=.pdf)
-PLL_ALGOS = $(wildcard pll-*.tex,$(ALGOS))
-PLL_BILDER = $(PLL_ALGOS:.tex=.pdf)
+OLL_ALGOS = $(wildcard oll-*.tex)
+OLL_BILDER = $(OLL_ALGOS:.tex=.$(ICON_FTYPE))
+PLL_ALGOS = $(wildcard pll-*.tex)
+PLL_BILDER = $(PLL_ALGOS:.tex=.$(ICON_FTYPE))
+
+ALGOS = $(OLL_ALGOS) $(PLL_ALGOS)
+BILDER = $(OLL_BILDER) $(PLL_BILDER)
+
 
 Lernkarten.pdf: Lernkarten.tex $(BILDER) $(ALGOS)
 	latexmk -lualatex Lernkarten.tex
 
-%.pdf: %.svg
+%.$(ICON_FTYPE): %.svg
 	inkscape --export-filename $@ $<
 
 %.svg: %.tex
