@@ -14,9 +14,9 @@
 
 \newcounter{cardcounter}
 \newlength{\cellheight}
-\setlength{\cellheight}{4cm}
+\setlength{\cellheight}{0.3\textheight}  % 1/3 von 90% der Papierhöhe, damit 3x3 Karten auf eine Seite passen
 \newlength{\cellwidth}
-\setlength{\cellwidth}{1.618339887\cellheight}
+\setlength{\cellwidth}{\cellheight} % quadratische Karten eignen sich besser zum Lernen
 
 
 \newcommand{\cubeimg}[1] {
@@ -44,26 +44,23 @@
 \newcommand{\cubepage}[1] {
     \setcounter{cardcounter}{#1}
     \begin{center}
-        \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
+        \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
             \hline
-            \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
-            \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
-            \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
-            \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+            \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+            \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+            \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
         \end{tabular}
     \end{center}
 
     \begin{center}
         \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
             \hline
-            \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{3}
-            \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
-            \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{7}
-            \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
-            \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{11}
-            \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
-            \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{15}
-            \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+            \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{2}
+            \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+            \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{5}
+            \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+            \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{8}
+            \cubealgostep & \cubealgostep & \cubealgostep \\\hline
         \end{tabular}
     \end{center}
 
@@ -72,31 +69,35 @@
 \begin{document}
 
 \cubepage{1}
-\cubepage{17}
-\cubepage{33}
-\cubepage{49}
-\cubepage{65}
+\cubepage{10}
+\cubepage{19}
+\cubepage{28}
+\cubepage{37}
+\cubepage{46}
+\cubepage{55}
+\cubepage{64}
+\cubepage{73}
 
-\setcounter{cardcounter}{81}
+\setcounter{cardcounter}{82}
 \begin{center}
-    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
+    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
         \hline
-        \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
-        \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
-        \cubeimgstep &&& \\\hline
+        \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+        \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+        \cubeimgstep & \cubeimgstep & \\\hline
     \end{tabular}
 \end{center}
 
 \newpage
 
 \begin{center}
-    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
+    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
         \hline
-        \setcounter{cardcounter}{81} \addtocounter{cardcounter}{3}
-        \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
-        \setcounter{cardcounter}{81} \addtocounter{cardcounter}{7}
-        \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
-                      &&& \cubealgo{89} \\\hline
+        \setcounter{cardcounter}{82} \addtocounter{cardcounter}{2}
+        \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+        \setcounter{cardcounter}{82} \addtocounter{cardcounter}{5}
+        \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+                      & \cubealgo{88}& \cubealgo{89} \\\hline
     \end{tabular}
 \end{center}
 
