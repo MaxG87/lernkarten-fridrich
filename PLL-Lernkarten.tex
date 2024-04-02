@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,landscape]{scrartcl}
+\documentclass[12pt,a4paper,landscape,onesided]{scrartcl}
 % evtl. nützliche Pakete
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -35,7 +35,7 @@
 % \addtolength{\headheight}{1\baselineskip} %vergrößert eingeplante Kopfhöhe.
 % Bei vielen Zeilen (4 ist viel) wird dadurch verhindert, das der Kopf in den
 % Text rutscht
-\title{HIER TITEL EINFÜGEN}
+\title{Speedcubing Lernkarten}
 \author{Max Görner}
 \date{\today}
 
@@ -47,29 +47,29 @@
 
 
 \newcommand{\cell}[1] {
-    \begin{minipage}[c][\cellheight][c]{\cellwidth}
+    \begin{minipage}[b][\cellheight][c]{\cellwidth}
         #1
     \end{minipage}
 }
 
 
-\newcommand{\cubeimg}[1] {\cell{\includegraphics[width=0.9\cellwidth, height=0.9\cellheight, keepaspectratio]{icon-#1.png}}}
+\newcommand{\cubeimg}[1] {\includegraphics[width=0.95\cellwidth, height=\cellheight, keepaspectratio]{icon-#1.png}}
 \newcommand{\cubealgo}[1] {
     \cell{
         \footnotesize
         \texttt{
-            \input{algo-#1.tex}
+            \input{algo-#1}
         }
     }
 }
 
 \newcommand{\cvalue} {\ifnum\value{cardcounter}<10 0\fi\the\value{cardcounter}}
 \newcommand{\cubeimgstep} {\cubeimg{\cvalue} \stepcounter{cardcounter}}
-\newcommand{\cubealgostep} {\cubealgo{\cvalue} \stepcounter{cardcounter}}
+\newcommand{\cubealgostep} {\cubealgo{\cvalue} \addtocounter{cardcounter}{-1}}
 
 \newcommand{\cubepage}[1] {
     \setcounter{cardcounter}{#1}
-    \begin{tabular}{|c|c|c|c|}
+    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
         \hline
         \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
         \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
@@ -77,12 +77,15 @@
         \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
     \end{tabular}
 
-    \setcounter{cardcounter}{#1}
-    \begin{tabular}{|c|c|c|c|}
+    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
         \hline
+        \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{3}
         \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+        \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{7}
         \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+        \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{11}
         \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+        \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{15}
         \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
     \end{tabular}
 
@@ -92,5 +95,27 @@
 
 \cubepage{1}
 \cubepage{17}
+\cubepage{33}
+\cubepage{49}
+\cubepage{65}
+
+\setcounter{cardcounter}{81}
+\begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
+    \hline
+    \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+    \cubeimgstep & \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+    \cubeimgstep &&& \\\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
+    \hline
+    \setcounter{cardcounter}{81} \addtocounter{cardcounter}{3}
+    \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+    \setcounter{cardcounter}{81} \addtocounter{cardcounter}{7}
+    \cubealgostep & \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+                  &&& \cubealgo{89} \\\hline
+\end{tabular}
 
 \end{document}
