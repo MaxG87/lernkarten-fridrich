@@ -1,0 +1,6 @@
+R U R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R', oder
+R U' R' U Lw U F U' R' F' R U' R U Lw' U R', oder
+L U' L' U L F U F' L' U' L F' L F L' U L', oder
+F' R U R' U' R' F R2 F U' R' U' R U F' R', oder
+L U' R U2 L' U R' L U' R U2 L' U R' U', oder
+y' L U' R U2 L' U R' L U' R U2 L' U R' U
