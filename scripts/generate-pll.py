@@ -19,10 +19,22 @@ pll_arrows_url = (
 )
 
 plls = [
-    PLLCase("Aa", "R'FR'B2RF'R'B2R2", ["U0U2-s8", "U2U8-s8", "U8U0-s8"]),
-    PLLCase("Ab", "l'R'D2RUR'D2RU'Rx'", ["U8U2-s8", "U0U8-s8", "U2U0-s8"]),
-    PLLCase("E", "yLR'U'RUL'U'R'URrUR'U'r'FRF'", ["U0U6", "U6U0", "U2U8", "U8U2"]),
-    PLLCase("F", "y'R'URU'R2F'U'FURFR'F'R2", ["U2U8", "U8U2", "U1U7", "U7U1"]),
+    PLLCase(
+        "Aa", "x (R' U R') D2 (R U' R')(D2 R2) x'", ["U0U2-s8", "U2U8-s8", "U8U0-s8"]
+    ),
+    PLLCase(
+        "Ab", "x (R2 D2)(R U R') D2 (R U' R) x'", ["U8U2-s8", "U0U8-s8", "U2U0-s8"]
+    ),
+    PLLCase(
+        "E",
+        "R2 U R' y (R U' R' U) (R U' R' U) (R U' R' U) y' R U' R2 ",
+        ["U0U2", "U2U0", "U6U8", "U8U6"],
+    ),
+    PLLCase(
+        "F",
+        "y (R' U' F')(R U R' U')(R' F)(R2 U')(R' U' R U) R' U R",
+        ["U0U2", "U2U0", "U3U5", "U5U3"],
+    ),
     PLLCase(
         "Ga",
         "R2uR'UR'U'Ru'R2y'R'UR",
@@ -60,8 +72,11 @@ plls = [
 
 
 def download_case(case: PLLCase, destfile: Path) -> None:
-    alg = case.alg + "&arw=" + ",".join(case.arrows)
-    urllib.request.urlretrieve(f"{pll_arrows_url}{alg}", destfile)
+    raw_alg = case.alg
+    for char in "() ":
+        raw_alg = raw_alg.replace(char, "")
+    params = raw_alg + "&arw=" + ",".join(case.arrows)
+    urllib.request.urlretrieve(f"{pll_arrows_url}{params}", destfile)
 
 
 def main():
@@ -74,9 +89,10 @@ def main():
     target_dir = Path(args.tagetdir)
     target_dir.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor() as executor:
-        executor.map(
+        futures = executor.map(
             lambda case: download_case(case, target_dir / f"{case.name}.svg"), plls
         )
+        list(futures)
 
 
 if __name__ == "__main__":
