@@ -32,8 +32,8 @@ plls = [
     ),
     PLLCase(
         "F",
-        "y (R' U' F')(R U R' U')(R' F)(R2 U')(R' U' R U) R' U R",
-        ["U0U2", "U2U0", "U3U5", "U5U3"],
+        "(R' U' F')(R U R' U')(R' F)(R2 U')(R' U' R U) R' U R",
+        ["U1U7", "U7U1", "U2U8", "U8U2"],
     ),
     PLLCase(
         "Ga",
