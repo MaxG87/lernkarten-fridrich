@@ -37,7 +37,7 @@ plls = [
     ),
     PLLCase(
         "Ga",
-        "R2uR'UR'U'Ru'R2y'R'UR",
+        "(R2' u)(R' U R' U')(R u') R2 y' (R' U R)",
         ["U0U2-s8", "U2U6-s8", "U6U0-s8", "U1U3-s7", "U3U5-s7", "U5U1-s7"],
     ),
     PLLCase(
