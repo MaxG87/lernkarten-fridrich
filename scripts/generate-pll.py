@@ -74,14 +74,40 @@ plls = [
         "(R' U) L' U2 (R U') L (R' U) L' U2 (R U') L U",
         ["U0U8", "U8U0", "U3U5", "U5U3"],
     ),
-    # PLLCase("Ra", "y'LU2L'U2LF'L'U'LULFL2", ["U1U3", "U3U1", "U2U8", "U8U2"]),
-    # PLLCase("Rb", "R'U2RU2R'FRUR'U'R'F'R2", ["U0U2", "U2U0", "U5U7", "U7U5"]),
-    # PLLCase("T", "RUR'U'R'FR2U'R'U'RUR'F'", ["U3U5-s8", "U5U3-s8", "U2U8", "U8U2"]),
-    # PLLCase("Ua", "y2R2U'R'U'RURURU'R", ["U5U3-s7", "U3U7-s7", "U7U5-s7"]),
-    # PLLCase("Ub", "y2R'UR'U'R'U'R'URUR2", ["U3U5-s7", "U5U7-s7", "U7U3-s7"]),
-    # PLLCase("V", "R'UR'd'R'F'R2U'R'UR'FRF", ["U1U5", "U5U1", "U0U8", "U8U0"]),
-    # PLLCase("Y", "FRU'R'U'RUR'F'RUR'U'R'FRF'", ["U1U3", "U3U1", "U0U8", "U8U0"]),
-    # PLLCase("Z", "M2UM2UM'U2M2U2M'", ["U1U3", "U3U1", "U5U7", "U7U5"]),
+    PLLCase(
+        "Ra",
+        "(R U2')(R' U2)(R B')(R' U' R U)(R B R2 U)",
+        ["U1U5", "U5U1", "U6U8", "U8U6"],
+    ),
+    PLLCase(
+        "Rb",
+        "(R' U2)(R U2')(R' F)(R U R' U')(R' F' R2 U')",
+        ["U0U2", "U2U0", "U5U7", "U7U5"],
+    ),
+    PLLCase(
+        "T",
+        "(R U R' U')(R' F)(R2 U')(R' U' R U) R' F'",
+        ["U3U5-s8", "U5U3-s8", "U2U8", "U8U2"],
+    ),
+    PLLCase("Ua", "(R2 U')(R' U' R U)(R U)(R U' R)", ["U5U1-s7", "U1U3-s7", "U3U5-s7"]),
+    PLLCase(
+        "Ub", "(R2' U)(R U R' U')(R' U')(R' U R')", ["U3U5-s7", "U5U7-s7", "U7U3-s7"]
+    ),
+    PLLCase(
+        "V",
+        "(R' U R' U') x2 y' (R' U R' U') l (R U' R' U) R U x'",
+        ["U1U5", "U5U1", "U0U8", "U8U0"],
+    ),
+    PLLCase(
+        "Y",
+        "F (R U')(R' U' R U)(R' F')(R U R' U')(R' F R F')",
+        ["U1U3", "U3U1", "U0U8", "U8U0"],
+    ),
+    PLLCase(
+        "Z",
+        "(R' U' R U') R U (R U' R' U) R U R2 U' R' (U2)",
+        ["U1U5", "U5U1", "U3U7", "U7U3"],
+    ),
 ]
 
 
