@@ -8,6 +8,7 @@ from pathlib import Path
 
 import requests
 
+_FMT = "svg"
 Algorithm = t.NewType("Algorithm", str)
 
 
@@ -21,7 +22,7 @@ class AlgorithmConfig:
     parameters: dict[str, str] = field(default_factory=dict)
 
 
-base_url = "https://visualcube.api.cubing.net?fmt=png&ac=black&"
+base_url = f"https://visualcube.api.cubing.net?fmt={_FMT}&ac=black&"
 
 algorithms = [
     AlgorithmConfig(
@@ -99,7 +100,7 @@ def main():
     target_dir.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(max_workers=1) as executor:
         futures = executor.map(
-            lambda case: (target_dir / f"{case.name}.png", download_case(case)),
+            lambda case: (target_dir / f"{case.name}.{_FMT}", download_case(case)),
             algorithms,
         )
         for dest, content in futures:
