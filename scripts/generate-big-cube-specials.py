@@ -17,23 +17,26 @@ class AlgorithmConfig:
     size: int
     alg: Algorithm
     view: t.Literal["plan", "trans"] | None
+    arrows: list[str] = field(default_factory=list)
     parameters: dict[str, str] = field(default_factory=dict)
 
 
-base_url = "https://visualcube.api.cubing.net?fmt=png&"
+base_url = "https://visualcube.api.cubing.net?fmt=png&ac=black&"
 
 algorithms = [
     AlgorithmConfig(
-        "4x4x4 Edge Swap",
+        "4x4x4 PLL Parity",
         4,
         Algorithm("2R2 U2 2R2 u2 2R2 2U2"),
         "plan",
+        ["U13U2", "U2U13", "U14U1", "U1U14"],
     ),
     AlgorithmConfig(
-        "4x4x4 Whole Edge Flip",
+        "4x4x4 OLL Parity",
         4,
         Algorithm("r U2 x r U2 r U2 r' U2 l U2 r' U2 r U2 r' U2 r'"),
         "plan",
+        [],
         {"sch": "ysssss"},
     ),
     AlgorithmConfig(
@@ -52,7 +55,9 @@ def download_case(case: AlgorithmConfig) -> bytes:
     param_assignments.extend([f"pzl={case.size}", f"case={alg}"])
     if case.view is not None:
         param_assignments.append(f"view={case.view}")
-
+    if len(case.arrows) > 0:
+        arrows = ",".join(case.arrows)
+        param_assignments.append(f"arw={arrows}")
     params = "&".join(param_assignments)
     full_url = f"{base_url}{params}"
     print(full_url)
@@ -64,8 +69,9 @@ def download_case(case: AlgorithmConfig) -> bytes:
 
 def human_to_visualiser(alg: Algorithm) -> Algorithm:
     raw_alg = str(alg)
-    for char in "() ":
-        raw_alg = raw_alg.replace(char, "")
+    substitutions = [("(", ""), (")", ""), ("2R2", "r2R2"), ("2U2", "u2U2"), (" ", "")]
+    for origin, substitution in substitutions:
+        raw_alg = raw_alg.replace(origin, substitution)
     return Algorithm(raw_alg)
 
 
