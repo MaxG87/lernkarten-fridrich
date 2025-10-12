@@ -42,8 +42,21 @@ algorithms = [
     AlgorithmConfig(
         "5x5x5 Parity",
         5,
-        Algorithm("2R2 U2 2R2 u2 2R2 2U2"),
+        Algorithm("r2 B2 U2 l U2 r' U2 r U2 F2 r F2 l' B2 r2"),
+        # Algorithm("r2 r' r'"),
         "plan",
+        [],
+        {
+            "r": "y34x-25",
+            "fc": (
+                "ssssssdddssdddssdddssrrrs"
+                "ssssssdddssdddssdddssssss"
+                "sbbbssdddssdddssdddssssss"
+                "ssssssdddssdddssdddssssss"
+                "ssssssdddssdddssdddssssss"
+                "ssssssdddssdddssdddssssss"
+            ),
+        },
     ),
 ]
 
