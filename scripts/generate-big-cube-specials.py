@@ -1,138 +1,90 @@
 #!/usr/bin/env python3
 
 import argparse
-import urllib.request
+import typing as t
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
+
+import requests
+
+Algorithm = t.NewType("Algorithm", str)
 
 
 @dataclass(frozen=True)
-class PLLCase:
+class AlgorithmConfig:
     name: str
-    alg: str
-    arrows: list[str]
+    size: int
+    alg: Algorithm
+    view: t.Literal["plan", "trans"] | None
+    parameters: dict[str, str] = field(default_factory=dict)
 
 
-pll_arrows_url = (
-    "https://visualcube.api.cubing.net?fmt=svg&pzl=3&view=plan&ac=black&case="
-)
+base_url = "https://visualcube.api.cubing.net?fmt=png&"
 
-plls = [
-    PLLCase(
-        "Aa", "x (R' U R') D2 (R U' R')(D2 R2) x'", ["U0U2-s8", "U2U8-s8", "U8U0-s8"]
+algorithms = [
+    AlgorithmConfig(
+        "4x4x4 Edge Swap",
+        4,
+        Algorithm("2R2 U2 2R2 u2 2R2 2U2"),
+        "plan",
     ),
-    PLLCase(
-        "Ab", "x (R2 D2)(R U R') D2 (R U' R) x'", ["U8U2-s8", "U0U8-s8", "U2U0-s8"]
+    AlgorithmConfig(
+        "4x4x4 Whole Edge Flip",
+        4,
+        Algorithm("r U2 x r U2 r U2 r' U2 l U2 r' U2 r U2 r' U2 r'"),
+        "plan",
+        {"sch": "ysssss"},
     ),
-    PLLCase(
-        "E",
-        "R2 U R' y (R U' R' U) (R U' R' U) (R U' R' U) y' R U' R2 ",
-        ["U0U2", "U2U0", "U6U8", "U8U6"],
-    ),
-    PLLCase(
-        "F",
-        "(R' U' F')(R U R' U')(R' F)(R2 U')(R' U' R U) R' U R",
-        ["U1U7", "U7U1", "U2U8", "U8U2"],
-    ),
-    PLLCase(
-        "Ga",
-        "(R2' u)(R' U R' U')(R u') R2 y' (R' U R)",
-        ["U0U2-s8", "U2U6-s8", "U6U0-s8", "U1U3-s7", "U3U5-s7", "U5U1-s7"],
-    ),
-    PLLCase(
-        "Gb",
-        "(R' U' R) y (R2 u)(R' U R U')(R u') R2",
-        ["U0U6-s8", "U6U8-s8", "U8U0-s8", "U1U7-s7", "U7U3-s7", "U3U1-s7"],
-    ),
-    PLLCase(
-        "Gc",
-        "(R2 u')(R U' R U)(R' u) R2 y (R U' R')",
-        ["U0U6-s8", "U6U8-s8", "U8U0-s8", "U7U3-s7", "U3U5-s7", "U5U7-s7"],
-    ),
-    PLLCase(
-        "Gd",
-        "(R U R') y' (R2 u')(R U' R' U)(R' u) R2",
-        ["U0U2-s8", "U2U6-s8", "U6U0-s8", "U1U3-s7", "U3U7-s7", "U7U1-s7"],
-    ),
-    PLLCase("H", "(M2' U' M2') U2 (M2' U' M2')", ["U1U7", "U7U1", "U5U3", "U3U5"]),
-    PLLCase(
-        "Ja", "(L' U2 L) U (L' U2) (R U') (L U R)'", ["U0U6", "U6U0", "U3U7", "U7U3"]
-    ),
-    PLLCase(
-        "Jb",
-        "(R U R' F')(R U R' U')(R' F)(R2 U')(R' U')",
-        ["U2U8", "U8U2", "U5U7", "U7U5"],
-    ),
-    PLLCase(
-        "Na",
-        "(L U') R U2' (L' U) R' (L U') R U2' (L' U) R' U'",
-        ["U6U2", "U2U6", "U3U5", "U5U3"],
-    ),
-    PLLCase(
-        "Nb",
-        "(R' U) L' U2 (R U') L (R' U) L' U2 (R U') L U",
-        ["U0U8", "U8U0", "U3U5", "U5U3"],
-    ),
-    PLLCase(
-        "Ra",
-        "(R U2')(R' U2)(R B')(R' U' R U)(R B R2 U)",
-        ["U1U5", "U5U1", "U6U8", "U8U6"],
-    ),
-    PLLCase(
-        "Rb",
-        "(R' U2)(R U2')(R' F)(R U R' U')(R' F' R2 U')",
-        ["U0U2", "U2U0", "U5U7", "U7U5"],
-    ),
-    PLLCase(
-        "T",
-        "(R U R' U')(R' F)(R2 U')(R' U' R U) R' F'",
-        ["U3U5-s8", "U5U3-s8", "U2U8", "U8U2"],
-    ),
-    PLLCase("Ua", "(R2 U')(R' U' R U)(R U)(R U' R)", ["U5U1-s7", "U1U3-s7", "U3U5-s7"]),
-    PLLCase(
-        "Ub", "(R2' U)(R U R' U')(R' U')(R' U R')", ["U3U5-s7", "U5U7-s7", "U7U3-s7"]
-    ),
-    PLLCase(
-        "V",
-        "(R' U R' U') x2 y' (R' U R' U') l (R U' R' U) R U x'",
-        ["U1U5", "U5U1", "U0U8", "U8U0"],
-    ),
-    PLLCase(
-        "Y",
-        "F (R U')(R' U' R U)(R' F')(R U R' U')(R' F R F')",
-        ["U1U3", "U3U1", "U0U8", "U8U0"],
-    ),
-    PLLCase(
-        "Z",
-        "(R' U' R U') R U (R U' R' U) R U R2 U' R' (U2)",
-        ["U1U5", "U5U1", "U3U7", "U7U3"],
+    AlgorithmConfig(
+        "5x5x5 Parity",
+        5,
+        Algorithm("2R2 U2 2R2 u2 2R2 2U2"),
+        "plan",
     ),
 ]
 
 
-def download_case(case: PLLCase, destfile: Path) -> None:
-    raw_alg = case.alg
+def download_case(case: AlgorithmConfig) -> bytes:
+    alg = human_to_visualiser(case.alg)
+
+    param_assignments = [f"{param}={value}" for param, value in case.parameters.items()]
+    param_assignments.extend([f"pzl={case.size}", f"case={alg}"])
+    if case.view is not None:
+        param_assignments.append(f"view={case.view}")
+
+    params = "&".join(param_assignments)
+    full_url = f"{base_url}{params}"
+    print(full_url)
+    response = requests.get(full_url, timeout=30)
+    response.raise_for_status()
+    ret = response.content
+    return ret
+
+
+def human_to_visualiser(alg: Algorithm) -> Algorithm:
+    raw_alg = str(alg)
     for char in "() ":
         raw_alg = raw_alg.replace(char, "")
-    params = raw_alg + "&arw=" + ",".join(case.arrows)
-    urllib.request.urlretrieve(f"{pll_arrows_url}{params}", destfile)
+    return Algorithm(raw_alg)
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Generate PLL cases with arrows in SVG format."
+        description="Generate special cases for cubes of size >=4 in SVG format."
     )
     parser.add_argument("tagetdir", help="Target directory for output files")
     args = parser.parse_args()
 
     target_dir = Path(args.tagetdir)
     target_dir.mkdir(parents=True, exist_ok=True)
-    with ThreadPoolExecutor() as executor:
+    with ThreadPoolExecutor(max_workers=1) as executor:
         futures = executor.map(
-            lambda case: download_case(case, target_dir / f"{case.name}.svg"), plls
+            lambda case: (target_dir / f"{case.name}.png", download_case(case)),
+            algorithms,
         )
-        list(futures)
+        for dest, content in futures:
+            dest.write_bytes(content)
 
 
 if __name__ == "__main__":
