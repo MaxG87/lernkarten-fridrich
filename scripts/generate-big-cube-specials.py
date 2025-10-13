@@ -109,7 +109,7 @@ app = typer.Typer(help="Generate special cases for cubes of size >=4 in SVG form
 
 @app.command()
 def main(
-    targetDir: t.Annotated[
+    targetdir: t.Annotated[
         Path,
         typer.Argument(..., help="Target directory for output files"),
     ],
@@ -121,10 +121,10 @@ def main(
         ),
     ] = None,
 ):
-    targetDir.mkdir(parents=True, exist_ok=True)
+    targetdir.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = executor.map(
-            lambda case: (targetDir / f"{case.name}.{_FMT}", download_case(case)),
+            lambda case: (targetdir / f"{case.name}.{_FMT}", download_case(case)),
             algorithms,
         )
         for dest, content in futures:
