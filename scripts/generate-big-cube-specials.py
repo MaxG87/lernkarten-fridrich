@@ -18,8 +18,9 @@ class AlgorithmConfig:
     size: int
     alg: Algorithm
     view: t.Literal["plan", "trans"] | None
-    arrows: list[str] = field(default_factory=list)
-    parameters: dict[str, str] = field(default_factory=dict)
+    anki_tags: list[str] = field(hash=False)
+    arrows: list[str] = field(default_factory=list, hash=False)
+    parameters: dict[str, str] = field(default_factory=dict, hash=False)
 
 
 base_url = f"https://visualcube.api.cubing.net?fmt={_FMT}&ac=black&"
@@ -30,6 +31,7 @@ algorithms = [
         4,
         Algorithm("y2 x' u' R F' U R' F u y2"),
         "plan",
+        ["4x4x4", "EdgePairing"],
         [],
         {
             "fc": (
@@ -47,6 +49,7 @@ algorithms = [
         4,
         Algorithm("2R2 U2 2R2 u2 2R2 2U2"),
         "plan",
+        ["4x4x4", "PLL", "parity"],
         ["U13U2", "U2U13", "U14U1", "U1U14"],
     ),
     AlgorithmConfig(
@@ -54,6 +57,7 @@ algorithms = [
         4,
         Algorithm("r U2 x r U2 r U2 r' U2 l U2 r' U2 r U2 r' U2 r'"),
         "plan",
+        ["4x4x4", "OLL", "parity"],
         [],
         {"sch": "ysssss"},
     ),
@@ -62,6 +66,7 @@ algorithms = [
         5,
         Algorithm("r2 B2 U2 l U2 r' U2 r U2 F2 r F2 l' B2 r2"),
         "plan",
+        ["5x5x5", "parity"],
         [],
         {
             "fc": (
@@ -79,6 +84,7 @@ algorithms = [
         5,
         Algorithm("x' u' R F' U R' F u y2"),
         "plan",
+        ["5x5x5", "EdgePairing"],
         [],
         {
             "fc": (
@@ -96,6 +102,7 @@ algorithms = [
         5,
         Algorithm("x' u' R F' U R' F u y2"),
         "plan",
+        ["5x5x5", "EdgePairing"],
         [],
         {
             "fc": (
@@ -113,6 +120,7 @@ algorithms = [
         5,
         Algorithm("x' d R F' U R' F d' y2"),
         "plan",
+        ["5x5x5", "EdgePairing"],
         [],
         {
             "fc": (
@@ -130,6 +138,7 @@ algorithms = [
         5,
         Algorithm("x' d R F' U R' F d' y2"),
         "plan",
+        ["5x5x5", "EdgePairing"],
         [],
         {
             "fc": (
@@ -147,6 +156,7 @@ algorithms = [
         5,
         Algorithm("x' (R U R') (F R' F' R) y'"),
         "plan",
+        ["5x5x5", "EdgePairing"],
         [],
         {
             "fc": (
@@ -189,6 +199,29 @@ def human_to_visualiser(alg: Algorithm) -> Algorithm:
     return Algorithm(raw_alg)
 
 
+def create_anki_csv(
+    algorithms: list[AlgorithmConfig],
+    case_fnames: dict[AlgorithmConfig, Path],
+    csv_fname: Path,
+    deckname: str,
+):
+    if csv_fname.is_dir():
+        csv_fname = csv_fname / "ankiCardSet.csv"
+    with csv_fname.open("w", encoding="utf-8") as f:
+        # Write Headers
+        f.write("#separator:tab\n")
+        f.write("#notetype:cubingalg+\n")
+        f.write(f"#deck:{deckname}\n")
+        f.write("Image\tName\tAlgorithm\tTags\n")
+
+        # Write cards
+        for case in algorithms:
+            img_path = case_fnames[case]
+            img_html = f'<img src="{img_path.name}">'
+            tags = " ".join(case.anki_tags)
+            f.write(f"{img_html}\t{case.name}\t{case.alg}\t{tags}\n")
+
+
 app = typer.Typer(help="Generate special cases for cubes of size >=4 in SVG format.")
 
 
@@ -206,6 +239,7 @@ def main(
         ),
     ] = None,
 ):
+    case_fnames = {case: targetdir / f"{case.name}.{_FMT}" for case in algorithms}
     targetdir.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = executor.map(
@@ -214,6 +248,10 @@ def main(
         )
         for dest, content in futures:
             dest.write_bytes(content)
+
+    create_anki_csv(
+        algorithms, case_fnames, targetdir, "Cubing::NxNxN::Parities and Edge Pairing"
+    )
 
 
 if __name__ == "__main__":
