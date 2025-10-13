@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-import argparse
 import typing as t
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import requests
+import typer
 
 _FMT = "svg"
 Algorithm = t.NewType("Algorithm", str)
@@ -89,16 +89,17 @@ def human_to_visualiser(alg: Algorithm) -> Algorithm:
     return Algorithm(raw_alg)
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Generate special cases for cubes of size >=4 in SVG format."
-    )
-    parser.add_argument("tagetdir", help="Target directory for output files")
-    args = parser.parse_args()
+app = typer.Typer(help="Generate special cases for cubes of size >=4 in SVG format.")
 
-    target_dir = Path(args.tagetdir)
+
+@app.command()
+def main(
+    targetdir: str = typer.Argument(..., help="Target directory for output files"),
+    max_workers: int = typer.Option(1, help="Maximum number of concurrent workers"),
+):
+    target_dir = Path(targetdir)
     target_dir.mkdir(parents=True, exist_ok=True)
-    with ThreadPoolExecutor(max_workers=1) as executor:
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = executor.map(
             lambda case: (target_dir / f"{case.name}.{_FMT}", download_case(case)),
             algorithms,
@@ -108,4 +109,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    app()
