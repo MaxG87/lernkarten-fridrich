@@ -125,6 +125,23 @@ algorithms = [
             ),
         },
     ),
+    AlgorithmConfig(
+        "5x5x5 Edge Pairing 4",
+        5,
+        Algorithm("x' d R F' U R' F d' y2"),
+        "plan",
+        [],
+        {
+            "fc": (
+                "sssssssssssssssssssssssss"
+                "sssssssssssssssssssssssss"
+                "sssssssssssssssssssssssss"
+                "sssssssssssssssssssssssss"
+                "sssssossssossssssssssssss"
+                "ssssssdddgsdddgsdddssssss"
+            ),
+        },
+    ),
 ]
 
 
