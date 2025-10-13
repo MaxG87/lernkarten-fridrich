@@ -142,6 +142,23 @@ algorithms = [
             ),
         },
     ),
+    AlgorithmConfig(
+        "5x5x5 Edge Flipping",
+        5,
+        Algorithm("x' (R U R') (F R' F' R) y'"),
+        "plan",
+        [],
+        {
+            "fc": (
+                "sssssssssssssssssssssssss"
+                "ssssssrrrrsrrrrsrrrrsssss"
+                "sssssssssssssssssssssssss"
+                "sssssssssssssssssssssssss"
+                "sssssssssssssssssssssssss"
+                "sssssgssssgssssgsssssssss"
+            ),
+        },
+    ),
 ]
 
 
