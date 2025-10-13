@@ -74,6 +74,23 @@ algorithms = [
             ),
         },
     ),
+    AlgorithmConfig(
+        "5x5x5 Edge Pairing 1",
+        5,
+        Algorithm("x' u' R F' U R' F u y2"),
+        "plan",
+        [],
+        {
+            "fc": (
+                "sssssssssssssssssssssssss"
+                "sssssssssrssssrssssssssss"
+                "sssssssssssssssssssssssss"
+                "sssssssssssssssssssssssss"
+                "sssssssssssssssssssssssss"
+                "sssssgdddsgdddssdddsssgs"
+            ),
+        },
+    ),
 ]
 
 
