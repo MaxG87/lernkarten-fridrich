@@ -94,11 +94,17 @@ app = typer.Typer(help="Generate special cases for cubes of size >=4 in SVG form
 
 @app.command()
 def main(
-    max_workers: t.Optional[int] = typer.Option(None, help="Maximum number of concurrent workers (default: let ThreadPoolExecutor decide based on system)"),
     targetDir: t.Annotated[
         Path,
         typer.Argument(..., help="Target directory for output files"),
     ],
+    max_workers: t.Annotated[
+        int | None,
+        typer.Option(
+            ...,
+            help="Maximum number of concurrent workers (will be determined automatically if unset)",
+        ),
+    ] = None,
 ):
     targetDir.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
