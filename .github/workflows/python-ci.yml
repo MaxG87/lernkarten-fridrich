@@ -1,5 +1,5 @@
 ---
-name: Python package
+name: Check Python Scripts
 
 "on": [push]
 
