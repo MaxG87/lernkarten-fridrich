@@ -26,6 +26,23 @@ base_url = f"https://visualcube.api.cubing.net?fmt={_FMT}&ac=black&"
 
 algorithms = [
     AlgorithmConfig(
+        "4x4x4 Edge Pairing",
+        4,
+        Algorithm("y2 x' u' R F' U R' F u y2"),
+        "plan",
+        [],
+        {
+            "fc": (
+                "ssssssssssssssss"
+                "sssssssrsssrssss"
+                "ssssssssssssssss"
+                "ssssssssssssssss"
+                "ssssssssssssssss"
+                "ssssgddsgddsssss"
+            ),
+        },
+    ),
+    AlgorithmConfig(
         "4x4x4 PLL Parity",
         4,
         Algorithm("2R2 U2 2R2 u2 2R2 2U2"),
@@ -47,7 +64,6 @@ algorithms = [
         "plan",
         [],
         {
-            "r": "y34x-25",
             "fc": (
                 "ssssssdddssdddssdddssrrrs"
                 "ssssssdddssdddssdddssssss"
