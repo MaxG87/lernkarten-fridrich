@@ -57,6 +57,28 @@ class PLLAlgorithmConfig:
 
 
 @dataclass(frozen=True)
+class FrontAlgorithmConfig:
+    """For algorithms that need to be done from a front face"""
+
+    name: str
+    size: int
+    _alg: Algorithm
+    view: t.Literal["plan", "trans"] | None
+    anki_tags: list[str] = field(hash=False)
+    parameters: dict[str, str] = field(default_factory=dict, hash=False)
+
+    @property
+    def arrows(self) -> list[str]:
+        return []
+
+    def human_algorithm(self) -> Algorithm:
+        return self._alg
+
+    def visualiser_algorithm(self) -> Algorithm:
+        return self._alg
+
+
+@dataclass(frozen=True)
 class GeneralAlgorithmConfig:
     name: str
     size: int
@@ -73,17 +95,16 @@ class GeneralAlgorithmConfig:
         return self._alg
 
 
-type AlgorithmConfig = OLLAlgorithmConfig | PLLAlgorithmConfig | GeneralAlgorithmConfig
+type AlgorithmConfig = OLLAlgorithmConfig | PLLAlgorithmConfig | FrontAlgorithmConfig
 
 
 algorithms: list[AlgorithmConfig] = [
-    GeneralAlgorithmConfig(
+    FrontAlgorithmConfig(
         "4x4x4 Edge Pairing",
         4,
         Algorithm("y2 x' u' R F' U R' F u y2"),
         "plan",
         ["4x4x4", "EdgePairing"],
-        [],
         {
             "fc": (
                 "ssssssssssssssss"
@@ -108,13 +129,12 @@ algorithms: list[AlgorithmConfig] = [
         Algorithm("r U2 x r U2 r U2 r' U2 l U2 r' U2 r U2 r' U2 r'"),
         ["4x4x4", "OLL", "parity"],
     ),
-    GeneralAlgorithmConfig(
+    FrontAlgorithmConfig(
         "5x5x5 Parity",
         5,
         Algorithm("r2 B2 U2 l U2 r' U2 r U2 F2 r F2 l' B2 r2"),
         "plan",
         ["5x5x5", "parity"],
-        [],
         {
             "fc": (
                 "ssssssdddssdddssdddssrrrs"
@@ -126,13 +146,12 @@ algorithms: list[AlgorithmConfig] = [
             ),
         },
     ),
-    GeneralAlgorithmConfig(
+    FrontAlgorithmConfig(
         "5x5x5 Edge Pairing 1",
         5,
         Algorithm("x' u' R F' U R' F u y2"),
         "plan",
         ["5x5x5", "EdgePairing"],
-        [],
         {
             "fc": (
                 "sssssssssssssssssssssssss"
@@ -144,13 +163,12 @@ algorithms: list[AlgorithmConfig] = [
             ),
         },
     ),
-    GeneralAlgorithmConfig(
+    FrontAlgorithmConfig(
         "5x5x5 Edge Pairing 2",
         5,
         Algorithm("x' u' R F' U R' F u y2"),
         "plan",
         ["5x5x5", "EdgePairing"],
-        [],
         {
             "fc": (
                 "sssssssssssssssssssssssss"
@@ -162,13 +180,12 @@ algorithms: list[AlgorithmConfig] = [
             ),
         },
     ),
-    GeneralAlgorithmConfig(
+    FrontAlgorithmConfig(
         "5x5x5 Edge Pairing 3",
         5,
         Algorithm("x' d R F' U R' F d' y2"),
         "plan",
         ["5x5x5", "EdgePairing"],
-        [],
         {
             "fc": (
                 "sssssssssssssssssssssssss"
@@ -180,13 +197,12 @@ algorithms: list[AlgorithmConfig] = [
             ),
         },
     ),
-    GeneralAlgorithmConfig(
+    FrontAlgorithmConfig(
         "5x5x5 Edge Pairing 4",
         5,
         Algorithm("x' d R F' U R' F d' y2"),
         "plan",
         ["5x5x5", "EdgePairing"],
-        [],
         {
             "fc": (
                 "sssssssssssssssssssssssss"
@@ -198,13 +214,12 @@ algorithms: list[AlgorithmConfig] = [
             ),
         },
     ),
-    GeneralAlgorithmConfig(
+    FrontAlgorithmConfig(
         "5x5x5 Edge Flipping",
         5,
         Algorithm("x' (R U R') (F R' F' R) y'"),
         "plan",
         ["5x5x5", "EdgePairing"],
-        [],
         {
             "fc": (
                 "sssssssssssssssssssssssss"
