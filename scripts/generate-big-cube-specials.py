@@ -9,11 +9,43 @@ import requests
 import typer
 
 _FMT = "svg"
+_BASE_URL = f"https://visualcube.api.cubing.net?fmt={_FMT}&ac=black&"
+
 Algorithm = t.NewType("Algorithm", str)
+type View = t.Literal["plan", "trans"]
+type MaybeView = View | None
 
 
 @dataclass(frozen=True)
-class AlgorithmConfig:
+class OLLAlgorithmConfig:
+    name: str
+    size: int
+    alg: Algorithm
+    view: t.ClassVar[View] = "plan"
+    anki_tags: list[str] = field(hash=False)
+
+    @property
+    def parameters(self) -> dict[str, str]:
+        return {"sch": "ysssss"}
+
+    @property
+    def arrows(self) -> list[str]:
+        return []
+
+
+@dataclass(frozen=True)
+class PLLAlgorithmConfig:
+    name: str
+    size: int
+    alg: Algorithm
+    view: t.ClassVar[View] = "plan"
+    anki_tags: list[str] = field(hash=False)
+    arrows: list[str] = field(default_factory=list, hash=False)
+    parameters: dict[str, str] = field(default_factory=dict, hash=False)
+
+
+@dataclass(frozen=True)
+class GeneralAlgorithmConfig:
     name: str
     size: int
     alg: Algorithm
@@ -23,10 +55,11 @@ class AlgorithmConfig:
     parameters: dict[str, str] = field(default_factory=dict, hash=False)
 
 
-base_url = f"https://visualcube.api.cubing.net?fmt={_FMT}&ac=black&"
+type AlgorithmConfig = OLLAlgorithmConfig | PLLAlgorithmConfig | GeneralAlgorithmConfig
 
-algorithms = [
-    AlgorithmConfig(
+
+algorithms: list[AlgorithmConfig] = [
+    GeneralAlgorithmConfig(
         "4x4x4 Edge Pairing",
         4,
         Algorithm("y2 x' u' R F' U R' F u y2"),
@@ -44,24 +77,20 @@ algorithms = [
             ),
         },
     ),
-    AlgorithmConfig(
+    PLLAlgorithmConfig(
         "4x4x4 PLL Parity",
         4,
         Algorithm("2R2 U2 2R2 u2 2R2 2U2"),
-        "plan",
         ["4x4x4", "PLL", "parity"],
         ["U13U2", "U2U13", "U14U1", "U1U14"],
     ),
-    AlgorithmConfig(
+    OLLAlgorithmConfig(
         "4x4x4 OLL Parity",
         4,
         Algorithm("r U2 x r U2 r U2 r' U2 l U2 r' U2 r U2 r' U2 r'"),
-        "plan",
         ["4x4x4", "OLL", "parity"],
-        [],
-        {"sch": "ysssss"},
     ),
-    AlgorithmConfig(
+    GeneralAlgorithmConfig(
         "5x5x5 Parity",
         5,
         Algorithm("r2 B2 U2 l U2 r' U2 r U2 F2 r F2 l' B2 r2"),
@@ -79,7 +108,7 @@ algorithms = [
             ),
         },
     ),
-    AlgorithmConfig(
+    GeneralAlgorithmConfig(
         "5x5x5 Edge Pairing 1",
         5,
         Algorithm("x' u' R F' U R' F u y2"),
@@ -97,7 +126,7 @@ algorithms = [
             ),
         },
     ),
-    AlgorithmConfig(
+    GeneralAlgorithmConfig(
         "5x5x5 Edge Pairing 2",
         5,
         Algorithm("x' u' R F' U R' F u y2"),
@@ -115,7 +144,7 @@ algorithms = [
             ),
         },
     ),
-    AlgorithmConfig(
+    GeneralAlgorithmConfig(
         "5x5x5 Edge Pairing 3",
         5,
         Algorithm("x' d R F' U R' F d' y2"),
@@ -133,7 +162,7 @@ algorithms = [
             ),
         },
     ),
-    AlgorithmConfig(
+    GeneralAlgorithmConfig(
         "5x5x5 Edge Pairing 4",
         5,
         Algorithm("x' d R F' U R' F d' y2"),
@@ -151,7 +180,7 @@ algorithms = [
             ),
         },
     ),
-    AlgorithmConfig(
+    GeneralAlgorithmConfig(
         "5x5x5 Edge Flipping",
         5,
         Algorithm("x' (R U R') (F R' F' R) y'"),
@@ -172,7 +201,7 @@ algorithms = [
 ]
 
 
-def download_case(case: AlgorithmConfig) -> bytes:
+def download_case(case: GeneralAlgorithmConfig) -> bytes:
     alg = human_to_visualiser(case.alg)
 
     param_assignments = [f"{param}={value}" for param, value in case.parameters.items()]
@@ -183,7 +212,7 @@ def download_case(case: AlgorithmConfig) -> bytes:
         arrows = ",".join(case.arrows)
         param_assignments.append(f"arw={arrows}")
     params = "&".join(param_assignments)
-    full_url = f"{base_url}{params}"
+    full_url = f"{_BASE_URL}{params}"
     print(full_url)
     response = requests.get(full_url, timeout=30)
     response.raise_for_status()
