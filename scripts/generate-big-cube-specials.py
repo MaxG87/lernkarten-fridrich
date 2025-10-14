@@ -13,7 +13,7 @@ type View = t.Literal["plan", "trans"]
 type MaybeView = View | None
 type FrontColour = t.Literal["RED", "BLUE", "ORANGE", "GREEN"]
 
-
+app = typer.Typer(help="Generate special cases for cubes of size >=4 in SVG format.")
 _FMT = "svg"
 _BASE_URL = f"https://visualcube.api.cubing.net?fmt={_FMT}&ac=black&"
 
@@ -263,6 +263,21 @@ algorithms: list[AlgorithmConfig] = [
 ]
 
 
+def download_images(
+    algorithms: list[AlgorithmConfig],
+    case_fnames: dict[AlgorithmConfig, Path],
+    max_workers: int | None,
+) -> None:
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = executor.map(
+            lambda case: (case, download_case(case)),
+            algorithms,
+        )
+        for case, content in futures:
+            dest = case_fnames[case]
+            dest.write_bytes(content)
+
+
 def download_case(case: GeneralAlgorithmConfig) -> bytes:
     alg = human_to_visualiser(case.visualiser_algorithm())
 
@@ -315,9 +330,6 @@ def create_anki_csv(
             f.write(f"{img_html}\t{case.name}\t{alg}\t{tags}\n")
 
 
-app = typer.Typer(help="Generate special cases for cubes of size >=4 in SVG format.")
-
-
 @app.command()
 def main(
     targetdir: t.Annotated[
@@ -331,17 +343,18 @@ def main(
             help="Maximum number of concurrent workers (will be determined automatically if unset)",
         ),
     ] = None,
+    skip_image_generation: t.Annotated[
+        bool,
+        typer.Option(
+            ...,
+            help="Skip the image generation step (useful if only the CSV file is needed)",
+        ),
+    ] = False,
 ):
     case_fnames = {case: targetdir / f"{case.name}.{_FMT}" for case in algorithms}
     targetdir.mkdir(parents=True, exist_ok=True)
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = executor.map(
-            lambda case: (targetdir / f"{case.name}.{_FMT}", download_case(case)),
-            algorithms,
-        )
-        for dest, content in futures:
-            dest.write_bytes(content)
-
+    if not skip_image_generation:
+        download_images(algorithms, case_fnames, max_workers)
     create_anki_csv(
         algorithms, case_fnames, targetdir, "Cubing::NxNxN::Parities and Edge Pairing"
     )
