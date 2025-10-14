@@ -13,7 +13,7 @@ type View = t.Literal["plan", "trans"]
 type MaybeView = View | None
 type FrontColour = t.Literal["RED", "BLUE", "ORANGE", "GREEN"]
 
-app = typer.Typer(help="Generate special cases for cubes of size >=4 in SVG format.")
+app = typer.Typer(help="Generate algorithm cards for Rubik's cubes in SVG format.")
 _FMT = "svg"
 _BASE_URL = f"https://visualcube.api.cubing.net?fmt={_FMT}&ac=black&"
 
@@ -126,7 +126,158 @@ type AlgorithmConfig = (
 )
 
 
-algorithms: list[AlgorithmConfig] = [
+pll_algorithms: list[AlgorithmConfig] = [
+    PLLAlgorithmConfig(
+        "Aa",
+        3,
+        Algorithm("x (R' U R') D2 (R U' R')(D2 R2) x'"),
+        ["3x3x3", "PLL"],
+        ["U0U2-s8", "U2U8-s8", "U8U0-s8"],
+    ),
+    PLLAlgorithmConfig(
+        "Ab",
+        3,
+        Algorithm("x (R2 D2)(R U R') D2 (R U' R) x'"),
+        ["3x3x3", "PLL"],
+        ["U8U2-s8", "U0U8-s8", "U2U0-s8"],
+    ),
+    PLLAlgorithmConfig(
+        "E",
+        3,
+        Algorithm("R2 U R' y (R U' R' U) (R U' R' U) (R U' R' U) y' R U' R2 "),
+        ["3x3x3", "PLL"],
+        ["U0U2", "U2U0", "U6U8", "U8U6"],
+    ),
+    PLLAlgorithmConfig(
+        "F",
+        3,
+        Algorithm("(R' U' F')(R U R' U')(R' F)(R2 U')(R' U' R U) R' U R"),
+        ["3x3x3", "PLL"],
+        ["U1U7", "U7U1", "U2U8", "U8U2"],
+    ),
+    PLLAlgorithmConfig(
+        "Ga",
+        3,
+        Algorithm("(R2' u)(R' U R' U')(R u') R2 y' (R' U R)"),
+        ["3x3x3", "PLL"],
+        ["U0U2-s8", "U2U6-s8", "U6U0-s8", "U1U3-s7", "U3U5-s7", "U5U1-s7"],
+    ),
+    PLLAlgorithmConfig(
+        "Gb",
+        3,
+        Algorithm("(R' U' R) y (R2 u)(R' U R U')(R u') R2"),
+        ["3x3x3", "PLL"],
+        ["U0U6-s8", "U6U8-s8", "U8U0-s8", "U1U7-s7", "U7U3-s7", "U3U1-s7"],
+    ),
+    PLLAlgorithmConfig(
+        "Gc",
+        3,
+        Algorithm("(R2 u')(R U' R U)(R' u) R2 y (R U' R')"),
+        ["3x3x3", "PLL"],
+        ["U0U6-s8", "U6U8-s8", "U8U0-s8", "U7U3-s7", "U3U5-s7", "U5U7-s7"],
+    ),
+    PLLAlgorithmConfig(
+        "Gd",
+        3,
+        Algorithm("(R U R') y' (R2 u')(R U' R' U)(R' u) R2"),
+        ["3x3x3", "PLL"],
+        ["U0U2-s8", "U2U6-s8", "U6U0-s8", "U1U3-s7", "U3U7-s7", "U7U1-s7"],
+    ),
+    PLLAlgorithmConfig(
+        "H",
+        3,
+        Algorithm("(M2' U' M2') U2 (M2' U' M2')"),
+        ["3x3x3", "PLL"],
+        ["U1U7", "U7U1", "U5U3", "U3U5"],
+    ),
+    PLLAlgorithmConfig(
+        "Ja",
+        3,
+        Algorithm("(L' U2 L) U (L' U2) (R U') (L U R)'"),
+        ["3x3x3", "PLL"],
+        ["U0U6", "U6U0", "U3U7", "U7U3"],
+    ),
+    PLLAlgorithmConfig(
+        "Jb",
+        3,
+        Algorithm("(R U R' F')(R U R' U')(R' F)(R2 U')(R' U')"),
+        ["3x3x3", "PLL"],
+        ["U2U8", "U8U2", "U5U7", "U7U5"],
+    ),
+    PLLAlgorithmConfig(
+        "Na",
+        3,
+        Algorithm("(L U') R U2' (L' U) R' (L U') R U2' (L' U) R' U'"),
+        ["3x3x3", "PLL"],
+        ["U6U2", "U2U6", "U3U5", "U5U3"],
+    ),
+    PLLAlgorithmConfig(
+        "Nb",
+        3,
+        Algorithm("(R' U) L' U2 (R U') L (R' U) L' U2 (R U') L U"),
+        ["3x3x3", "PLL"],
+        ["U0U8", "U8U0", "U3U5", "U5U3"],
+    ),
+    PLLAlgorithmConfig(
+        "Ra",
+        3,
+        Algorithm("(R U2')(R' U2)(R B')(R' U' R U)(R B R2 U)"),
+        ["3x3x3", "PLL"],
+        ["U1U5", "U5U1", "U6U8", "U8U6"],
+    ),
+    PLLAlgorithmConfig(
+        "Rb",
+        3,
+        Algorithm("(R' U2)(R U2')(R' F)(R U R' U')(R' F' R2 U')"),
+        ["3x3x3", "PLL"],
+        ["U0U2", "U2U0", "U5U7", "U7U5"],
+    ),
+    PLLAlgorithmConfig(
+        "T",
+        3,
+        Algorithm("(R U R' U')(R' F)(R2 U')(R' U' R U) R' F'"),
+        ["3x3x3", "PLL"],
+        ["U3U5-s8", "U5U3-s8", "U2U8", "U8U2"],
+    ),
+    PLLAlgorithmConfig(
+        "Ua",
+        3,
+        Algorithm("(R2 U')(R' U' R U)(R U)(R U' R)"),
+        ["3x3x3", "PLL"],
+        ["U5U1-s7", "U1U3-s7", "U3U5-s7"],
+    ),
+    PLLAlgorithmConfig(
+        "Ub",
+        3,
+        Algorithm("(R2' U)(R U R' U')(R' U')(R' U R')"),
+        ["3x3x3", "PLL"],
+        ["U3U5-s7", "U5U7-s7", "U7U3-s7"],
+    ),
+    PLLAlgorithmConfig(
+        "V",
+        3,
+        Algorithm("(R' U R' U') x2 y' (R' U R' U') l (R U' R' U) R U x'"),
+        ["3x3x3", "PLL"],
+        ["U1U5", "U5U1", "U0U8", "U8U0"],
+    ),
+    PLLAlgorithmConfig(
+        "Y",
+        3,
+        Algorithm("F (R U')(R' U' R U)(R' F')(R U R' U')(R' F R F')"),
+        ["3x3x3", "PLL"],
+        ["U1U3", "U3U1", "U0U8", "U8U0"],
+    ),
+    PLLAlgorithmConfig(
+        "Z",
+        3,
+        Algorithm("(R' U' R U') R U (R U' R' U) R U R2 U' R' (U2)"),
+        ["3x3x3", "PLL"],
+        ["U1U5", "U5U1", "U3U7", "U7U3"],
+    ),
+]
+
+
+big_cube_algorithms: list[AlgorithmConfig] = [
     FrontAlgorithmConfig(
         "4x4x4 Edge Pairing",
         4,
@@ -336,6 +487,13 @@ def main(
         Path,
         typer.Argument(..., help="Target directory for output files"),
     ],
+    algorithm_set: t.Annotated[
+        t.Literal["all", "pll", "big-cube"],
+        typer.Option(
+            ...,
+            help="Which algorithm set to generate: 'all' (default), 'pll' (3x3x3 PLL only), or 'big-cube' (4x4x4+ algorithms only)",
+        ),
+    ] = "all",
     max_workers: t.Annotated[
         int | None,
         typer.Option(
@@ -351,13 +509,22 @@ def main(
         ),
     ] = False,
 ):
+    # Select which algorithms to generate based on user choice
+    if algorithm_set == "pll":
+        algorithms = pll_algorithms
+        deckname = "Cubing::3x3x3::PLL"
+    elif algorithm_set == "big-cube":
+        algorithms = big_cube_algorithms
+        deckname = "Cubing::NxNxN::Parities and Edge Pairing"
+    else:  # "all"
+        algorithms = pll_algorithms + big_cube_algorithms
+        deckname = "Cubing::Algorithms"
+
     case_fnames = {case: targetdir / f"{case.name}.{_FMT}" for case in algorithms}
     targetdir.mkdir(parents=True, exist_ok=True)
     if not skip_image_generation:
         download_images(algorithms, case_fnames, max_workers)
-    create_anki_csv(
-        algorithms, case_fnames, targetdir, "Cubing::NxNxN::Parities and Edge Pairing"
-    )
+    create_anki_csv(algorithms, case_fnames, targetdir, deckname)
 
 
 if __name__ == "__main__":
