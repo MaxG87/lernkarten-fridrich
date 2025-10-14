@@ -126,8 +126,7 @@ type AlgorithmConfig = (
 )
 
 
-algorithms: list[AlgorithmConfig] = [
-    # 3x3x3 PLL Cases
+pll_algorithms: list[AlgorithmConfig] = [
     PLLAlgorithmConfig(
         "PLL Aa",
         3,
@@ -275,7 +274,10 @@ algorithms: list[AlgorithmConfig] = [
         ["3x3x3", "PLL"],
         ["U1U5", "U5U1", "U3U7", "U7U3"],
     ),
-    # 4x4x4 Cases
+]
+
+
+big_cube_algorithms: list[AlgorithmConfig] = [
     FrontAlgorithmConfig(
         "4x4x4 Edge Pairing",
         4,
@@ -485,6 +487,13 @@ def main(
         Path,
         typer.Argument(..., help="Target directory for output files"),
     ],
+    algorithm_set: t.Annotated[
+        t.Literal["all", "pll", "big-cube"],
+        typer.Option(
+            ...,
+            help="Which algorithm set to generate: 'all' (default), 'pll' (3x3x3 PLL only), or 'big-cube' (4x4x4+ algorithms only)",
+        ),
+    ] = "all",
     max_workers: t.Annotated[
         int | None,
         typer.Option(
@@ -500,11 +509,22 @@ def main(
         ),
     ] = False,
 ):
+    # Select which algorithms to generate based on user choice
+    if algorithm_set == "pll":
+        algorithms = pll_algorithms
+        deckname = "Cubing::3x3x3::PLL"
+    elif algorithm_set == "big-cube":
+        algorithms = big_cube_algorithms
+        deckname = "Cubing::NxNxN::Parities and Edge Pairing"
+    else:  # "all"
+        algorithms = pll_algorithms + big_cube_algorithms
+        deckname = "Cubing::Algorithms"
+
     case_fnames = {case: targetdir / f"{case.name}.{_FMT}" for case in algorithms}
     targetdir.mkdir(parents=True, exist_ok=True)
     if not skip_image_generation:
         download_images(algorithms, case_fnames, max_workers)
-    create_anki_csv(algorithms, case_fnames, targetdir, "Cubing::Algorithms")
+    create_anki_csv(algorithms, case_fnames, targetdir, deckname)
 
 
 if __name__ == "__main__":
