@@ -277,6 +277,352 @@ pll_algorithms: list[AlgorithmConfig] = [
 ]
 
 
+oll_algorithms: list[AlgorithmConfig] = [
+    OLLAlgorithmConfig(
+        "OLL 01",
+        3,
+        Algorithm("(R' U' R U' R' U2 R)"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 02",
+        3,
+        Algorithm("(R' U2 R U R' U R)"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 03",
+        3,
+        Algorithm("(R U R' U)(R U' R' U)(R U2 R')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 04",
+        3,
+        Algorithm("R U2 R2 U' R2 U' R2 U2 R"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 05",
+        3,
+        Algorithm("x (R' U')(L U)(R U' L' U) x'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 06",
+        3,
+        Algorithm("(R' F)(R B')(R' F')(R B)"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 07",
+        3,
+        Algorithm("R2 D (R' U2 R) D' (R' U2 R')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 09",
+        3,
+        Algorithm("(r U R' U') (M U R U' R')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 10",
+        3,
+        Algorithm("(R U R' U') (M' U R U' r')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 11",
+        3,
+        Algorithm("(R' U' F)(U R U' R') F' R"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 12",
+        3,
+        Algorithm("(L U F')(U' L' U L) F L'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 13",
+        3,
+        Algorithm("F' (U' L' U L) F"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 14",
+        3,
+        Algorithm("F (U R U' R') F'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 15",
+        3,
+        Algorithm("(R' U' R U')(R' U R U) x' (R U' R' U) x"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 16",
+        3,
+        Algorithm("(R U R' U)(R U' R' U')(R' F R F')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 17",
+        3,
+        Algorithm("(r' U2 R U R' U r)"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 18",
+        3,
+        Algorithm("(r U2 R' U' R U' r')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 19",
+        3,
+        Algorithm("F (R U R' U')(R U R' U') F'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 20",
+        3,
+        Algorithm("F' (L' U' L U)(L' U' L U) F"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 21",
+        3,
+        Algorithm("(R B')(R2 F) R2 (B R2)(F' R)"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 22",
+        3,
+        Algorithm("(R' F)(R2 B') R2 (F' R2)(B R')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 23",
+        3,
+        Algorithm("r' U2 (R U R' U') R U R' U r"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 24",
+        3,
+        Algorithm("y r U R' U (R U' R' U) R U2 r'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 25",
+        3,
+        Algorithm("(R' U' R) y' x' (R U' R' F)(R U R') x y"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 26",
+        3,
+        Algorithm("(R U R') y (R' F R U')(R' F' R)"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 27",
+        3,
+        Algorithm("(R U2)(R2 F R F')(R U R')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 28",
+        3,
+        Algorithm("F (R U')(R' U' R U) R' F'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 29",
+        3,
+        Algorithm("M U (R U R' U')(R' F R F') M'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 30",
+        3,
+        Algorithm("F R' F R2 U' (R' U' R U) R' F2"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 31",
+        3,
+        Algorithm("F (U R U' R') F' (R' U2 R U R' U R)"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 32",
+        3,
+        Algorithm("(R' U' R U' R' U2 R) F (R U R' U') F'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 33",
+        3,
+        Algorithm("(r U R' U R U2 r')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 34",
+        3,
+        Algorithm("(r' U' R U' R' U2 r)"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 35",
+        3,
+        Algorithm("r U R' U (R' F R F') R U2 r'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 36",
+        3,
+        Algorithm("F (R U R' U') F' U F (R U R' U') F'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 37",
+        3,
+        Algorithm("(L F')(L' U' L U) F U' L'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 38",
+        3,
+        Algorithm("(R' F)(R U R' U') F' U R"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 39",
+        3,
+        Algorithm("(R U R' U')(R' F R F')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 40",
+        3,
+        Algorithm("F (R U R' U') F'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 41",
+        3,
+        Algorithm("(R U R' U') B' (R' F R F') B"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 42",
+        3,
+        Algorithm("R' U' (R' F R F') U R"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 43",
+        3,
+        Algorithm("f (R U R' U')(R U R' U') f'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 44",
+        3,
+        Algorithm("r' U' (r U' R' U)(R U' R' U) M U r"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 45",
+        3,
+        Algorithm("(R U R' U)(R U') y (R U' R' F') y'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 46",
+        3,
+        Algorithm("R U2 R2 U' (R U' R' U2)(F R F')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 47",
+        3,
+        Algorithm("x' (R U' R')(F' R U R') x y (R' U R) y'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 48",
+        3,
+        Algorithm("(R' F R)(U R' F' R) y' (R U' R')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 49",
+        3,
+        Algorithm("(r U r')(R U R' U')(r U' r')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 50",
+        3,
+        Algorithm("(r' U' r)(R' U' R U)(r' U r)"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 51",
+        3,
+        Algorithm("(R U2)(R2 F R F') U2 (R' F R F')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 52",
+        3,
+        Algorithm("F (R U R' U') F' f (R U R' U') f'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 53",
+        3,
+        Algorithm("f (R U R' U') f' U' F (R U R' U') F"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 54",
+        3,
+        Algorithm("f (R U R' U') f' U F (R U R' U') F'"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 55",
+        3,
+        Algorithm("(r U R' U R U2 (r2) U' R U' R' U2 r)"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 56",
+        3,
+        Algorithm("M U (R U R' U') r (R2 F R F')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 57",
+        3,
+        Algorithm("(R U R' U)(R' F R F') U2 (R' F R F')"),
+        ["3x3x3", "OLL"],
+    ),
+    OLLAlgorithmConfig(
+        "OLL 58",
+        3,
+        Algorithm("M U (R U R' U') M2 (U R U' r')"),
+        ["3x3x3", "OLL"],
+    ),
+]
+
+
 big_cube_algorithms: list[AlgorithmConfig] = [
     FrontAlgorithmConfig(
         "4x4x4 Edge Pairing",
@@ -488,10 +834,10 @@ def main(
         typer.Argument(..., help="Target directory for output files"),
     ],
     algorithm_set: t.Annotated[
-        t.Literal["all", "pll", "big-cube"],
+        t.Literal["all", "pll", "oll", "big-cube"],
         typer.Option(
             ...,
-            help="Which algorithm set to generate: 'all' (default), 'pll' (3x3x3 PLL only), or 'big-cube' (4x4x4+ algorithms only)",
+            help="Which algorithm set to generate: 'all' (default), 'pll' (3x3x3 PLL only), 'oll' (3x3x3 OLL only), or 'big-cube' (4x4x4+ algorithms only)",
         ),
     ] = "all",
     max_workers: t.Annotated[
@@ -513,11 +859,14 @@ def main(
     if algorithm_set == "pll":
         algorithms = pll_algorithms
         deckname = "Cubing::3x3x3::PLL"
+    elif algorithm_set == "oll":
+        algorithms = oll_algorithms
+        deckname = "Cubing::3x3x3::OLL"
     elif algorithm_set == "big-cube":
         algorithms = big_cube_algorithms
         deckname = "Cubing::NxNxN::Parities and Edge Pairing"
     else:  # "all"
-        algorithms = pll_algorithms + big_cube_algorithms
+        algorithms = pll_algorithms + oll_algorithms + big_cube_algorithms
         deckname = "Cubing::Algorithms"
 
     case_fnames = {case: targetdir / f"{case.name}.{_FMT}" for case in algorithms}
