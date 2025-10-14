@@ -8,12 +8,14 @@ from pathlib import Path
 import requests
 import typer
 
-_FMT = "svg"
-_BASE_URL = f"https://visualcube.api.cubing.net?fmt={_FMT}&ac=black&"
-
 Algorithm = t.NewType("Algorithm", str)
 type View = t.Literal["plan", "trans"]
 type MaybeView = View | None
+type FrontColour = t.Literal["RED", "BLUE", "ORANGE", "GREEN"]
+
+
+_FMT = "svg"
+_BASE_URL = f"https://visualcube.api.cubing.net?fmt={_FMT}&ac=black&"
 
 
 @dataclass(frozen=True)
@@ -63,9 +65,19 @@ class FrontAlgorithmConfig:
     name: str
     size: int
     _alg: Algorithm
-    view: t.Literal["plan", "trans"] | None
+    _front_colour: FrontColour
+    view: t.ClassVar[View] = "plan"
     anki_tags: list[str] = field(hash=False)
     parameters: dict[str, str] = field(default_factory=dict, hash=False)
+    _y_rotations: t.ClassVar[dict[FrontColour, Algorithm]] = field(
+        hash=False,
+        default={
+            "RED": Algorithm("y"),
+            "BLUE": Algorithm(""),
+            "ORANGE": Algorithm("y'"),
+            "GREEN": Algorithm("y2"),
+        },
+    )
 
     @property
     def arrows(self) -> list[str]:
@@ -75,7 +87,18 @@ class FrontAlgorithmConfig:
         return self._alg
 
     def visualiser_algorithm(self) -> Algorithm:
-        return self._alg
+        # The visualiser will generate the cube that will be solved with the algorithm.
+        # Thus, to present a front face, the algorithm needs to start with "x'" to put
+        # the front face from top (where it can be displayed "plan") to front. At the
+        # end of the algorithm, front needs to be moved back to its default location, so
+        # the reverse of the "y" rotation is needed.
+        if self._front_colour == "BLUE":
+            y_rot = ""  # No y rotation needed
+        else:
+            y_rot = self._y_rotations[self._front_colour] + "'"
+        x_rot = Algorithm("x'")
+        full_alg = f"{x_rot} {self._alg} {y_rot}"
+        return Algorithm(full_alg)
 
 
 @dataclass(frozen=True)
@@ -95,15 +118,20 @@ class GeneralAlgorithmConfig:
         return self._alg
 
 
-type AlgorithmConfig = OLLAlgorithmConfig | PLLAlgorithmConfig | FrontAlgorithmConfig
+type AlgorithmConfig = (
+    OLLAlgorithmConfig
+    | PLLAlgorithmConfig
+    | FrontAlgorithmConfig
+    | GeneralAlgorithmConfig
+)
 
 
 algorithms: list[AlgorithmConfig] = [
     FrontAlgorithmConfig(
         "4x4x4 Edge Pairing",
         4,
-        Algorithm("y2 x' u' R F' U R' F u y2"),
-        "plan",
+        Algorithm("u' R F' U R' F u"),
+        "GREEN",
         ["4x4x4", "EdgePairing"],
         {
             "fc": (
@@ -129,12 +157,13 @@ algorithms: list[AlgorithmConfig] = [
         Algorithm("r U2 x r U2 r U2 r' U2 l U2 r' U2 r U2 r' U2 r'"),
         ["4x4x4", "OLL", "parity"],
     ),
-    FrontAlgorithmConfig(
+    GeneralAlgorithmConfig(
         "5x5x5 Parity",
         5,
         Algorithm("r2 B2 U2 l U2 r' U2 r U2 F2 r F2 l' B2 r2"),
         "plan",
         ["5x5x5", "parity"],
+        [],
         {
             "fc": (
                 "ssssssdddssdddssdddssrrrs"
@@ -149,8 +178,8 @@ algorithms: list[AlgorithmConfig] = [
     FrontAlgorithmConfig(
         "5x5x5 Edge Pairing 1",
         5,
-        Algorithm("x' u' R F' U R' F u y2"),
-        "plan",
+        Algorithm("u' R F' U R' F u"),
+        "GREEN",
         ["5x5x5", "EdgePairing"],
         {
             "fc": (
@@ -166,8 +195,8 @@ algorithms: list[AlgorithmConfig] = [
     FrontAlgorithmConfig(
         "5x5x5 Edge Pairing 2",
         5,
-        Algorithm("x' u' R F' U R' F u y2"),
-        "plan",
+        Algorithm("u' R F' U R' F u"),
+        "GREEN",
         ["5x5x5", "EdgePairing"],
         {
             "fc": (
@@ -183,8 +212,8 @@ algorithms: list[AlgorithmConfig] = [
     FrontAlgorithmConfig(
         "5x5x5 Edge Pairing 3",
         5,
-        Algorithm("x' d R F' U R' F d' y2"),
-        "plan",
+        Algorithm("d R F' U R' F d'"),
+        "GREEN",
         ["5x5x5", "EdgePairing"],
         {
             "fc": (
@@ -200,8 +229,8 @@ algorithms: list[AlgorithmConfig] = [
     FrontAlgorithmConfig(
         "5x5x5 Edge Pairing 4",
         5,
-        Algorithm("x' d R F' U R' F d' y2"),
-        "plan",
+        Algorithm("d R F' U R' F d'"),
+        "GREEN",
         ["5x5x5", "EdgePairing"],
         {
             "fc": (
@@ -217,8 +246,8 @@ algorithms: list[AlgorithmConfig] = [
     FrontAlgorithmConfig(
         "5x5x5 Edge Flipping",
         5,
-        Algorithm("x' (R U R') (F R' F' R) y'"),
-        "plan",
+        Algorithm("(R U R') (F R' F' R)"),
+        "RED",
         ["5x5x5", "EdgePairing"],
         {
             "fc": (
