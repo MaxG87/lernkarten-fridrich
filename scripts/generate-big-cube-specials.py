@@ -20,7 +20,7 @@ type MaybeView = View | None
 class OLLAlgorithmConfig:
     name: str
     size: int
-    alg: Algorithm
+    _alg: Algorithm
     view: t.ClassVar[View] = "plan"
     anki_tags: list[str] = field(hash=False)
 
@@ -32,27 +32,45 @@ class OLLAlgorithmConfig:
     def arrows(self) -> list[str]:
         return []
 
+    def human_algorithm(self) -> Algorithm:
+        return self._alg
+
+    def visualiser_algorithm(self) -> Algorithm:
+        return self._alg
+
 
 @dataclass(frozen=True)
 class PLLAlgorithmConfig:
     name: str
     size: int
-    alg: Algorithm
+    _alg: Algorithm
     view: t.ClassVar[View] = "plan"
     anki_tags: list[str] = field(hash=False)
     arrows: list[str] = field(default_factory=list, hash=False)
     parameters: dict[str, str] = field(default_factory=dict, hash=False)
+
+    def human_algorithm(self) -> Algorithm:
+        return self._alg
+
+    def visualiser_algorithm(self) -> Algorithm:
+        return self._alg
 
 
 @dataclass(frozen=True)
 class GeneralAlgorithmConfig:
     name: str
     size: int
-    alg: Algorithm
+    _alg: Algorithm
     view: t.Literal["plan", "trans"] | None
     anki_tags: list[str] = field(hash=False)
     arrows: list[str] = field(default_factory=list, hash=False)
     parameters: dict[str, str] = field(default_factory=dict, hash=False)
+
+    def human_algorithm(self) -> Algorithm:
+        return self._alg
+
+    def visualiser_algorithm(self) -> Algorithm:
+        return self._alg
 
 
 type AlgorithmConfig = OLLAlgorithmConfig | PLLAlgorithmConfig | GeneralAlgorithmConfig
@@ -202,7 +220,7 @@ algorithms: list[AlgorithmConfig] = [
 
 
 def download_case(case: GeneralAlgorithmConfig) -> bytes:
-    alg = human_to_visualiser(case.alg)
+    alg = human_to_visualiser(case.visualiser_algorithm())
 
     param_assignments = [f"{param}={value}" for param, value in case.parameters.items()]
     param_assignments.extend([f"pzl={case.size}", f"case={alg}"])
@@ -248,7 +266,8 @@ def create_anki_csv(
             img_path = case_fnames[case]
             img_html = f'<img src="{img_path.name}">'
             tags = " ".join(case.anki_tags)
-            f.write(f"{img_html}\t{case.name}\t{case.alg}\t{tags}\n")
+            alg = case.human_algorithm()
+            f.write(f"{img_html}\t{case.name}\t{alg}\t{tags}\n")
 
 
 app = typer.Typer(help="Generate special cases for cubes of size >=4 in SVG format.")
