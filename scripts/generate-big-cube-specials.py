@@ -299,11 +299,12 @@ def create_anki_csv(
     if csv_fname.is_dir():
         csv_fname = csv_fname / "ankiCardSet.csv"
     with csv_fname.open("w", encoding="utf-8") as f:
+        # Note: No CSV header row needed. If present, Anki will interpret it as a card
+
         # Write Headers
         f.write("#separator:tab\n")
         f.write("#notetype:cubingalg+\n")
         f.write(f"#deck:{deckname}\n")
-        f.write("Image\tName\tAlgorithm\tTags\n")
 
         # Write cards
         for case in algorithms:
