@@ -4,3 +4,6 @@
 *.log
 *.out
 *.pdf
+
+.mypy_cache
+.venv
