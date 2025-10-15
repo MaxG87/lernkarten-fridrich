@@ -49,7 +49,10 @@ class PLLAlgorithmConfig:
     view: t.ClassVar[View] = "plan"
     anki_tags: list[str] = field(hash=False)
     arrows: list[str] = field(default_factory=list, hash=False)
-    parameters: dict[str, str] = field(default_factory=dict, hash=False)
+
+    @property
+    def parameters(self) -> dict[str, str]:
+        return {}
 
     def human_algorithm(self) -> Algorithm:
         return self._alg
