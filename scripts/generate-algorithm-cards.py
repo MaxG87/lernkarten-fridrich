@@ -158,14 +158,16 @@ pll_algorithms: list[AlgorithmConfig] = [
     PLLAlgorithmConfig(
         "Aa",
         3,
-        Algorithm("x (R' U R') D2 (R U' R')(D2 R2) x'"),
+        Algorithm("x (R' U R') D2 (R U' R')(D2 R2)"),
         ["U0U2-s8", "U2U8-s8", "U8U0-s8"],
+        _setup_rotation_after=Algorithm("x'"),
     ),
     PLLAlgorithmConfig(
         "Ab",
         3,
-        Algorithm("x (R2 D2)(R U R') D2 (R U' R) x'"),
+        Algorithm("x (R2 D2)(R U R') D2 (R U' R)"),
         ["U8U2-s8", "U0U8-s8", "U2U0-s8"],
+        _setup_rotation_after=Algorithm("x'"),
     ),
     PLLAlgorithmConfig(
         "E",

@@ -1,8 +1,8 @@
 #separator:tab
 #notetype:cubingalg+
 #deck:Cubing::3x3x3::PLL
-<img src="Aa.svg">	Aa	x (R' U R') D2 (R U' R')(D2 R2) x'	3x3x3 PLL
-<img src="Ab.svg">	Ab	x (R2 D2)(R U R') D2 (R U' R) x'	3x3x3 PLL
+<img src="Aa.svg">	Aa	x (R' U R') D2 (R U' R')(D2 R2)	3x3x3 PLL
+<img src="Ab.svg">	Ab	x (R2 D2)(R U R') D2 (R U' R)	3x3x3 PLL
 <img src="E.svg">	E	R2 U R' y (R U' R' U) (R U' R' U) (R U' R' U) y' R U' R2 	3x3x3 PLL
 <img src="F.svg">	F	(R' U' F')(R U R' U')(R' F)(R2 U')(R' U' R U) R' U R	3x3x3 PLL
 <img src="Ga.svg">	Ga	(R2' u)(R' U R' U')(R u') R2 y' (R' U R)	3x3x3 PLL
