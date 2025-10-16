@@ -25,6 +25,23 @@ class OLLAlgorithmConfig:
     _alg: Algorithm
     view: t.ClassVar[View] = "plan"
     anki_tags: list[str] = field(hash=False, default_factory=lambda: ["3x3x3", "OLL"])
+    # The visualiser generates the cube that will be solved by the algorithm. "Solved"
+    # means the top face is yellow and the front face is blue. However, for consistency,
+    # all generated icons should start in a well defined state which usually means that
+    # the blue face is in front and the yellow is face on top. If the algorithm involves
+    # whole cube rotations, the generated starting orientation may not match the desired
+    # one. Since there is no way to tell the visualiser to start with a specific
+    # orientation, the workaround is to use setup rotations at the start and end of the
+    # algorithm to achieve the desired orientation.
+    #
+    # For example, if the algorithm is `x (R2 D2)(R U R') D2 (R U' R)` (PLL Ab), the
+    # visualiser will generate a cube with the green face on top. While the permutation
+    # still applies correctly, this is inconsistent with other PLL icons. To fix this,
+    # the `x` rotation needs to be undone at the end by applying `x'`. This can be
+    # achieved by setting `setup_rotation_after` to `x'`. The human-readable algorithm
+    # remains unaffected, as the cube is solved regardless of orientation.
+    _setup_rotation_before: Algorithm = Algorithm("")
+    _setup_rotation_after: Algorithm = Algorithm("")
 
     @property
     def parameters(self) -> dict[str, str]:
@@ -38,7 +55,9 @@ class OLLAlgorithmConfig:
         return self._alg
 
     def visualiser_algorithm(self) -> Algorithm:
-        return self._alg
+        return Algorithm(
+            self._setup_rotation_before + self._alg + self._setup_rotation_after
+        )
 
 
 @dataclass(frozen=True)
@@ -47,8 +66,11 @@ class PLLAlgorithmConfig:
     size: int
     _alg: Algorithm
     view: t.ClassVar[View] = "plan"
+    arrows: list[str] = field(hash=False)
     anki_tags: list[str] = field(hash=False, default_factory=lambda: ["3x3x3", "PLL"])
-    arrows: list[str] = field(default_factory=list, hash=False)
+    # see comment in OLLAlgorithmConfig for explanation
+    _setup_rotation_before: Algorithm = Algorithm("")
+    _setup_rotation_after: Algorithm = Algorithm("")
 
     @property
     def parameters(self) -> dict[str, str]:
@@ -58,7 +80,9 @@ class PLLAlgorithmConfig:
         return self._alg
 
     def visualiser_algorithm(self) -> Algorithm:
-        return self._alg
+        return Algorithm(
+            self._setup_rotation_before + self._alg + self._setup_rotation_after
+        )
 
 
 @dataclass(frozen=True)
@@ -348,8 +372,8 @@ big_cube_algorithms: list[AlgorithmConfig] = [
         "4x4x4 PLL Parity",
         4,
         Algorithm("2R2 U2 2R2 u2 2R2 2U2"),
-        ["4x4x4", "PLL", "parity"],
         ["U13U2", "U2U13", "U14U1", "U1U14"],
+        ["4x4x4", "PLL", "parity"],
     ),
     OLLAlgorithmConfig(
         "4x4x4 OLL Parity",
