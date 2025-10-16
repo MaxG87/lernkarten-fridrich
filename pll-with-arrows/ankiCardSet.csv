@@ -1,6 +1,6 @@
 #separator:tab
 #notetype:cubingalg+
-#deck:Cubing::3x3x3::PLL
+#deck:Cubing::3x3x3::PLL with Arrows
 <img src="Aa.svg">	Aa	x (R' U R') D2 (R U' R')(D2 R2)	3x3x3 PLL
 <img src="Ab.svg">	Ab	x (R2 D2)(R U R') D2 (R U' R)	3x3x3 PLL
 <img src="E.svg">	E	R2 U R' y (R U' R' U) (R U' R' U) (R U' R' U) y' R U' R2 	3x3x3 PLL

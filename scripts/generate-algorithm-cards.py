@@ -600,7 +600,7 @@ def main(
     # Select which algorithms to generate based on user choice
     if algorithm_set == "pll":
         algorithms = pll_algorithms
-        deckname = "Cubing::3x3x3::PLL"
+        deckname = "Cubing::3x3x3::PLL with Arrows"
     elif algorithm_set == "oll":
         algorithms = oll_algorithms
         deckname = "Cubing::3x3x3::OLL"
