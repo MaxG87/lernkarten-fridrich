@@ -317,7 +317,7 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("OLL 21", 3, Algorithm("(R B')(R2 F) R2 (B R2)(F' R)")),
     OLLAlgorithmConfig("OLL 22", 3, Algorithm("(R' F)(R2 B') R2 (F' R2)(B R')")),
     OLLAlgorithmConfig("OLL 23", 3, Algorithm("r' U2 (R U R' U') R U R' U r")),
-    OLLAlgorithmConfig("OLL 24", 3, Algorithm("y r U R' U (R U' R' U) R U2 r'")),
+    OLLAlgorithmConfig("OLL 24", 3, Algorithm("r U R' U (R U' R' U) R U2 r'")),
     OLLAlgorithmConfig(
         "OLL 25", 3, Algorithm("(R' U' R) y' x' (R U' R' F)(R U R') x y")
     ),
