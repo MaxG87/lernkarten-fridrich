@@ -585,6 +585,13 @@ def main(
             help="Skip the image generation step (useful if only the CSV file is needed)",
         ),
     ] = False,
+    algorithm: t.Annotated[
+        str | None,
+        typer.Option(
+            ...,
+            help="Specific algorithm to generate (must be in the selected set) or unset to generate all algorithms in the selected set",
+        ),
+    ] = None,
 ):
     # Select which algorithms to generate based on user choice
     if algorithm_set == "pll":
@@ -599,6 +606,11 @@ def main(
     else:  # "all"
         algorithms = pll_algorithms + oll_algorithms + big_cube_algorithms
         deckname = "Cubing::Algorithms"
+
+    if algorithm is not None:
+        algorithms = [case for case in algorithms if case.name == algorithm]
+        if len(algorithms) == 0:
+            raise ValueError(f"Algorithm '{algorithm}' not found in selected set")
 
     case_fnames = {case: targetdir / f"{case.name}.{_FMT}" for case in algorithms}
     targetdir.mkdir(parents=True, exist_ok=True)
