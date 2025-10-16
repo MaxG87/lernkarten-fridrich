@@ -532,7 +532,7 @@ def download_case(case: GeneralAlgorithmConfig) -> bytes:
 
 def human_to_visualiser(alg: Algorithm) -> Algorithm:
     raw_alg = str(alg)
-    substitutions = [("(", ""), (")", ""), ("2R2", "r2R2"), ("2U2", "u2U2"), (" ", "")]
+    substitutions = [("2R2", "r2R2"), ("2U2", "u2U2"), (" ", ""), ("(", ""), (")", "")]
     for origin, substitution in substitutions:
         raw_alg = raw_alg.replace(origin, substitution)
     return Algorithm(raw_alg)
