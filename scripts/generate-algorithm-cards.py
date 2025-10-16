@@ -67,10 +67,10 @@ class PLLAlgorithmConfig:
     _alg: Algorithm
     view: t.ClassVar[View] = "plan"
     arrows: list[str] = field(hash=False)
-    anki_tags: list[str] = field(hash=False, default_factory=lambda: ["3x3x3", "PLL"])
     # see comment in OLLAlgorithmConfig for explanation
     _setup_rotation_before: Algorithm = Algorithm("")
     _setup_rotation_after: Algorithm = Algorithm("")
+    anki_tags: list[str] = field(hash=False, default_factory=lambda: ["3x3x3", "PLL"])
 
     @property
     def parameters(self) -> dict[str, str]:
@@ -183,24 +183,28 @@ pll_algorithms: list[AlgorithmConfig] = [
         3,
         Algorithm("(R2' u)(R' U R' U')(R u') R2 y' (R' U R)"),
         ["U0U2-s8", "U2U6-s8", "U6U0-s8", "U1U3-s7", "U3U5-s7", "U5U1-s7"],
+        _setup_rotation_after=Algorithm("y"),
     ),
     PLLAlgorithmConfig(
         "Gb",
         3,
         Algorithm("(R' U' R) y (R2 u)(R' U R U')(R u') R2"),
         ["U0U6-s8", "U6U8-s8", "U8U0-s8", "U1U7-s7", "U7U3-s7", "U3U1-s7"],
+        _setup_rotation_after=Algorithm("y'"),
     ),
     PLLAlgorithmConfig(
         "Gc",
         3,
         Algorithm("(R2 u')(R U' R U)(R' u) R2 y (R U' R')"),
         ["U0U6-s8", "U6U8-s8", "U8U0-s8", "U7U3-s7", "U3U5-s7", "U5U7-s7"],
+        _setup_rotation_after=Algorithm("y'"),
     ),
     PLLAlgorithmConfig(
         "Gd",
         3,
         Algorithm("(R U R') y' (R2 u')(R U' R' U)(R' u) R2"),
         ["U0U2-s8", "U2U6-s8", "U6U0-s8", "U1U3-s7", "U3U7-s7", "U7U1-s7"],
+        _setup_rotation_after=Algorithm("y"),
     ),
     PLLAlgorithmConfig(
         "H",
@@ -373,7 +377,7 @@ big_cube_algorithms: list[AlgorithmConfig] = [
         4,
         Algorithm("2R2 U2 2R2 u2 2R2 2U2"),
         ["U13U2", "U2U13", "U14U1", "U1U14"],
-        ["4x4x4", "PLL", "parity"],
+        anki_tags=["4x4x4", "PLL", "parity"],
     ),
     OLLAlgorithmConfig(
         "4x4x4 OLL Parity",
