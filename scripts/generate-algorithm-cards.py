@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import fnmatch
 import typing as t
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
@@ -589,9 +590,9 @@ def main(
         str | None,
         typer.Option(
             ...,
-            help="Specific algorithm to generate (must be in the selected set) or unset to generate all algorithms in the selected set",
+            help="Specific algorithms to generate. Only algorithms in the specified set will be considered. The value may be a glob to match several algorithms. Defaults to all algorithms in the set.",
         ),
-    ] = None,
+    ] = "*",
 ):
     # Select which algorithms to generate based on user choice
     if algorithm_set == "pll":
@@ -608,7 +609,9 @@ def main(
         deckname = "Cubing::Algorithms"
 
     if algorithm is not None:
-        algorithms = [case for case in algorithms if case.name == algorithm]
+        algorithms = [
+            case for case in algorithms if fnmatch.fnmatch(case.name, algorithm)
+        ]
         if len(algorithms) == 0:
             raise ValueError(f"Algorithm '{algorithm}' not found in selected set")
 
