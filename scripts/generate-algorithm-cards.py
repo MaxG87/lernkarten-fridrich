@@ -272,8 +272,9 @@ pll_algorithms: list[AlgorithmConfig] = [
     PLLAlgorithmConfig(
         "V",
         3,
-        Algorithm("(R' U R' U') x2 y' (R' U R' U') l (R U' R' U) R U x'"),
+        Algorithm("(R' U R' U') x2 y' (R' U R' U') l (R U' R' U) R U"),
         ["U1U5", "U5U1", "U0U8", "U8U0"],
+        _setup_rotation_after=Algorithm("x' y'"),
     ),
     PLLAlgorithmConfig(
         "Y",
