@@ -218,8 +218,9 @@ pll_algorithms: list[AlgorithmConfig] = [
     PLLAlgorithmConfig(
         "Ja",
         3,
-        Algorithm("(L' U2 L) U (L' U2) (R U') (L U R)'"),
-        ["U0U6", "U6U0", "U3U7", "U7U3"],
+        Algorithm("(R' U2 R) U z D' (R2 U)(R' D R U')"),
+        ["U2U8", "U8U2", "U1U5", "U5U1"],
+        _setup_rotation_after=Algorithm("z'"),
     ),
     PLLAlgorithmConfig(
         "Jb",
@@ -230,13 +231,13 @@ pll_algorithms: list[AlgorithmConfig] = [
     PLLAlgorithmConfig(
         "Na",
         3,
-        Algorithm("(L U') R U2' (L' U) R' (L U') R U2' (L' U) R' U'"),
+        Algorithm("(R U R' U) (R U R' F') (R U R' U') (R' F R2 U') R' U2 (R U' R')"),
         ["U6U2", "U2U6", "U3U5", "U5U3"],
     ),
     PLLAlgorithmConfig(
         "Nb",
         3,
-        Algorithm("(R' U) L' U2 (R U') L (R' U) L' U2 (R U') L U"),
+        Algorithm("(R' U R U') (R' F' U' F) (R U R' F) R' F' (R U' R)"),
         ["U0U8", "U8U0", "U3U5", "U5U3"],
     ),
     PLLAlgorithmConfig(

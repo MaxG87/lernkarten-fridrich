@@ -10,10 +10,10 @@
 <img src="Gc.svg">	Gc	(R2 u')(R U' R U)(R' u) R2 y (R U' R')	3x3x3 PLL
 <img src="Gd.svg">	Gd	(R U R') y' (R2 u')(R U' R' U)(R' u) R2	3x3x3 PLL
 <img src="H.svg">	H	(M2' U' M2') U2 (M2' U' M2')	3x3x3 PLL
-<img src="Ja.svg">	Ja	(L' U2 L) U (L' U2) (R U') (L U R)'	3x3x3 PLL
+<img src="Ja.svg">	Ja	(R' U2 R) U z D' (R2 U)(R' D R U')	3x3x3 PLL
 <img src="Jb.svg">	Jb	(R U R' F')(R U R' U')(R' F)(R2 U')(R' U')	3x3x3 PLL
-<img src="Na.svg">	Na	(L U') R U2' (L' U) R' (L U') R U2' (L' U) R' U'	3x3x3 PLL
-<img src="Nb.svg">	Nb	(R' U) L' U2 (R U') L (R' U) L' U2 (R U') L U	3x3x3 PLL
+<img src="Na.svg">	Na	(R U R' U) (R U R' F') (R U R' U') (R' F R2 U') R' U2 (R U' R')	3x3x3 PLL
+<img src="Nb.svg">	Nb	(R' U R U') (R' F' U' F) (R U R' F) R' F' (R U' R)	3x3x3 PLL
 <img src="Ra.svg">	Ra	(R U2')(R' U2)(R B')(R' U' R U)(R B R2 U)	3x3x3 PLL
 <img src="Rb.svg">	Rb	(R' U2)(R U2')(R' F)(R U R' U')(R' F' R2 U')	3x3x3 PLL
 <img src="T.svg">	T	(R U R' U')(R' F)(R2 U')(R' U' R U) R' F'	3x3x3 PLL
