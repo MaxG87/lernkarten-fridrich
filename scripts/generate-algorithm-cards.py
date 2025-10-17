@@ -334,6 +334,10 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("F3 - 35", 3, Algorithm("(R U2) (R2 F R F') (R U2 R')")),
     OLLAlgorithmConfig("F4 - 37", 3, Algorithm("F (R U'  R' U') (R U R' F')")),
     # Knight Move Shapes
+    OLLAlgorithmConfig("K1 - 13", 3, Algorithm("(r U' r') (U' r U r') y' (R' U R)")),
+    OLLAlgorithmConfig("K2 - 14", 3, Algorithm("(R' F R) (U R' F' R) y' (R U' R')")),
+    OLLAlgorithmConfig("K3 - 15", 3, Algorithm("(r' U' r) (R' U' R U) (r' U r)")),
+    OLLAlgorithmConfig("K4 - 16", 3, Algorithm("(r U r') (R U R' U') (r U' r')")),
     # Awkward Shapes
     # L-Shapes
     # Lightning Bolts
@@ -355,12 +359,6 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("OLL 36", 3, Algorithm("F (R U R' U') F' U F (R U R' U') F'")),
     OLLAlgorithmConfig("OLL 37", 3, Algorithm("(L F')(L' U' L U) F U' L'")),
     OLLAlgorithmConfig("OLL 38", 3, Algorithm("(R' F)(R U R' U') F' U R")),
-    OLLAlgorithmConfig(
-        "OLL 47", 3, Algorithm("x' (R U' R')(F' R U R') x y (R' U R) y'")
-    ),
-    OLLAlgorithmConfig("OLL 48", 3, Algorithm("(R' F R)(U R' F' R) y' (R U' R')")),
-    OLLAlgorithmConfig("OLL 49", 3, Algorithm("(r U r')(R U R' U')(r U' r')")),
-    OLLAlgorithmConfig("OLL 50", 3, Algorithm("(r' U' r)(R' U' R U)(r' U r)")),
     OLLAlgorithmConfig("OLL 51", 3, Algorithm("(R U2)(R2 F R F') U2 (R' F R F')")),
     OLLAlgorithmConfig("OLL 52", 3, Algorithm("F (R U R' U') F' f (R U R' U') f'")),
     OLLAlgorithmConfig("OLL 53", 3, Algorithm("f (R U R' U') f' U' F (R U R' U') F")),
