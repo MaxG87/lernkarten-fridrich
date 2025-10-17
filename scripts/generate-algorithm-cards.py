@@ -308,6 +308,8 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("S1 - 5", 3, Algorithm("(r' U2 R U R' U r)")),
     OLLAlgorithmConfig("S2 - 6", 3, Algorithm("(r U2 R' U' R U' r')")),
     # C-Shapes
+    OLLAlgorithmConfig("C1 - 34", 3, Algorithm("(R U R2' U') (R' F R U) R U' F'")),
+    OLLAlgorithmConfig("C2 - 46", 3, Algorithm("R' U' (R' F R F') U R")),
     # W-Shapes
     # W-Shapes
     # Corners Correct, Edges Flipped
@@ -350,8 +352,6 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("OLL 36", 3, Algorithm("F (R U R' U') F' U F (R U R' U') F'")),
     OLLAlgorithmConfig("OLL 37", 3, Algorithm("(L F')(L' U' L U) F U' L'")),
     OLLAlgorithmConfig("OLL 38", 3, Algorithm("(R' F)(R U R' U') F' U R")),
-    OLLAlgorithmConfig("OLL 41", 3, Algorithm("(R U R' U') B' (R' F R F') B")),
-    OLLAlgorithmConfig("OLL 42", 3, Algorithm("R' U' (R' F R F') U R")),
     OLLAlgorithmConfig("OLL 43", 3, Algorithm("f (R U R' U')(R U R' U') f'")),
     OLLAlgorithmConfig("OLL 44", 3, Algorithm("r' U' (r U' R' U)(R U' R' U) M U r")),
     OLLAlgorithmConfig("OLL 45", 3, Algorithm("(R U R' U)(R U') y (R U' R' F') y'")),
