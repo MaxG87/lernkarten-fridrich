@@ -10,7 +10,7 @@
 <img src="Gc.svg">	Gc	(R2 u')(R U' R U)(R' u) R2 y (R U' R')	3x3x3 PLL
 <img src="Gd.svg">	Gd	(R U R') y' (R2 u')(R U' R' U)(R' u) R2	3x3x3 PLL
 <img src="H.svg">	H	(M2' U' M2') U2 (M2' U' M2')	3x3x3 PLL
-<img src="Ja.svg">	Ja	(R' U2 R) U z D' (R2 U)(R' D R U')	3x3x3 PLL
+<img src="Ja.svg">	Ja	(R' U L' U2) (R U' R' U2 R) L U'	3x3x3 PLL
 <img src="Jb.svg">	Jb	(R U R' F')(R U R' U')(R' F)(R2 U')(R' U')	3x3x3 PLL
 <img src="Na.svg">	Na	z (R' U R') D (R2 U' R) (U D') (R' D R2 U' R D')	3x3x3 PLL
 <img src="Nb.svg">	Nb	(R' U R U') (R' F' U') (F R U) (R' F R' F') (R U' R)	3x3x3 PLL

@@ -218,9 +218,8 @@ pll_algorithms: list[AlgorithmConfig] = [
     PLLAlgorithmConfig(
         "Ja",
         3,
-        Algorithm("(R' U2 R) U z D' (R2 U)(R' D R U')"),
-        ["U2U8", "U8U2", "U1U5", "U5U1"],
-        _setup_rotation_after=Algorithm("z'"),
+        Algorithm("(R' U L' U2) (R U' R' U2 R) L U'"),
+        ["U0U2", "U2U0", "U1U3", "U3U1"],
     ),
     PLLAlgorithmConfig(
         "Jb",
@@ -318,11 +317,9 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("OLL 21", 3, Algorithm("(R B')(R2 F) R2 (B R2)(F' R)")),
     OLLAlgorithmConfig("OLL 22", 3, Algorithm("(R' F)(R2 B') R2 (F' R2)(B R')")),
     OLLAlgorithmConfig("OLL 23", 3, Algorithm("r' U2 (R U R' U') R U R' U r")),
-    OLLAlgorithmConfig("OLL 24", 3, Algorithm("r U R' U (R U' R' U) R U2 r'")),
-    OLLAlgorithmConfig(
-        "OLL 25", 3, Algorithm("(R' U' R) y' x' (R U' R' F)(R U R') x y")
-    ),
-    OLLAlgorithmConfig("OLL 26", 3, Algorithm("(R U R') y (R' F R U')(R' F' R)")),
+    OLLAlgorithmConfig("OLL 24", 3, Algorithm("r U2 (R' U' R U) R' U' R U' r'")),
+    OLLAlgorithmConfig("OLL 25", 3, Algorithm("(R U R' U') R' F R2 U R' U' F'")),
+    OLLAlgorithmConfig("OLL 26", 3, Algorithm("(R U R' U) (R' F R F') (R U2' R')")),
     OLLAlgorithmConfig("OLL 27", 3, Algorithm("(R U2)(R2 F R F')(R U2 R')")),
     OLLAlgorithmConfig("OLL 28", 3, Algorithm("F (R U')(R' U' R U) R' F'")),
     OLLAlgorithmConfig("OLL 29", 3, Algorithm("M U (R U R' U')(R' F R F') M'")),
