@@ -322,6 +322,12 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("P3 - 43", 3, Algorithm("R' U' F' U F R")),
     OLLAlgorithmConfig("P4 - 44", 3, Algorithm("f (R U R' U') f'")),
     # I-Shapes
+    OLLAlgorithmConfig("I1 - 51", 3, Algorithm("f (R U R' U')(R U R' U') f'")),
+    OLLAlgorithmConfig("I2 - 52", 3, Algorithm("(R U R' U R U') y (R U' R') F'")),
+    OLLAlgorithmConfig("I3 - 55", 3, Algorithm("R U2 R2 U' (R U' R' U2) (F R F')")),
+    OLLAlgorithmConfig(
+        "I4 - 56", 3, Algorithm("r' U' r (U' R' U R) (U' R' U R) r' U r")
+    ),
     # Fish Shapes
     # Knight Move Shapes
     # Awkward Shapes
@@ -349,10 +355,6 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("OLL 36", 3, Algorithm("F (R U R' U') F' U F (R U R' U') F'")),
     OLLAlgorithmConfig("OLL 37", 3, Algorithm("(L F')(L' U' L U) F U' L'")),
     OLLAlgorithmConfig("OLL 38", 3, Algorithm("(R' F)(R U R' U') F' U R")),
-    OLLAlgorithmConfig("OLL 43", 3, Algorithm("f (R U R' U')(R U R' U') f'")),
-    OLLAlgorithmConfig("OLL 44", 3, Algorithm("r' U' (r U' R' U)(R U' R' U) M U r")),
-    OLLAlgorithmConfig("OLL 45", 3, Algorithm("(R U R' U)(R U') y (R U' R' F') y'")),
-    OLLAlgorithmConfig("OLL 46", 3, Algorithm("R U2 R2 U' (R U' R' U2)(F R F')")),
     OLLAlgorithmConfig(
         "OLL 47", 3, Algorithm("x' (R U' R')(F' R U R') x y (R' U R) y'")
     ),
