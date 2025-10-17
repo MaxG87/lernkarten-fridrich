@@ -348,21 +348,20 @@ oll_algorithms: list[AlgorithmConfig] = [
         "A4 - 42", 3, Algorithm("(R' U' R U' R' U2 R) F (R U R' U') F'")
     ),
     # L-Shapes
+    OLLAlgorithmConfig("L1 - 47", 3, Algorithm("F' (L' U' L U)(L' U' L U) F")),
+    OLLAlgorithmConfig("L2 - 48", 3, Algorithm("F (R U R' U')(R U R' U') F'")),
+    OLLAlgorithmConfig("L3 - 49", 3, Algorithm("r U' r2' U r2 U r2' U' r")),
+    OLLAlgorithmConfig("L4 - 50", 3, Algorithm("r' U r2 U' r2' U' r2 U r'")),
+    OLLAlgorithmConfig("L5 - 53", 3, Algorithm("(r' U' R U') (R' U R U') R' U2 r")),
+    OLLAlgorithmConfig("L6 - 54", 3, Algorithm("(r U R' U) (R U' R' U) R U2' r'")),
     # Lightning Bolts
-    # No Edges Flipped Correctly
-    OLLAlgorithmConfig("OLL 07", 3, Algorithm("R2 D (R' U2 R) D' (R' U2 R')")),
-    OLLAlgorithmConfig("OLL 19", 3, Algorithm("F (R U R' U')(R U R' U') F'")),
-    OLLAlgorithmConfig("OLL 20", 3, Algorithm("F' (L' U' L U)(L' U' L U) F")),
-    OLLAlgorithmConfig("OLL 21", 3, Algorithm("(R B')(R2 F) R2 (B R2)(F' R)")),
-    OLLAlgorithmConfig("OLL 22", 3, Algorithm("(R' F)(R2 B') R2 (F' R2)(B R')")),
-    OLLAlgorithmConfig("OLL 23", 3, Algorithm("r' U2 (R U R' U') R U R' U r")),
-    OLLAlgorithmConfig("OLL 24", 3, Algorithm("r U2 (R' U' R U) R' U' R U' r'")),
     OLLAlgorithmConfig("OLL 33", 3, Algorithm("(r U R' U R U2 r')")),
     OLLAlgorithmConfig("OLL 34", 3, Algorithm("(r' U' R U' R' U2 r)")),
     OLLAlgorithmConfig("OLL 35", 3, Algorithm("r U R' U (R' F R F') R U2 r'")),
     OLLAlgorithmConfig("OLL 36", 3, Algorithm("F (R U R' U') F' U F (R U R' U') F'")),
     OLLAlgorithmConfig("OLL 37", 3, Algorithm("(L F')(L' U' L U) F U' L'")),
     OLLAlgorithmConfig("OLL 38", 3, Algorithm("(R' F)(R U R' U') F' U R")),
+    # No Edges Flipped Correctly
     OLLAlgorithmConfig("OLL 51", 3, Algorithm("(R U2)(R2 F R F') U2 (R' F R F')")),
     OLLAlgorithmConfig("OLL 52", 3, Algorithm("F (R U R' U') F' f (R U R' U') f'")),
     OLLAlgorithmConfig("OLL 53", 3, Algorithm("f (R U R' U') f' U' F (R U R' U') F")),
