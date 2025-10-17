@@ -311,7 +311,8 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("C1 - 34", 3, Algorithm("(R U R2' U') (R' F R U) R U' F'")),
     OLLAlgorithmConfig("C2 - 46", 3, Algorithm("R' U' (R' F R F') U R")),
     # W-Shapes
-    # W-Shapes
+    OLLAlgorithmConfig("W1 - 36", 3, Algorithm("(R' U' R U')(R' U R U) (l U' R' U) x")),
+    OLLAlgorithmConfig("W2 - 38", 3, Algorithm("(R U R' U)(R U' R' U')(R' F R F')")),
     # Corners Correct, Edges Flipped
     # P-Shapes
     # I-Shapes
@@ -328,10 +329,6 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("OLL 12", 3, Algorithm("(L U F')(U' L' U L) F L'")),
     OLLAlgorithmConfig("OLL 13", 3, Algorithm("F' (U' L' U L) F")),
     OLLAlgorithmConfig("OLL 14", 3, Algorithm("F (U R U' R') F'")),
-    OLLAlgorithmConfig(
-        "OLL 15", 3, Algorithm("(R' U' R U')(R' U R U) x' (R U' R' U) x")
-    ),
-    OLLAlgorithmConfig("OLL 16", 3, Algorithm("(R U R' U)(R U' R' U')(R' F R F')")),
     OLLAlgorithmConfig("OLL 19", 3, Algorithm("F (R U R' U')(R U R' U') F'")),
     OLLAlgorithmConfig("OLL 20", 3, Algorithm("F' (L' U' L U)(L' U' L U) F")),
     OLLAlgorithmConfig("OLL 21", 3, Algorithm("(R B')(R2 F) R2 (B R2)(F' R)")),
