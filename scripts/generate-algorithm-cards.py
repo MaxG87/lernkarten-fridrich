@@ -314,6 +314,8 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("W1 - 36", 3, Algorithm("(R' U' R U')(R' U R U) (l U' R' U) x")),
     OLLAlgorithmConfig("W2 - 38", 3, Algorithm("(R U R' U)(R U' R' U')(R' F R F')")),
     # Corners Correct, Edges Flipped
+    OLLAlgorithmConfig("E1 - 28", 3, Algorithm("(r U R' U') M (U R U' R')")),
+    OLLAlgorithmConfig("E2 - 57", 3, Algorithm("(R U R' U') M' (U R U' r')")),
     # P-Shapes
     # I-Shapes
     # Fish Shapes
@@ -323,8 +325,6 @@ oll_algorithms: list[AlgorithmConfig] = [
     # Lightning Bolts
     # No Edges Flipped Correctly
     OLLAlgorithmConfig("OLL 07", 3, Algorithm("R2 D (R' U2 R) D' (R' U2 R')")),
-    OLLAlgorithmConfig("OLL 09", 3, Algorithm("(r U R' U') (M U R U' R')")),
-    OLLAlgorithmConfig("OLL 10", 3, Algorithm("(R U R' U') (M' U R U' r')")),
     OLLAlgorithmConfig("OLL 11", 3, Algorithm("(R' U' F)(U R U' R') F' R")),
     OLLAlgorithmConfig("OLL 12", 3, Algorithm("(L U F')(U' L' U L) F L'")),
     OLLAlgorithmConfig("OLL 13", 3, Algorithm("F' (U' L' U L) F")),
