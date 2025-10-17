@@ -339,6 +339,14 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("K3 - 15", 3, Algorithm("(r' U' r) (R' U' R U) (r' U r)")),
     OLLAlgorithmConfig("K4 - 16", 3, Algorithm("(r U r') (R U R' U') (r U' r')")),
     # Awkward Shapes
+    OLLAlgorithmConfig(
+        "A1 - 29", 3, Algorithm("(R U R' U') (R U' R') (F' U' F) (R U R')")
+    ),
+    OLLAlgorithmConfig("A2 - 30", 3, Algorithm("F U (R U2 R' U') (R U2 R' U') F'")),
+    OLLAlgorithmConfig("A3 - 41", 3, Algorithm("(R U R' U R U2' R') F (R U R' U') F'")),
+    OLLAlgorithmConfig(
+        "A4 - 42", 3, Algorithm("(R' U' R U' R' U2 R) F (R U R' U') F'")
+    ),
     # L-Shapes
     # Lightning Bolts
     # No Edges Flipped Correctly
@@ -349,10 +357,6 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("OLL 22", 3, Algorithm("(R' F)(R2 B') R2 (F' R2)(B R')")),
     OLLAlgorithmConfig("OLL 23", 3, Algorithm("r' U2 (R U R' U') R U R' U r")),
     OLLAlgorithmConfig("OLL 24", 3, Algorithm("r U2 (R' U' R U) R' U' R U' r'")),
-    OLLAlgorithmConfig("OLL 29", 3, Algorithm("M U (R U R' U')(R' F R F') M'")),
-    OLLAlgorithmConfig("OLL 30", 3, Algorithm("F R' F R2 U' (R' U' R U) R' F2")),
-    OLLAlgorithmConfig("OLL 31", 3, Algorithm("F (U R U' R') F' (R' U2 R U R' U R)")),
-    OLLAlgorithmConfig("OLL 32", 3, Algorithm("(R' U' R U' R' U2 R) F (R U R' U') F'")),
     OLLAlgorithmConfig("OLL 33", 3, Algorithm("(r U R' U R U2 r')")),
     OLLAlgorithmConfig("OLL 34", 3, Algorithm("(r' U' R U' R' U2 r)")),
     OLLAlgorithmConfig("OLL 35", 3, Algorithm("r U R' U (R' F R F') R U2 r'")),
