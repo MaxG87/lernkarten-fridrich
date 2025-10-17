@@ -293,12 +293,30 @@ pll_algorithms: list[AlgorithmConfig] = [
 
 
 oll_algorithms: list[AlgorithmConfig] = [
-    OLLAlgorithmConfig("OLL 01", 3, Algorithm("(R' U' R U' R' U2 R)")),
-    OLLAlgorithmConfig("OLL 02", 3, Algorithm("(R' U2 R U R' U R)")),
-    OLLAlgorithmConfig("OLL 03", 3, Algorithm("(R U R' U)(R U' R' U)(R U2 R')")),
-    OLLAlgorithmConfig("OLL 04", 3, Algorithm("R U2 R2 U' R2 U' R2 U2 R")),
-    OLLAlgorithmConfig("OLL 05", 3, Algorithm("x (R' U')(L U)(R U' L' U) x'")),
-    OLLAlgorithmConfig("OLL 06", 3, Algorithm("(R' F)(R B')(R' F')(R B)")),
+    # All Edges Oriented Correctly
+    OLLAlgorithmConfig("OCLL1 - 21", 3, Algorithm("(R U R' U)(R U' R' U)(R U2 R')")),
+    OLLAlgorithmConfig("OCLL2 - 22", 3, Algorithm("R U2 R2 U' R2 U' R2 U2 R")),
+    OLLAlgorithmConfig("OCLL3 - 23", 3, Algorithm("R2 D (R' U2 R) D' (R' U2 R')")),
+    OLLAlgorithmConfig("OCLL4 - 24", 3, Algorithm("(r U R' U') (r' F R F')")),
+    OLLAlgorithmConfig("OCLL5 - 25", 3, Algorithm("x (R' U R) D' (R' U' R) D x'")),
+    OLLAlgorithmConfig("OCLL6 - 26", 3, Algorithm("(R' U' R U' R' U2 R)")),
+    OLLAlgorithmConfig("OCLL7 - 27", 3, Algorithm("(R' U2 R U R' U R)")),
+    # T-Shapes
+    OLLAlgorithmConfig("T1 - 33", 3, Algorithm("(R U R' U')(R' F R F')")),
+    OLLAlgorithmConfig("T2 - 45", 3, Algorithm("F (R U R' U') F'")),
+    # Squares
+    # C-Shapes
+    # W-Shapes
+    # W-Shapes
+    # Corners Correct, Edges Flipped
+    # P-Shapes
+    # I-Shapes
+    # Fish Shapes
+    # Knight Move Shapes
+    # Awkward Shapes
+    # L-Shapes
+    # Lightning Bolts
+    # No Edges Flipped Correctly
     OLLAlgorithmConfig("OLL 07", 3, Algorithm("R2 D (R' U2 R) D' (R' U2 R')")),
     OLLAlgorithmConfig("OLL 09", 3, Algorithm("(r U R' U') (M U R U' R')")),
     OLLAlgorithmConfig("OLL 10", 3, Algorithm("(R U R' U') (M' U R U' r')")),
@@ -332,8 +350,6 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("OLL 36", 3, Algorithm("F (R U R' U') F' U F (R U R' U') F'")),
     OLLAlgorithmConfig("OLL 37", 3, Algorithm("(L F')(L' U' L U) F U' L'")),
     OLLAlgorithmConfig("OLL 38", 3, Algorithm("(R' F)(R U R' U') F' U R")),
-    OLLAlgorithmConfig("OLL 39", 3, Algorithm("(R U R' U')(R' F R F')")),
-    OLLAlgorithmConfig("OLL 40", 3, Algorithm("F (R U R' U') F'")),
     OLLAlgorithmConfig("OLL 41", 3, Algorithm("(R U R' U') B' (R' F R F') B")),
     OLLAlgorithmConfig("OLL 42", 3, Algorithm("R' U' (R' F R F') U R")),
     OLLAlgorithmConfig("OLL 43", 3, Algorithm("f (R U R' U')(R U R' U') f'")),
