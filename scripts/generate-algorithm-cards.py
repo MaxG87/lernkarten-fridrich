@@ -231,8 +231,9 @@ pll_algorithms: list[AlgorithmConfig] = [
     PLLAlgorithmConfig(
         "Na",
         3,
-        Algorithm("(R U R' U) (R U R' F') (R U R' U') (R' F R2 U') R' U2 (R U' R')"),
-        ["U6U2", "U2U6", "U3U5", "U5U3"],
+        Algorithm("z (R' U R') D (R2 U' R) (U D') (R' D R2 U' R D')"),
+        ["U0U8", "U8U0", "U1U7", "U7U1"],
+        _setup_rotation_after=Algorithm("z'"),
     ),
     PLLAlgorithmConfig(
         "Nb",
