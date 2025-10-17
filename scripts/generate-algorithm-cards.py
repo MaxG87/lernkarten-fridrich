@@ -305,6 +305,8 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("T1 - 33", 3, Algorithm("(R U R' U')(R' F R F')")),
     OLLAlgorithmConfig("T2 - 45", 3, Algorithm("F (R U R' U') F'")),
     # Squares
+    OLLAlgorithmConfig("S1 - 5", 3, Algorithm("(r' U2 R U R' U r)")),
+    OLLAlgorithmConfig("S2 - 6", 3, Algorithm("(r U2 R' U' R U' r')")),
     # C-Shapes
     # W-Shapes
     # W-Shapes
@@ -328,8 +330,6 @@ oll_algorithms: list[AlgorithmConfig] = [
         "OLL 15", 3, Algorithm("(R' U' R U')(R' U R U) x' (R U' R' U) x")
     ),
     OLLAlgorithmConfig("OLL 16", 3, Algorithm("(R U R' U)(R U' R' U')(R' F R F')")),
-    OLLAlgorithmConfig("OLL 17", 3, Algorithm("(r' U2 R U R' U r)")),
-    OLLAlgorithmConfig("OLL 18", 3, Algorithm("(r U2 R' U' R U' r')")),
     OLLAlgorithmConfig("OLL 19", 3, Algorithm("F (R U R' U')(R U R' U') F'")),
     OLLAlgorithmConfig("OLL 20", 3, Algorithm("F' (L' U' L U)(L' U' L U) F")),
     OLLAlgorithmConfig("OLL 21", 3, Algorithm("(R B')(R2 F) R2 (B R2)(F' R)")),
