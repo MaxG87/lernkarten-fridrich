@@ -238,7 +238,7 @@ pll_algorithms: list[AlgorithmConfig] = [
     PLLAlgorithmConfig(
         "Nb",
         3,
-        Algorithm("(R' U R U') (R' F' U' F) (R U R' F) R' F' (R U' R)"),
+        Algorithm("(R' U R U') (R' F' U') (F R U) (R' F R' F') (R U' R)"),
         ["U0U8", "U8U0", "U3U5", "U5U3"],
     ),
     PLLAlgorithmConfig(
