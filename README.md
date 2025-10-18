@@ -8,29 +8,42 @@ werden.
 
 ## Generierung der Lernkarten
 
-Das Python-Skript `scripts/generate-algorithm-cards.py` generiert automatisch
-Lernkarten für verschiedene Algorithmen-Sets (PLL, OLL, oder größere Würfel).
+Das Projekt generiert automatisch Lernkarten für verschiedene Algorithmen-Sets 
+(PLL, OLL, oder größere Würfel) inklusive einer LaTeX-Datei für den Druck.
 
 ### Voraussetzungen
 
 - Python 3.13 oder höher
-- Die benötigten Python-Pakete (siehe `pyproject.toml`)
+- `uv` Package Manager (empfohlen) oder `pip`
+
+### Installation
+
+```bash
+# Mit uv (empfohlen)
+uv sync
+
+# Oder mit pip
+pip install -e .
+```
 
 ### Verwendung
 
+Das Kommando `generate-card-sets` erstellt SVG-Icons, Anki-CSV und eine 
+LaTeX-Datei für physische Lernkarten:
+
 ```bash
-# Generiere PLL-Karten mit Pfeilen und LaTeX-Datei
-python scripts/generate-algorithm-cards.py pll-with-arrows/ --algorithm-set pll --generate-latex
+# Generiere PLL-Karten mit Pfeilen
+uv run generate-card-sets pll-with-arrows/ --algorithm-set pll
 
 # Generiere OLL-Karten
-python scripts/generate-algorithm-cards.py oll/ --algorithm-set oll --generate-latex
+uv run generate-card-sets oll/ --algorithm-set oll
 
 # Generiere alle Algorithmen
-python scripts/generate-algorithm-cards.py output/ --algorithm-set all --generate-latex
+uv run generate-card-sets output/ --algorithm-set all
 ```
 
-Die `--generate-latex` Option erzeugt eine `Lernkarten.tex` Datei, die für
-zweiseitigen Druck optimiert ist:
+Die automatisch generierte `Lernkarten.tex` Datei ist für zweiseitigen Druck 
+optimiert:
 - Ungerade Seiten zeigen die Würfel-Icons (Vorderseite der Karten)
 - Gerade Seiten zeigen die Algorithmen (Rückseite der Karten)
 - Die Algorithmen sind horizontal gespiegelt angeordnet, damit sie beim
