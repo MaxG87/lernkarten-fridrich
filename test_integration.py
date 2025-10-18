@@ -290,15 +290,10 @@ def main():
         if "Test-3" in content and "Test-1" in content:
             # Find positions in the content
             lines = content.split("\n")
-            icon_section_started = False
-            algo_section_started = False
 
-            for i, line in enumerate(lines):
-                if "% Icons page" in line:
-                    icon_section_started = True
-                elif "% Algorithms page (reversed)" in line:
-                    algo_section_started = True
-                    icon_section_started = False
+            for line in lines:
+                if "% Icons page" in line or "% Algorithms page (reversed)" in line:
+                    break
 
             print("  ✓ Both icon and algorithm sections present")
 

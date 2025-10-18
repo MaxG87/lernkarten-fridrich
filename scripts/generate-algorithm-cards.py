@@ -736,7 +736,6 @@ def create_latex_document(
 
         for row in range(cards_per_col):
             row_start = row * cards_per_row
-            row_end = min(row_start + cards_per_row, len(page_algorithms))
             row_items = []
 
             for col in range(cards_per_row):
@@ -767,7 +766,6 @@ def create_latex_document(
 
         for row in range(cards_per_col):
             row_start = row * cards_per_row
-            row_end = min(row_start + cards_per_row, len(page_algorithms))
             row_items = []
 
             for col in range(cards_per_row):
