@@ -579,6 +579,171 @@ def create_anki_csv(
             f.write(f"{img_html}\t{case.name}\t{alg}\t{tags}\n")
 
 
+def escape_latex(text: str) -> str:
+    """Escape special LaTeX characters in text."""
+    replacements = {
+        "\\": r"\textbackslash{}",
+        "&": r"\&",
+        "%": r"\%",
+        "$": r"\$",
+        "#": r"\#",
+        "_": r"\_",
+        "{": r"\{",
+        "}": r"\}",
+        "~": r"\textasciitilde{}",
+        "^": r"\textasciicircum{}",
+    }
+    result = text
+    for char, replacement in replacements.items():
+        result = result.replace(char, replacement)
+    return result
+
+
+def create_latex_document(
+    algorithms: list[AlgorithmConfig],
+    case_fnames: dict[AlgorithmConfig, Path],
+    latex_fname: Path,
+    cards_per_row: int = 3,
+    cards_per_col: int = 3,
+):
+    """Generate a LaTeX document for physical learning cards.
+
+    The document is two-sided with icons on odd pages and algorithms on even pages.
+    Algorithms are reversed horizontally (C, B, A for icons A, B, C) to align properly
+    when the pages are printed back-to-back and cut.
+
+    Args:
+        algorithms: List of algorithm configurations
+        case_fnames: Mapping of algorithm configs to their icon file paths
+        latex_fname: Output path for the LaTeX file
+        cards_per_row: Number of cards per row (default: 3)
+        cards_per_col: Number of cards per column (default: 3)
+    """
+    cards_per_page = cards_per_row * cards_per_col
+
+    # Prepare the LaTeX preamble
+    preamble = (
+        r"""\documentclass[12pt,a4paper,landscape]{scrartcl}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\usepackage[margin=0.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{lmodern}
+
+\title{Speedcubing Lernkarten}
+\author{Generated from algorithm database}
+\date{\today}
+
+\newlength{\cellheight}
+\setlength{\cellheight}{"""
+        + f"{1.0 / cards_per_col:.3f}"
+        + r"""\textheight}
+\newlength{\cellwidth}
+\setlength{\cellwidth}{\cellheight}
+
+\newcommand{\cubeimg}[1]{
+    \begin{minipage}[t][\cellheight][c]{\cellwidth}
+        \begin{center}
+            \includegraphics[width=\cellwidth, height=\cellheight, keepaspectratio]{#1}
+        \end{center}
+    \end{minipage}
+}
+
+\newcommand{\cubealgo}[2]{
+    \begin{minipage}[t][\cellheight][c]{\cellwidth}
+        \begin{center}
+            \footnotesize
+            \textbf{#1}\\[0.5em]
+            \texttt{#2}
+        \end{center}
+    \end{minipage}
+}
+
+\begin{document}
+"""
+    )
+
+    # Build the document content
+    content_lines = [preamble]
+
+    # Process algorithms in batches
+    for page_start in range(0, len(algorithms), cards_per_page):
+        page_end = min(page_start + cards_per_page, len(algorithms))
+        page_algorithms = algorithms[page_start:page_end]
+
+        # Icons page (odd page)
+        content_lines.append("% Icons page\n")
+        content_lines.append("\\begin{center}\n")
+        content_lines.append(
+            "\\begin{tabular}{|" + "p{\\cellwidth}|" * cards_per_row + "}\n"
+        )
+        content_lines.append("\\hline\n")
+
+        for row in range(cards_per_col):
+            row_start = row * cards_per_row
+            row_items = []
+
+            for col in range(cards_per_row):
+                idx = row_start + col
+                if idx < len(page_algorithms):
+                    case = page_algorithms[idx]
+                    img_path = case_fnames[case]
+                    # Use relative path from the LaTeX file location
+                    rel_path = img_path.name
+                    row_items.append(f"\\cubeimg{{{rel_path}}}")
+                else:
+                    row_items.append("")  # Empty cell
+
+            content_lines.append(" & ".join(row_items) + " \\\\\n")
+            content_lines.append("\\hline\n")
+
+        content_lines.append("\\end{tabular}\n")
+        content_lines.append("\\end{center}\n")
+        content_lines.append("\n\\newpage\n\n")
+
+        # Algorithms page (even page) - reversed order
+        content_lines.append("% Algorithms page (reversed)\n")
+        content_lines.append("\\begin{center}\n")
+        content_lines.append(
+            "\\begin{tabular}{|" + "p{\\cellwidth}|" * cards_per_row + "}\n"
+        )
+        content_lines.append("\\hline\n")
+
+        for row in range(cards_per_col):
+            row_start = row * cards_per_row
+            row_items = []
+
+            for col in range(cards_per_row):
+                # Reverse the column order
+                idx = row_start + (cards_per_row - 1 - col)
+                if idx < len(page_algorithms) and idx >= row_start:
+                    case = page_algorithms[idx]
+                    alg_text = case.human_algorithm()
+                    row_items.append(
+                        f"\\cubealgo{{{escape_latex(case.name)}}}{{{alg_text}}}"
+                    )
+                else:
+                    row_items.append("")  # Empty cell
+
+            content_lines.append(" & ".join(row_items) + " \\\\\n")
+            content_lines.append("\\hline\n")
+
+        content_lines.append("\\end{tabular}\n")
+        content_lines.append("\\end{center}\n")
+
+        # Add page break unless it's the last page
+        if page_end < len(algorithms):
+            content_lines.append("\n\\newpage\n\n")
+
+    # Close the document
+    content_lines.append("\n\\end{document}\n")
+
+    # Write to file
+    with latex_fname.open("w", encoding="utf-8") as f:
+        f.writelines(content_lines)
+
+
 @app.command()
 def main(
     targetdir: t.Annotated[
@@ -640,6 +805,10 @@ def main(
     if not skip_image_generation:
         download_images(algorithms, case_fnames, max_workers)
     create_anki_csv(algorithms, case_fnames, targetdir, deckname)
+
+    # Always generate LaTeX file for physical learning cards
+    latex_fname = targetdir / "Lernkarten.tex"
+    create_latex_document(algorithms, case_fnames, latex_fname)
 
 
 if __name__ == "__main__":

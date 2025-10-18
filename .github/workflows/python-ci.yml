@@ -33,3 +33,6 @@ jobs:
       - name: Lint with ruff
         run: |
           uv run ruff check --output-format=github .
+      - name: Run tests with pytest
+        run: |
+          uv run pytest tests/
