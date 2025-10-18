@@ -300,8 +300,8 @@ oll_algorithms: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("OCLL3 - 23", 3, Algorithm("R2 D (R' U2 R) D' (R' U2 R')")),
     OLLAlgorithmConfig("OCLL4 - 24", 3, Algorithm("(r U R' U') (r' F R F')")),
     OLLAlgorithmConfig("OCLL5 - 25", 3, Algorithm("x (R' U R) D' (R' U' R) D x'")),
-    OLLAlgorithmConfig("OCLL6 - 26", 3, Algorithm("(R' U' R U' R' U2 R)")),
-    OLLAlgorithmConfig("OCLL7 - 27", 3, Algorithm("(R' U2 R U R' U R)")),
+    OLLAlgorithmConfig("OCLL6 - 26", 3, Algorithm("R' U' R U' R' U2 R")),
+    OLLAlgorithmConfig("OCLL7 - 27", 3, Algorithm("R U R' U R U2 R'")),
     # T-Shapes
     OLLAlgorithmConfig("T1 - 33", 3, Algorithm("(R U R' U')(R' F R F')")),
     OLLAlgorithmConfig("T2 - 45", 3, Algorithm("F (R U R' U') F'")),
