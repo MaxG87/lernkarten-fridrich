@@ -26,6 +26,29 @@ class OLLAlgorithmConfig:
     _alg: Algorithm
     view: t.ClassVar[View] = "plan"
     anki_tags: list[str] = field(hash=False, default_factory=lambda: ["3x3x3", "OLL"])
+
+    @property
+    def parameters(self) -> dict[str, str]:
+        return {"sch": "ysssss"}
+
+    @property
+    def arrows(self) -> list[str]:
+        return []
+
+    def human_algorithm(self) -> Algorithm:
+        return self._alg
+
+    def visualiser_algorithm(self) -> Algorithm:
+        return self._alg
+
+
+@dataclass(frozen=True)
+class PLLAlgorithmConfig:
+    name: str
+    size: int
+    _alg: Algorithm
+    view: t.ClassVar[View] = "plan"
+    arrows: list[str] = field(hash=False)
     # The visualiser generates the cube that will be solved by the algorithm. "Solved"
     # means the top face is yellow and the front face is blue. However, for consistency,
     # all generated icons should start in a well defined state which usually means that
@@ -41,34 +64,6 @@ class OLLAlgorithmConfig:
     # the `x` rotation needs to be undone at the end by applying `x'`. This can be
     # achieved by setting `setup_rotation_after` to `x'`. The human-readable algorithm
     # remains unaffected, as the cube is solved regardless of orientation.
-    _setup_rotation_before: Algorithm = Algorithm("")
-    _setup_rotation_after: Algorithm = Algorithm("")
-
-    @property
-    def parameters(self) -> dict[str, str]:
-        return {"sch": "ysssss"}
-
-    @property
-    def arrows(self) -> list[str]:
-        return []
-
-    def human_algorithm(self) -> Algorithm:
-        return self._alg
-
-    def visualiser_algorithm(self) -> Algorithm:
-        return Algorithm(
-            self._setup_rotation_before + self._alg + self._setup_rotation_after
-        )
-
-
-@dataclass(frozen=True)
-class PLLAlgorithmConfig:
-    name: str
-    size: int
-    _alg: Algorithm
-    view: t.ClassVar[View] = "plan"
-    arrows: list[str] = field(hash=False)
-    # see comment in OLLAlgorithmConfig for explanation
     _setup_rotation_before: Algorithm = Algorithm("")
     _setup_rotation_after: Algorithm = Algorithm("")
     anki_tags: list[str] = field(hash=False, default_factory=lambda: ["3x3x3", "PLL"])
