@@ -10,7 +10,7 @@ import requests
 import typer
 
 Algorithm = t.NewType("Algorithm", str)
-AlgorithmSets = t.Literal["all", "pll", "oll", "big-cube"]
+AlgorithmSets = t.Literal["all", "pll", "oll", "2-look-oll", "big-cube"]
 type FrontColour = t.Literal["RED", "BLUE", "ORANGE", "GREEN"]
 type MaybeView = View | None
 type View = t.Literal["plan", "trans"]
@@ -292,6 +292,16 @@ pll_algorithms: list[AlgorithmConfig] = [
     ),
 ]
 
+two_look_oll_algorithms: list[AlgorithmConfig] = [
+    # All Edges Oriented Correctly
+    OLLAlgorithmConfig("2LOLL 1", 3, Algorithm("(R U R' U)(R U' R' U)(R U2 R')")),
+    OLLAlgorithmConfig("2LOLL 2", 3, Algorithm("R U2 R2 U' R2 U' R2 U2 R")),
+    OLLAlgorithmConfig("2LOLL 3", 3, Algorithm("R2 D (R' U2 R) D' (R' U2 R')")),
+    OLLAlgorithmConfig("2LOLL 4", 3, Algorithm("(r U R' U') (r' F R F')")),
+    OLLAlgorithmConfig("2LOLL 5", 3, Algorithm("x (R' U R) D' (R' U' R) D x'")),
+    OLLAlgorithmConfig("2LOLL 6", 3, Algorithm("R' U' R U' R' U2 R")),
+    OLLAlgorithmConfig("2LOLL 7", 3, Algorithm("R U R' U R U2 R'")),
+]
 
 oll_algorithms: list[AlgorithmConfig] = [
     # All Edges Oriented Correctly
@@ -590,7 +600,7 @@ def main(
         AlgorithmSets,
         typer.Option(
             ...,
-            help="Which algorithm set to generate: 'all' (default), 'pll' (3x3x3 PLL only), 'oll' (3x3x3 OLL only), or 'big-cube' (4x4x4+ algorithms only)",
+            help="Which algorithm set to generate: 'all' (default), 'pll' (3x3x3 PLL only), 'oll' (3x3x3 OLL only), '2-look-oll' (second step of Two Look OLL), or 'big-cube' (4x4x4+ algorithms only)",
         ),
     ] = "all",
     max_workers: t.Annotated[
@@ -618,11 +628,13 @@ def main(
     algorithms_by_set_name: dict[AlgorithmSets, list[AlgorithmConfig]] = {
         "pll": pll_algorithms,
         "oll": oll_algorithms,
+        "2-look-oll": two_look_oll_algorithms,
         "big-cube": big_cube_algorithms,
     }
     decknames: dict[AlgorithmSets, str] = {
         "pll": "Cubing::3x3x3::PLL with Arrows",
         "oll": "Cubing::3x3x3::OLL",
+        "2-look-oll": "Cubing::3x3x3::2-Look OLL",
         "big-cube": "Cubing::NxNxN::Parities and Edge Pairing",
     }
     # Select which algorithms to generate based on user choice
