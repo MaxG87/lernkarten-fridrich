@@ -10,9 +10,10 @@ import requests
 import typer
 
 Algorithm = t.NewType("Algorithm", str)
-type View = t.Literal["plan", "trans"]
-type MaybeView = View | None
+AlgorithmSets = t.Literal["all", "pll", "oll", "big-cube"]
 type FrontColour = t.Literal["RED", "BLUE", "ORANGE", "GREEN"]
+type MaybeView = View | None
+type View = t.Literal["plan", "trans"]
 
 app = typer.Typer(help="Generate algorithm cards for Rubik's cubes in SVG format.")
 _FMT = "svg"
@@ -26,29 +27,6 @@ class OLLAlgorithmConfig:
     _alg: Algorithm
     view: t.ClassVar[View] = "plan"
     anki_tags: list[str] = field(hash=False, default_factory=lambda: ["3x3x3", "OLL"])
-
-    @property
-    def parameters(self) -> dict[str, str]:
-        return {"sch": "ysssss"}
-
-    @property
-    def arrows(self) -> list[str]:
-        return []
-
-    def human_algorithm(self) -> Algorithm:
-        return self._alg
-
-    def visualiser_algorithm(self) -> Algorithm:
-        return self._alg
-
-
-@dataclass(frozen=True)
-class PLLAlgorithmConfig:
-    name: str
-    size: int
-    _alg: Algorithm
-    view: t.ClassVar[View] = "plan"
-    arrows: list[str] = field(hash=False)
     # The visualiser generates the cube that will be solved by the algorithm. "Solved"
     # means the top face is yellow and the front face is blue. However, for consistency,
     # all generated icons should start in a well defined state which usually means that
@@ -64,6 +42,34 @@ class PLLAlgorithmConfig:
     # the `x` rotation needs to be undone at the end by applying `x'`. This can be
     # achieved by setting `setup_rotation_after` to `x'`. The human-readable algorithm
     # remains unaffected, as the cube is solved regardless of orientation.
+    _setup_rotation_before: Algorithm = Algorithm("")
+    _setup_rotation_after: Algorithm = Algorithm("")
+
+    @property
+    def parameters(self) -> dict[str, str]:
+        return {"sch": "ysssss"}
+
+    @property
+    def arrows(self) -> list[str]:
+        return []
+
+    def human_algorithm(self) -> Algorithm:
+        return self._alg
+
+    def visualiser_algorithm(self) -> Algorithm:
+        return Algorithm(
+            self._setup_rotation_before + self._alg + self._setup_rotation_after
+        )
+
+
+@dataclass(frozen=True)
+class PLLAlgorithmConfig:
+    name: str
+    size: int
+    _alg: Algorithm
+    view: t.ClassVar[View] = "plan"
+    arrows: list[str] = field(hash=False)
+    # see comment in OLLAlgorithmConfig for explanation
     _setup_rotation_before: Algorithm = Algorithm("")
     _setup_rotation_after: Algorithm = Algorithm("")
     anki_tags: list[str] = field(hash=False, default_factory=lambda: ["3x3x3", "PLL"])
@@ -129,7 +135,7 @@ class GeneralAlgorithmConfig:
     name: str
     size: int
     _alg: Algorithm
-    view: t.Literal["plan", "trans"] | None
+    view: View | None
     anki_tags: list[str] = field(hash=False)
     arrows: list[str] = field(default_factory=list, hash=False)
     parameters: dict[str, str] = field(default_factory=dict, hash=False)
@@ -581,7 +587,7 @@ def main(
         typer.Argument(..., help="Target directory for output files"),
     ],
     algorithm_set: t.Annotated[
-        t.Literal["all", "pll", "oll", "big-cube"],
+        AlgorithmSets,
         typer.Option(
             ...,
             help="Which algorithm set to generate: 'all' (default), 'pll' (3x3x3 PLL only), 'oll' (3x3x3 OLL only), or 'big-cube' (4x4x4+ algorithms only)",
@@ -609,19 +615,24 @@ def main(
         ),
     ] = "*",
 ):
+    algorithms_by_set_name: dict[AlgorithmSets, list[AlgorithmConfig]] = {
+        "pll": pll_algorithms,
+        "oll": oll_algorithms,
+        "big-cube": big_cube_algorithms,
+    }
+    decknames: dict[AlgorithmSets, str] = {
+        "pll": "Cubing::3x3x3::PLL with Arrows",
+        "oll": "Cubing::3x3x3::OLL",
+        "big-cube": "Cubing::NxNxN::Parities and Edge Pairing",
+    }
     # Select which algorithms to generate based on user choice
-    if algorithm_set == "pll":
-        algorithms = pll_algorithms
-        deckname = "Cubing::3x3x3::PLL with Arrows"
-    elif algorithm_set == "oll":
-        algorithms = oll_algorithms
-        deckname = "Cubing::3x3x3::OLL"
-    elif algorithm_set == "big-cube":
-        algorithms = big_cube_algorithms
-        deckname = "Cubing::NxNxN::Parities and Edge Pairing"
-    else:  # "all"
+    algorithms: list[AlgorithmConfig]
+    if algorithm_set == "all":
         algorithms = pll_algorithms + oll_algorithms + big_cube_algorithms
         deckname = "Cubing::Algorithms"
+    else:
+        algorithms = algorithms_by_set_name[algorithm_set]
+        deckname = decknames[algorithm_set]
 
     if algorithm is not None:
         algorithms = [
