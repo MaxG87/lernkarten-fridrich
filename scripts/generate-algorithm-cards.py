@@ -618,7 +618,7 @@ def main(
         ),
     ] = False,
     algorithm: t.Annotated[
-        str | None,
+        str,
         typer.Option(
             ...,
             help="Specific algorithms to generate. Only algorithms in the specified set will be considered. The value may be a glob to match several algorithms. Defaults to all algorithms in the set.",
@@ -648,14 +648,13 @@ def main(
         algorithms = algorithms_by_set_name[algorithm_set]
         deckname = decknames[algorithm_set]
 
-    if algorithm is not None:
-        algorithm_to_generate = [
-            case for case in algorithms if fnmatch.fnmatch(case.name, algorithm)
-        ]
-        if len(algorithm_to_generate) == 0:
-            raise ValueError(
-                f"Algorithm '{algorithm}' does not match any case of the set {algorithm_set}!"
-            )
+    algorithm_to_generate = [
+        case for case in algorithms if fnmatch.fnmatch(case.name, algorithm)
+    ]
+    if len(algorithm_to_generate) == 0:
+        raise ValueError(
+            f"Algorithm '{algorithm}' does not match any case of the set {algorithm_set}!"
+        )
 
     case_fnames = {case: targetdir / f"{case.name}.{_FMT}" for case in algorithms}
     targetdir.mkdir(parents=True, exist_ok=True)
