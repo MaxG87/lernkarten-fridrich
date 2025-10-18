@@ -9,45 +9,9 @@ This test validates that:
 
 import re
 
-from lernkarten.generate_cards import algorithm_to_latex
+import pytest
 
-
-def test_algorithm_to_latex_basic():
-    """Test basic algorithm parsing and LaTeX conversion."""
-    result = algorithm_to_latex("R U R' U'")
-    assert "$\\text{R}'$" in result
-    assert "$\\text{U}'$" in result
-    assert "R U" in result
-
-
-def test_algorithm_to_latex_with_numbers():
-    """Test algorithm conversion with number suffixes."""
-    result = algorithm_to_latex("R2 U R2")
-    assert "$\\text{R}^{2}$" in result
-    assert "U" in result
-
-
-def test_algorithm_to_latex_with_parentheses():
-    """Test that parentheses are removed correctly."""
-    result = algorithm_to_latex("(R U R' U')")
-    assert "$\\text{R}'$" in result
-    assert "$\\text{U}'$" in result
-    assert "(" not in result
-    assert ")" not in result
-
-
-def test_algorithm_to_latex_wide_moves():
-    """Test algorithm conversion with wide moves."""
-    result = algorithm_to_latex("Rw U Rw'")
-    assert "$\\text{Rw}'$" in result or "Rw" in result
-    assert "U" in result
-
-
-def test_algorithm_to_latex_prefix_numbers():
-    """Test algorithm conversion with prefix numbers."""
-    result = algorithm_to_latex("2R U 2R'")
-    assert "$\\text{2R}'$" in result or "2R" in result
-    assert "U" in result
+from lernkarten.generate_cards import Algorithm
 
 
 def test_latex_structure_patterns():

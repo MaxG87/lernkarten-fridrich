@@ -599,60 +599,6 @@ def escape_latex(text: str) -> str:
     return result
 
 
-def algorithm_to_latex(alg: Algorithm) -> str:
-    """Convert algorithm notation to LaTeX format with proper formatting.
-
-    This converts cube notation like "R U R' U'" to LaTeX with primes as superscripts.
-    """
-    import re
-
-    # First remove parentheses as they're just for grouping
-    alg_str = str(alg).replace("(", "").replace(")", "")
-
-    # Split the algorithm into individual moves
-    # A move can be: single letter or letter+w, optionally followed by number(s) and/or prime(s)
-    # Examples: R, U, R', R2, R2', Rw, Rw', Rw2, M, M', M2, etc.
-    # Common multi-letter moves: Rw, Lw, Uw, Dw, Fw, Bw, 2R, 3L, etc.
-    move_pattern = r"\d*[a-zA-Z]w?\d*'*"
-    moves = re.findall(move_pattern, alg_str)
-
-    latex_tokens = []
-
-    for move in moves:
-        if not move:
-            continue
-
-        # Parse the move: optional prefix number + base letter(s) + optional suffix number + optional primes
-        # Examples: R, R', R2, R2', Rw, 2R, 2Rw2, etc.
-        match = re.match(r"^(\d*)([a-zA-Z]w?)(\d*)(.*)$", move)
-        if not match:
-            latex_tokens.append(move)
-            continue
-
-        prefix_num, base, suffix_num, primes = match.groups()
-
-        # Build the LaTeX representation
-        if primes or suffix_num or prefix_num:
-            # Combine prefix and base
-            full_base = prefix_num + base if prefix_num else base
-            result = f"$\\text{{{full_base}}}"
-            if suffix_num:
-                result += f"^{{{suffix_num}}}"
-            if primes:
-                prime_count = len(primes)
-                if prime_count == 1:
-                    result += "'"
-                else:
-                    result += f"^{{{prime_count}\\prime}}"
-            result += "$"
-            latex_tokens.append(result)
-        else:
-            # Just a plain move letter
-            latex_tokens.append(base)
-
-    return " ".join(latex_tokens)
-
-
 def create_latex_document(
     algorithms: list[AlgorithmConfig],
     case_fnames: dict[AlgorithmConfig, Path],
@@ -773,7 +719,7 @@ def create_latex_document(
                 idx = row_start + (cards_per_row - 1 - col)
                 if idx < len(page_algorithms) and idx >= row_start:
                     case = page_algorithms[idx]
-                    alg_text = algorithm_to_latex(case.human_algorithm())
+                    alg_text = case.human_algorithm()
                     row_items.append(
                         f"\\cubealgo{{{escape_latex(case.name)}}}{{{alg_text}}}"
                     )

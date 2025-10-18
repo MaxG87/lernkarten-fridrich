@@ -13,7 +13,6 @@ import pytest
 
 from lernkarten.generate_cards import (
     Algorithm,
-    algorithm_to_latex,
     create_latex_document,
     escape_latex,
 )
@@ -149,11 +148,3 @@ def test_escape_latex_special_chars():
     assert r"\$" in escape_latex("$")
     assert r"\#" in escape_latex("#")
     assert r"\_" in escape_latex("_")
-
-
-def test_algorithm_to_latex_import():
-    """Test that algorithm_to_latex can be imported and used."""
-    result = algorithm_to_latex(Algorithm("R U R' U'"))
-    assert "$\\text{" in result
-    assert "R" in result
-    assert "U" in result
