@@ -635,16 +635,18 @@ def main(
         deckname = decknames[algorithm_set]
 
     if algorithm is not None:
-        algorithms = [
+        algorithm_to_generate = [
             case for case in algorithms if fnmatch.fnmatch(case.name, algorithm)
         ]
-        if len(algorithms) == 0:
-            raise ValueError(f"Algorithm '{algorithm}' not found in selected set")
+        if len(algorithm_to_generate) == 0:
+            raise ValueError(
+                f"Algorithm '{algorithm}' does not match any case of the set {algorithm_set}!"
+            )
 
     case_fnames = {case: targetdir / f"{case.name}.{_FMT}" for case in algorithms}
     targetdir.mkdir(parents=True, exist_ok=True)
     if not skip_image_generation:
-        download_images(algorithms, case_fnames, max_workers)
+        download_images(algorithm_to_generate, case_fnames, max_workers)
     create_anki_csv(algorithms, case_fnames, targetdir, deckname)
 
 
