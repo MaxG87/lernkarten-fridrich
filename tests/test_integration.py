@@ -115,7 +115,7 @@ def create_latex_document(
 
 \newlength{\cellheight}
 \setlength{\cellheight}{"""
-        + f"{1.0/cards_per_col:.3f}"
+        + f"{1.0 / cards_per_col:.3f}"
         + r"""\textheight}
 \newlength{\cellwidth}
 \setlength{\cellwidth}{\cellheight}

@@ -1,7 +1,7 @@
 [project]
 name = "lernkarten-fridrich"
 version = "0.1.0"
-description = "Add your description here"
+description = "Generate learning cards for Rubik's cube algorithms"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -9,9 +9,22 @@ dependencies = [
     "typer>=0.19.2",
 ]
 
+[project.scripts]
+generate-card-sets = "lernkarten.generate_cards:app"
+
 [dependency-groups]
 dev = [
     "mypy>=1.18.2",
     "ruff>=0.13.1",
     "types-requests>=2.32.4.20250913",
 ]
+
+[tool.uv]
+package = true
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["lernkarten"]

@@ -832,13 +832,6 @@ def main(
             help="Specific algorithms to generate. Only algorithms in the specified set will be considered. The value may be a glob to match several algorithms. Defaults to all algorithms in the set.",
         ),
     ] = "*",
-    generate_latex: t.Annotated[
-        bool,
-        typer.Option(
-            ...,
-            help="Generate a LaTeX file for physical learning cards (two-sided printable format)",
-        ),
-    ] = False,
 ):
     # Select which algorithms to generate based on user choice
     if algorithm_set == "pll":
@@ -867,9 +860,9 @@ def main(
         download_images(algorithms, case_fnames, max_workers)
     create_anki_csv(algorithms, case_fnames, targetdir, deckname)
 
-    if generate_latex:
-        latex_fname = targetdir / "Lernkarten.tex"
-        create_latex_document(algorithms, case_fnames, latex_fname)
+    # Always generate LaTeX file for physical learning cards
+    latex_fname = targetdir / "Lernkarten.tex"
+    create_latex_document(algorithms, case_fnames, latex_fname)
 
 
 if __name__ == "__main__":
