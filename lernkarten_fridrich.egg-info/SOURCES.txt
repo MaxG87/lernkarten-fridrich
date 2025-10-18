@@ -1,8 +1,0 @@
-LICENSE
-README.md
-pyproject.toml
-lernkarten_fridrich.egg-info/PKG-INFO
-lernkarten_fridrich.egg-info/SOURCES.txt
-lernkarten_fridrich.egg-info/dependency_links.txt
-lernkarten_fridrich.egg-info/requires.txt
-lernkarten_fridrich.egg-info/top_level.txt
