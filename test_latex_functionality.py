@@ -9,7 +9,6 @@ This test validates that:
 """
 
 import re
-from pathlib import Path
 
 
 def test_algorithm_to_latex():
@@ -17,7 +16,6 @@ def test_algorithm_to_latex():
 
     def algorithm_to_latex(alg: str) -> str:
         """Convert algorithm notation to LaTeX format."""
-        import re
 
         alg_str = alg.replace("(", "").replace(")", "")
         move_pattern = r"\d*[a-zA-Z]w?\d*'*"
