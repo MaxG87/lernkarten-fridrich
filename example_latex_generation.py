@@ -40,7 +40,9 @@ Usage:
 # - cards_per_col: Number of cards vertically on each page (default: 3)
 
 print("Example usage:")
-print("python scripts/generate-algorithm-cards.py pll-with-arrows/ --algorithm-set pll --generate-latex")
+print(
+    "python scripts/generate-algorithm-cards.py pll-with-arrows/ --algorithm-set pll --generate-latex"
+)
 print("\nThis will:")
 print("1. Generate SVG icons for all PLL algorithms in the pll-with-arrows/ directory")
 print("2. Create an Anki CSV file for importing into Anki")

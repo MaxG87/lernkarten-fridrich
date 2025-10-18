@@ -582,16 +582,16 @@ def create_anki_csv(
 def escape_latex(text: str) -> str:
     """Escape special LaTeX characters in text."""
     replacements = {
-        '\\': r'\textbackslash{}',
-        '&': r'\&',
-        '%': r'\%',
-        '$': r'\$',
-        '#': r'\#',
-        '_': r'\_',
-        '{': r'\{',
-        '}': r'\}',
-        '~': r'\textasciitilde{}',
-        '^': r'\textasciicircum{}',
+        "\\": r"\textbackslash{}",
+        "&": r"\&",
+        "%": r"\%",
+        "$": r"\$",
+        "#": r"\#",
+        "_": r"\_",
+        "{": r"\{",
+        "}": r"\}",
+        "~": r"\textasciitilde{}",
+        "^": r"\textasciicircum{}",
     }
     result = text
     for char, replacement in replacements.items():
@@ -601,36 +601,36 @@ def escape_latex(text: str) -> str:
 
 def algorithm_to_latex(alg: Algorithm) -> str:
     """Convert algorithm notation to LaTeX format with proper formatting.
-    
+
     This converts cube notation like "R U R' U'" to LaTeX with primes as superscripts.
     """
     import re
-    
+
     # First remove parentheses as they're just for grouping
     alg_str = str(alg).replace("(", "").replace(")", "")
-    
+
     # Split the algorithm into individual moves
     # A move can be: single letter or letter+w, optionally followed by number(s) and/or prime(s)
     # Examples: R, U, R', R2, R2', Rw, Rw', Rw2, M, M', M2, etc.
     # Common multi-letter moves: Rw, Lw, Uw, Dw, Fw, Bw, 2R, 3L, etc.
     move_pattern = r"\d*[a-zA-Z]w?\d*'*"
     moves = re.findall(move_pattern, alg_str)
-    
+
     latex_tokens = []
-    
+
     for move in moves:
         if not move:
             continue
-        
+
         # Parse the move: optional prefix number + base letter(s) + optional suffix number + optional primes
         # Examples: R, R', R2, R2', Rw, 2R, 2Rw2, etc.
-        match = re.match(r'^(\d*)([a-zA-Z]w?)(\d*)(.*)$', move)
+        match = re.match(r"^(\d*)([a-zA-Z]w?)(\d*)(.*)$", move)
         if not match:
             latex_tokens.append(move)
             continue
-        
+
         prefix_num, base, suffix_num, primes = match.groups()
-        
+
         # Build the LaTeX representation
         if primes or suffix_num or prefix_num:
             # Combine prefix and base
@@ -649,7 +649,7 @@ def algorithm_to_latex(alg: Algorithm) -> str:
         else:
             # Just a plain move letter
             latex_tokens.append(base)
-    
+
     return " ".join(latex_tokens)
 
 
@@ -661,11 +661,11 @@ def create_latex_document(
     cards_per_col: int = 3,
 ):
     """Generate a LaTeX document for physical learning cards.
-    
+
     The document is two-sided with icons on odd pages and algorithms on even pages.
     Algorithms are reversed horizontally (C, B, A for icons A, B, C) to align properly
     when the pages are printed back-to-back and cut.
-    
+
     Args:
         algorithms: List of algorithm configurations
         case_fnames: Mapping of algorithm configs to their icon file paths
@@ -674,9 +674,10 @@ def create_latex_document(
         cards_per_col: Number of cards per column (default: 3)
     """
     cards_per_page = cards_per_row * cards_per_col
-    
+
     # Prepare the LaTeX preamble
-    preamble = r"""\documentclass[12pt,a4paper,landscape]{scrartcl}
+    preamble = (
+        r"""\documentclass[12pt,a4paper,landscape]{scrartcl}
 \usepackage{amsmath}
 \usepackage[T1]{fontenc}
 \usepackage{fontspec}
@@ -689,7 +690,9 @@ def create_latex_document(
 \date{\today}
 
 \newlength{\cellheight}
-\setlength{\cellheight}{""" + f"{1.0/cards_per_col:.3f}" + r"""\textheight}
+\setlength{\cellheight}{"""
+        + f"{1.0/cards_per_col:.3f}"
+        + r"""\textheight}
 \newlength{\cellwidth}
 \setlength{\cellwidth}{\cellheight}
 
@@ -713,26 +716,29 @@ def create_latex_document(
 
 \begin{document}
 """
-    
+    )
+
     # Build the document content
     content_lines = [preamble]
-    
+
     # Process algorithms in batches
     for page_start in range(0, len(algorithms), cards_per_page):
         page_end = min(page_start + cards_per_page, len(algorithms))
         page_algorithms = algorithms[page_start:page_end]
-        
+
         # Icons page (odd page)
         content_lines.append("% Icons page\n")
         content_lines.append("\\begin{center}\n")
-        content_lines.append("\\begin{tabular}{|" + "p{\\cellwidth}|" * cards_per_row + "}\n")
+        content_lines.append(
+            "\\begin{tabular}{|" + "p{\\cellwidth}|" * cards_per_row + "}\n"
+        )
         content_lines.append("\\hline\n")
-        
+
         for row in range(cards_per_col):
             row_start = row * cards_per_row
             row_end = min(row_start + cards_per_row, len(page_algorithms))
             row_items = []
-            
+
             for col in range(cards_per_row):
                 idx = row_start + col
                 if idx < len(page_algorithms):
@@ -743,48 +749,52 @@ def create_latex_document(
                     row_items.append(f"\\cubeimg{{{rel_path}}}")
                 else:
                     row_items.append("")  # Empty cell
-            
+
             content_lines.append(" & ".join(row_items) + " \\\\\n")
             content_lines.append("\\hline\n")
-        
+
         content_lines.append("\\end{tabular}\n")
         content_lines.append("\\end{center}\n")
         content_lines.append("\n\\newpage\n\n")
-        
+
         # Algorithms page (even page) - reversed order
         content_lines.append("% Algorithms page (reversed)\n")
         content_lines.append("\\begin{center}\n")
-        content_lines.append("\\begin{tabular}{|" + "p{\\cellwidth}|" * cards_per_row + "}\n")
+        content_lines.append(
+            "\\begin{tabular}{|" + "p{\\cellwidth}|" * cards_per_row + "}\n"
+        )
         content_lines.append("\\hline\n")
-        
+
         for row in range(cards_per_col):
             row_start = row * cards_per_row
             row_end = min(row_start + cards_per_row, len(page_algorithms))
             row_items = []
-            
+
             for col in range(cards_per_row):
                 # Reverse the column order
                 idx = row_start + (cards_per_row - 1 - col)
                 if idx < len(page_algorithms) and idx >= row_start:
                     case = page_algorithms[idx]
                     alg_text = algorithm_to_latex(case.human_algorithm())
-                    row_items.append(f"\\cubealgo{{{escape_latex(case.name)}}}{{{alg_text}}}")
+                    row_items.append(
+                        f"\\cubealgo{{{escape_latex(case.name)}}}{{{alg_text}}}"
+                    )
                 else:
                     row_items.append("")  # Empty cell
-            
+
             content_lines.append(" & ".join(row_items) + " \\\\\n")
             content_lines.append("\\hline\n")
-        
+
         content_lines.append("\\end{tabular}\n")
         content_lines.append("\\end{center}\n")
-        
+
         # Add page break unless it's the last page
         if page_end < len(algorithms):
             content_lines.append("\n\\newpage\n\n")
-    
+
     # Close the document
     content_lines.append("\n\\end{document}\n")
-    
+
     # Write to file
     with latex_fname.open("w", encoding="utf-8") as f:
         f.writelines(content_lines)
@@ -858,7 +868,7 @@ def main(
     if not skip_image_generation:
         download_images(algorithms, case_fnames, max_workers)
     create_anki_csv(algorithms, case_fnames, targetdir, deckname)
-    
+
     if generate_latex:
         latex_fname = targetdir / "Lernkarten.tex"
         create_latex_document(algorithms, case_fnames, latex_fname)
