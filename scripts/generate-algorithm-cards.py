@@ -628,7 +628,9 @@ def main(
     # Select which algorithms to generate based on user choice
     algorithms: list[AlgorithmConfig]
     if algorithm_set == "all":
-        algorithms = pll_algorithms + oll_algorithms + big_cube_algorithms
+        algorithms = [
+            cur for cur_set in algorithms_by_set_name.values() for cur in cur_set
+        ]
         deckname = "Cubing::Algorithms"
     else:
         algorithms = algorithms_by_set_name[algorithm_set]
