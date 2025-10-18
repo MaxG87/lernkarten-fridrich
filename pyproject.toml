@@ -15,6 +15,7 @@ generate-card-sets = "lernkarten.generate_cards:app"
 [dependency-groups]
 dev = [
     "mypy>=1.18.2",
+    "pytest>=8.3.4",
     "ruff>=0.13.1",
     "types-requests>=2.32.4.20250913",
 ]
@@ -28,3 +29,10 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["lernkarten"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = ["-v", "--strict-markers"]

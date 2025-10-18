@@ -1,26 +1,26 @@
-#!/usr/bin/env python3
 """
 Integration test for the LaTeX generation functionality.
 
 This test creates a minimal set of test data and verifies that the
-create_latex_document function works correctly without requiring typer.
+create_latex_document function works correctly.
 """
 
-import re
-import sys
 import tempfile
-
-# We need to test the functions without importing typer
-# So we'll copy the relevant code here
-import typing as t
 from dataclasses import dataclass, field
 from pathlib import Path
 
-Algorithm = t.NewType("Algorithm", str)
+import pytest
+
+from lernkarten.generate_cards import (
+    Algorithm,
+    algorithm_to_latex,
+    create_latex_document,
+    escape_latex,
+)
 
 
 @dataclass(frozen=True)
-class TestAlgorithmConfig:
+class AlgorithmConfig:
     """Minimal algorithm config for testing."""
 
     name: str
@@ -32,205 +32,21 @@ class TestAlgorithmConfig:
         return self._alg
 
 
-def escape_latex(text: str) -> str:
-    """Escape special LaTeX characters in text."""
-    replacements = {
-        "\\": r"\textbackslash{}",
-        "&": r"\&",
-        "%": r"\%",
-        "$": r"\$",
-        "#": r"\#",
-        "_": r"\_",
-        "{": r"\{",
-        "}": r"\}",
-        "~": r"\textasciitilde{}",
-        "^": r"\textasciicircum{}",
-    }
-    result = text
-    for char, replacement in replacements.items():
-        result = result.replace(char, replacement)
-    return result
-
-
-def algorithm_to_latex(alg: Algorithm) -> str:
-    """Convert algorithm notation to LaTeX format with proper formatting."""
-    alg_str = str(alg).replace("(", "").replace(")", "")
-    move_pattern = r"\d*[a-zA-Z]w?\d*'*"
-    moves = re.findall(move_pattern, alg_str)
-
-    latex_tokens = []
-
-    for move in moves:
-        if not move:
-            continue
-
-        match = re.match(r"^(\d*)([a-zA-Z]w?)(\d*)(.*)$", move)
-        if not match:
-            latex_tokens.append(move)
-            continue
-
-        prefix_num, base, suffix_num, primes = match.groups()
-
-        if primes or suffix_num or prefix_num:
-            full_base = prefix_num + base if prefix_num else base
-            result = f"$\\text{{{full_base}}}"
-            if suffix_num:
-                result += f"^{{{suffix_num}}}"
-            if primes:
-                prime_count = len(primes)
-                if prime_count == 1:
-                    result += "'"
-                else:
-                    result += f"^{{{prime_count}\\prime}}"
-            result += "$"
-            latex_tokens.append(result)
-        else:
-            latex_tokens.append(base)
-
-    return " ".join(latex_tokens)
-
-
-def create_latex_document(
-    algorithms: list,
-    case_fnames: dict,
-    latex_fname: Path,
-    cards_per_row: int = 3,
-    cards_per_col: int = 3,
-):
-    """Generate a LaTeX document for physical learning cards."""
-    cards_per_page = cards_per_row * cards_per_col
-
-    preamble = (
-        r"""\documentclass[12pt,a4paper,landscape]{scrartcl}
-\usepackage{amsmath}
-\usepackage[T1]{fontenc}
-\usepackage{fontspec}
-\usepackage[margin=0.5cm]{geometry}
-\usepackage{graphicx}
-\usepackage{lmodern}
-
-\title{Speedcubing Lernkarten}
-\author{Generated from algorithm database}
-\date{\today}
-
-\newlength{\cellheight}
-\setlength{\cellheight}{"""
-        + f"{1.0 / cards_per_col:.3f}"
-        + r"""\textheight}
-\newlength{\cellwidth}
-\setlength{\cellwidth}{\cellheight}
-
-\newcommand{\cubeimg}[1]{
-    \begin{minipage}[t][\cellheight][c]{\cellwidth}
-        \begin{center}
-            \includegraphics[width=\cellwidth, height=\cellheight, keepaspectratio]{#1}
-        \end{center}
-    \end{minipage}
-}
-
-\newcommand{\cubealgo}[2]{
-    \begin{minipage}[t][\cellheight][c]{\cellwidth}
-        \begin{center}
-            \footnotesize
-            \textbf{#1}\\[0.5em]
-            \texttt{#2}
-        \end{center}
-    \end{minipage}
-}
-
-\begin{document}
-"""
-    )
-
-    content_lines = [preamble]
-
-    for page_start in range(0, len(algorithms), cards_per_page):
-        page_end = min(page_start + cards_per_page, len(algorithms))
-        page_algorithms = algorithms[page_start:page_end]
-
-        # Icons page
-        content_lines.append("% Icons page\n")
-        content_lines.append("\\begin{center}\n")
-        content_lines.append(
-            "\\begin{tabular}{|" + "p{\\cellwidth}|" * cards_per_row + "}\n"
-        )
-        content_lines.append("\\hline\n")
-
-        for row in range(cards_per_col):
-            row_start = row * cards_per_row
-            row_items = []
-
-            for col in range(cards_per_row):
-                idx = row_start + col
-                if idx < len(page_algorithms):
-                    case = page_algorithms[idx]
-                    img_path = case_fnames[case]
-                    rel_path = img_path.name
-                    row_items.append(f"\\cubeimg{{{rel_path}}}")
-                else:
-                    row_items.append("")
-
-            content_lines.append(" & ".join(row_items) + " \\\\\n")
-            content_lines.append("\\hline\n")
-
-        content_lines.append("\\end{tabular}\n")
-        content_lines.append("\\end{center}\n")
-        content_lines.append("\n\\newpage\n\n")
-
-        # Algorithms page (reversed)
-        content_lines.append("% Algorithms page (reversed)\n")
-        content_lines.append("\\begin{center}\n")
-        content_lines.append(
-            "\\begin{tabular}{|" + "p{\\cellwidth}|" * cards_per_row + "}\n"
-        )
-        content_lines.append("\\hline\n")
-
-        for row in range(cards_per_col):
-            row_start = row * cards_per_row
-            row_items = []
-
-            for col in range(cards_per_row):
-                idx = row_start + (cards_per_row - 1 - col)
-                if idx < len(page_algorithms) and idx >= row_start:
-                    case = page_algorithms[idx]
-                    alg_text = algorithm_to_latex(case.human_algorithm())
-                    row_items.append(
-                        f"\\cubealgo{{{escape_latex(case.name)}}}{{{alg_text}}}"
-                    )
-                else:
-                    row_items.append("")
-
-            content_lines.append(" & ".join(row_items) + " \\\\\n")
-            content_lines.append("\\hline\n")
-
-        content_lines.append("\\end{tabular}\n")
-        content_lines.append("\\end{center}\n")
-
-        if page_end < len(algorithms):
-            content_lines.append("\n\\newpage\n\n")
-
-    content_lines.append("\n\\end{document}\n")
-
-    with latex_fname.open("w", encoding="utf-8") as f:
-        f.writelines(content_lines)
-
-
-def main():
-    """Run integration test."""
-    print("=" * 60)
-    print("Integration Test: LaTeX Generation")
-    print("=" * 60)
-
-    # Create test algorithms
-    test_algorithms = [
-        TestAlgorithmConfig("Test-1", 3, Algorithm("R U R' U'")),
-        TestAlgorithmConfig("Test-2", 3, Algorithm("R2 U R2 U'")),
-        TestAlgorithmConfig("Test-3", 3, Algorithm("(R U R' U') R' F R F'")),
-        TestAlgorithmConfig("Test-4", 3, Algorithm("F R U R' U' F'")),
-        TestAlgorithmConfig("Test-5", 3, Algorithm("Rw U Rw' U Rw U2 Rw'")),
+@pytest.fixture
+def test_algorithms():
+    """Create test algorithm configurations."""
+    return [
+        AlgorithmConfig("Test-1", 3, Algorithm("R U R' U'")),
+        AlgorithmConfig("Test-2", 3, Algorithm("R2 U R2 U'")),
+        AlgorithmConfig("Test-3", 3, Algorithm("(R U R' U') R' F R F'")),
+        AlgorithmConfig("Test-4", 3, Algorithm("F R U R' U' F'")),
+        AlgorithmConfig("Test-5", 3, Algorithm("Rw U Rw' U Rw U2 Rw'")),
     ]
 
-    # Create temporary directory for output
+
+@pytest.fixture
+def temp_output_dir(test_algorithms):
+    """Create a temporary directory with dummy SVG files."""
     with tempfile.TemporaryDirectory() as tmpdir:
         tmpdir_path = Path(tmpdir)
 
@@ -245,79 +61,99 @@ def main():
             )
             case_fnames[case] = icon_path
 
-        # Generate LaTeX
-        latex_path = tmpdir_path / "Lernkarten.tex"
-        create_latex_document(test_algorithms, case_fnames, latex_path)
-
-        # Verify the file was created
-        if not latex_path.exists():
-            print("✗ FAILED: LaTeX file was not created")
-            return 1
-
-        print(f"✓ LaTeX file created: {latex_path}")
-
-        # Read and verify content
-        content = latex_path.read_text()
-
-        # Check for required LaTeX elements
-        required_elements = [
-            r"\documentclass",
-            r"\begin{document}",
-            r"\end{document}",
-            r"\cubeimg",
-            r"\cubealgo",
-            "% Icons page",
-            "% Algorithms page (reversed)",
-        ]
-
-        all_present = True
-        for element in required_elements:
-            if element in content:
-                print(f"  ✓ Found: {element}")
-            else:
-                print(f"  ✗ Missing: {element}")
-                all_present = False
-
-        # Check that algorithms are present
-        for case in test_algorithms:
-            if case.name in content:
-                print(f"  ✓ Algorithm present: {case.name}")
-            else:
-                print(f"  ✗ Algorithm missing: {case.name}")
-                all_present = False
-
-        # Verify reversal - check that the order is different on algorithm pages
-        if "Test-3" in content and "Test-1" in content:
-            # Find positions in the content
-            lines = content.split("\n")
-
-            for line in lines:
-                if "% Icons page" in line or "% Algorithms page (reversed)" in line:
-                    break
-
-            print("  ✓ Both icon and algorithm sections present")
-
-        if all_present:
-            print("\n" + "=" * 60)
-            print("✓ Integration test PASSED")
-            print("=" * 60)
-
-            # Print a sample of the generated LaTeX
-            print("\nSample output (first 40 lines):")
-            print("-" * 60)
-            lines = content.split("\n")
-            for i, line in enumerate(lines[:40], 1):
-                print(f"{i:3}: {line}")
-            print("-" * 60)
-            print(f"Total lines: {len(lines)}")
-
-            return 0
-        else:
-            print("\n" + "=" * 60)
-            print("✗ Integration test FAILED")
-            print("=" * 60)
-            return 1
+        yield tmpdir_path, case_fnames
 
 
-if __name__ == "__main__":
-    sys.exit(main())
+def test_latex_document_creation(test_algorithms, temp_output_dir):
+    """Test that a LaTeX document is created successfully."""
+    tmpdir_path, case_fnames = temp_output_dir
+
+    # Generate LaTeX
+    latex_path = tmpdir_path / "Lernkarten.tex"
+    create_latex_document(test_algorithms, case_fnames, latex_path)
+
+    # Verify the file was created
+    assert latex_path.exists(), "LaTeX file was not created"
+
+
+def test_latex_document_content(test_algorithms, temp_output_dir):
+    """Test that the LaTeX document has correct content."""
+    tmpdir_path, case_fnames = temp_output_dir
+
+    # Generate LaTeX
+    latex_path = tmpdir_path / "Lernkarten.tex"
+    create_latex_document(test_algorithms, case_fnames, latex_path)
+
+    # Read and verify content
+    content = latex_path.read_text()
+
+    # Check for required LaTeX elements
+    required_elements = [
+        r"\documentclass",
+        r"\begin{document}",
+        r"\end{document}",
+        r"\cubeimg",
+        r"\cubealgo",
+        "% Icons page",
+        "% Algorithms page (reversed)",
+    ]
+
+    for element in required_elements:
+        assert element in content, f"Missing required element: {element}"
+
+
+def test_algorithms_present_in_document(test_algorithms, temp_output_dir):
+    """Test that all algorithms are present in the generated document."""
+    tmpdir_path, case_fnames = temp_output_dir
+
+    # Generate LaTeX
+    latex_path = tmpdir_path / "Lernkarten.tex"
+    create_latex_document(test_algorithms, case_fnames, latex_path)
+
+    # Read content
+    content = latex_path.read_text()
+
+    # Check that algorithms are present
+    for case in test_algorithms:
+        assert case.name in content, f"Algorithm missing: {case.name}"
+
+
+def test_icon_and_algorithm_sections_present(test_algorithms, temp_output_dir):
+    """Test that both icon and algorithm sections are present."""
+    tmpdir_path, case_fnames = temp_output_dir
+
+    # Generate LaTeX
+    latex_path = tmpdir_path / "Lernkarten.tex"
+    create_latex_document(test_algorithms, case_fnames, latex_path)
+
+    # Read content
+    content = latex_path.read_text()
+
+    # Verify reversal - check that the order is different on algorithm pages
+    assert "Test-3" in content, "Test-3 should be in content"
+    assert "Test-1" in content, "Test-1 should be in content"
+
+    # Find sections
+    lines = content.split("\n")
+    has_icons = any("% Icons page" in line for line in lines)
+    has_algorithms = any("% Algorithms page (reversed)" in line for line in lines)
+
+    assert has_icons, "Icon section not found"
+    assert has_algorithms, "Algorithm section not found"
+
+
+def test_escape_latex_special_chars():
+    """Test that special LaTeX characters are escaped correctly."""
+    assert r"\&" in escape_latex("&")
+    assert r"\%" in escape_latex("%")
+    assert r"\$" in escape_latex("$")
+    assert r"\#" in escape_latex("#")
+    assert r"\_" in escape_latex("_")
+
+
+def test_algorithm_to_latex_import():
+    """Test that algorithm_to_latex can be imported and used."""
+    result = algorithm_to_latex(Algorithm("R U R' U'"))
+    assert "$\\text{" in result
+    assert "R" in result
+    assert "U" in result
