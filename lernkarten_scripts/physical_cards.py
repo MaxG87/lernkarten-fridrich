@@ -133,20 +133,23 @@ def _generate_partial_page(
         for col in range(2, -1, -1):  # Reverse order: 2, 1, 0
             idx = row_start + col
             if idx < count:
-                cells.append(f"\\cubealgo{{{algo_texts[idx]}}}")
+                cells.append(rf"\cubealgo{{{algo_texts[idx]}}}")
             else:
                 cells.append("")
-        back_rows.append(" & ".join(cells) + " \\\\\\hline")
+        back_rows.append(" & ".join(cells) + r" \\\hline")
 
-    back_table = (
-        "\\newpage\n\n"
-        "\\begin{center}\n"
-        "    \\begin{tabular}{|p{\\cellwidth}|p{\\cellwidth}|p{\\cellwidth}|}\n"
-        "        \\hline\n"
-        "        " + "\n        ".join(back_rows) + "\n"
-        "    \\end{tabular}\n"
-        "\\end{center}\n"
-    )
+    back_table_lines = [
+        "",  # empty line before \newpage
+        r"\newpage",
+        "",  # empty line after \newpage
+        r"\begin{center}",
+        r"    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}",
+        r"        \hline",
+        *[f"        {cur}" for cur in back_rows],
+        r"    \end{tabular}",
+        r"\end{center}",
+    ]
+    back_table = "\n".join(back_table_lines)
 
     return front_table + "\n" + back_table
 
