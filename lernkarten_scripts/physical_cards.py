@@ -103,24 +103,27 @@ def _generate_partial_page(
     # Front page (icons)
     front_rows = []
     counter = 0
-    for row in range(rows):
+    for _ in range(rows):
         cells = []
-        for col in range(3):
+        for _ in range(3):
             if counter < count:
-                cells.append(f"\\cubeimg{{{icon_paths[counter]}}}")
+                cells.append(rf"\cubeimg{{{icon_paths[counter]}}}")
                 counter += 1
             else:
+                # Each table row requires the full amount of "&" cell separations. Empty
+                # cells contain no content, so "" is a good fit to ensure this.
                 cells.append("")
-        front_rows.append(" & ".join(cells) + " \\\\\\hline")
+        front_rows.append(" & ".join(cells) + r" \\\hline")
 
-    front_table = (
-        "\\begin{center}\n"
-        "    \\begin{tabular}{|p{\\cellwidth}|p{\\cellwidth}|p{\\cellwidth}|}\n"
-        "        \\hline\n"
-        "        " + "\n        ".join(front_rows) + "\n"
-        "    \\end{tabular}\n"
-        "\\end{center}\n"
-    )
+    front_table_lines = [
+        r"\begin{center}",
+        r"    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}",
+        r"        \hline",
+        *[f"        {cur}" for cur in front_rows],
+        r"    \end{tabular}",
+        r"\end{center}",
+    ]
+    front_table = "\n".join(front_table_lines)
 
     # Back page (algorithms in reverse order)
     back_rows = []
