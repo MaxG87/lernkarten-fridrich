@@ -5,9 +5,12 @@ This module provides functionality to create LaTeX documents and Makefiles
 for printing physical learning cards with algorithms and icons.
 """
 
+import shutil
 from pathlib import Path
 
 from .algorithms import AlgorithmConfig
+
+RESOURCES = Path(__file__).parent / "resources"
 
 
 def generate_latex_pages(num_cards: int) -> str:
@@ -84,14 +87,14 @@ def _generate_partial_page(start_idx: int, count: int) -> str:
 
 def create_makefile(target_dir: Path) -> None:
     """Copy the Makefile template to the target directory."""
-    template_path = Path(__file__).parent / "templates" / "Makefile.template"
-    makefile_content = template_path.read_text()
-    (target_dir / "Makefile").write_text(makefile_content)
+    source = RESOURCES / "Makefile.template"
+    dest = target_dir / "Makefile"
+    shutil.copy(source, dest)
 
 
 def create_latex_file(target_dir: Path, num_cards: int) -> None:
     """Generate the LaTeX file from the template."""
-    template_path = Path(__file__).parent / "templates" / "Lernkarten.tex.template"
+    template_path = RESOURCES / "Lernkarten.tex.template"
     template_content = template_path.read_text()
 
     pages_content = generate_latex_pages(num_cards)
