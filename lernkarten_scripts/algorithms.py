@@ -53,6 +53,16 @@ class OLLAlgorithmConfig:
             self._setup_rotation_before + self._alg + self._setup_rotation_after
         )
 
+    def extend_anki_tags(self, tags: list[str]) -> "OLLAlgorithmConfig":
+        return OLLAlgorithmConfig(
+            name=self.name,
+            size=self.size,
+            _alg=self._alg,
+            _setup_rotation_before=self._setup_rotation_before,
+            _setup_rotation_after=self._setup_rotation_after,
+            anki_tags=self.anki_tags + tags,
+        )
+
 
 @dataclass(frozen=True)
 class PLLAlgorithmConfig:
@@ -289,13 +299,27 @@ TWO_LOOK_OLL: list[AlgorithmConfig] = [
 
 OLL: list[AlgorithmConfig] = [
     # All Edges Oriented Correctly
-    OLLAlgorithmConfig("OCLL1 - 21", 3, Algorithm("(R U R' U)(R U' R' U)(R U2 R')")),
-    OLLAlgorithmConfig("OCLL2 - 22", 3, Algorithm("R U2 R2 U' R2 U' R2 U2 R")),
-    OLLAlgorithmConfig("OCLL3 - 23", 3, Algorithm("R2 D (R' U2 R) D' (R' U2 R')")),
-    OLLAlgorithmConfig("OCLL4 - 24", 3, Algorithm("(r U R' U') (r' F R F')")),
-    OLLAlgorithmConfig("OCLL5 - 25", 3, Algorithm("x (R' U R) D' (R' U' R) D x'")),
-    OLLAlgorithmConfig("OCLL6 - 26", 3, Algorithm("R' U' R U' R' U2 R")),
-    OLLAlgorithmConfig("OCLL7 - 27", 3, Algorithm("R U R' U R U2 R'")),
+    OLLAlgorithmConfig(
+        "OCLL1 - 21", 3, Algorithm("(R U R' U)(R U' R' U)(R U2 R')")
+    ).extend_anki_tags(["2-Look-OLL"]),
+    OLLAlgorithmConfig(
+        "OCLL2 - 22", 3, Algorithm("R U2 R2 U' R2 U' R2 U2 R")
+    ).extend_anki_tags(["2-Look-OLL"]),
+    OLLAlgorithmConfig(
+        "OCLL3 - 23", 3, Algorithm("R2 D (R' U2 R) D' (R' U2 R')")
+    ).extend_anki_tags(["2-Look-OLL"]),
+    OLLAlgorithmConfig(
+        "OCLL4 - 24", 3, Algorithm("(r U R' U') (r' F R F')")
+    ).extend_anki_tags(["2-Look-OLL"]),
+    OLLAlgorithmConfig(
+        "OCLL5 - 25", 3, Algorithm("x (R' U R) D' (R' U' R) D x'")
+    ).extend_anki_tags(["2-Look-OLL"]),
+    OLLAlgorithmConfig(
+        "OCLL6 - 26", 3, Algorithm("R' U' R U' R' U2 R")
+    ).extend_anki_tags(["2-Look-OLL"]),
+    OLLAlgorithmConfig("OCLL7 - 27", 3, Algorithm("R U R' U R U2 R'")).extend_anki_tags(
+        ["2-Look-OLL"]
+    ),
     # T-Shapes
     OLLAlgorithmConfig("T1 - 33", 3, Algorithm("(R U R' U')(R' F R F')")),
     OLLAlgorithmConfig("T2 - 45", 3, Algorithm("F (R U R' U') F'")),
