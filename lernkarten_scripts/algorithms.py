@@ -1,5 +1,5 @@
 import typing as t
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 Algorithm = t.NewType("Algorithm", str)
 type FrontColour = t.Literal["RED", "BLUE", "ORANGE", "GREEN"]
@@ -286,17 +286,6 @@ PLL: list[AlgorithmConfig] = [
     ),
 ]
 
-TWO_LOOK_OLL: list[AlgorithmConfig] = [
-    # All Edges Oriented Correctly
-    OLLAlgorithmConfig("2LOLL 1", 3, Algorithm("(R U R' U)(R U' R' U)(R U2 R')")),
-    OLLAlgorithmConfig("2LOLL 2", 3, Algorithm("R U2 R2 U' R2 U' R2 U2 R")),
-    OLLAlgorithmConfig("2LOLL 3", 3, Algorithm("R2 D (R' U2 R) D' (R' U2 R')")),
-    OLLAlgorithmConfig("2LOLL 4", 3, Algorithm("(r U R' U') (r' F R F')")),
-    OLLAlgorithmConfig("2LOLL 5", 3, Algorithm("x (R' U R) D' (R' U' R) D x'")),
-    OLLAlgorithmConfig("2LOLL 6", 3, Algorithm("R' U' R U' R' U2 R")),
-    OLLAlgorithmConfig("2LOLL 7", 3, Algorithm("R U R' U R U2 R'")),
-]
-
 OLL: list[AlgorithmConfig] = [
     # All Edges Oriented Correctly
     OLLAlgorithmConfig(
@@ -391,6 +380,13 @@ OLL: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("O6 - 18", 3, Algorithm("r U R' U R U2 r2 U' R U' R' U2 r")),
     OLLAlgorithmConfig("O7 - 19", 3, Algorithm("r' U2 R U R' U r2 U2 R' U' R U' r'")),
     OLLAlgorithmConfig("O8 - 20", 3, Algorithm("M U (R U R' U') M2 (U R U' r')")),
+]
+
+TWO_LOOK_OLL: list[AlgorithmConfig] = [
+    replace(cur, name=f"2LOLL {n}")
+    for n, cur in enumerate(
+        filter(lambda alg: "2-Look-OLL" in alg.anki_tags, OLL), start=1
+    )
 ]
 
 

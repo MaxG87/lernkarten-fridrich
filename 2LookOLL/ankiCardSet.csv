@@ -1,10 +1,10 @@
 #separator:tab
 #notetype:cubingalg+
 #deck:Cubing::3x3x3::2-Look OLL
-<img src="2LOLL 1.svg">	2LOLL 1	(R U R' U)(R U' R' U)(R U2 R')	3x3x3 OLL
-<img src="2LOLL 2.svg">	2LOLL 2	R U2 R2 U' R2 U' R2 U2 R	3x3x3 OLL
-<img src="2LOLL 3.svg">	2LOLL 3	R2 D (R' U2 R) D' (R' U2 R')	3x3x3 OLL
-<img src="2LOLL 4.svg">	2LOLL 4	(r U R' U') (r' F R F')	3x3x3 OLL
-<img src="2LOLL 5.svg">	2LOLL 5	x (R' U R) D' (R' U' R) D x'	3x3x3 OLL
-<img src="2LOLL 6.svg">	2LOLL 6	R' U' R U' R' U2 R	3x3x3 OLL
-<img src="2LOLL 7.svg">	2LOLL 7	R U R' U R U2 R'	3x3x3 OLL
+<img src="2LOLL 1.svg">	2LOLL 1	(R U R' U)(R U' R' U)(R U2 R')	3x3x3 OLL 2-Look-OLL
+<img src="2LOLL 2.svg">	2LOLL 2	R U2 R2 U' R2 U' R2 U2 R	3x3x3 OLL 2-Look-OLL
+<img src="2LOLL 3.svg">	2LOLL 3	R2 D (R' U2 R) D' (R' U2 R')	3x3x3 OLL 2-Look-OLL
+<img src="2LOLL 4.svg">	2LOLL 4	(r U R' U') (r' F R F')	3x3x3 OLL 2-Look-OLL
+<img src="2LOLL 5.svg">	2LOLL 5	x (R' U R) D' (R' U' R) D x'	3x3x3 OLL 2-Look-OLL
+<img src="2LOLL 6.svg">	2LOLL 6	R' U' R U' R' U2 R	3x3x3 OLL 2-Look-OLL
+<img src="2LOLL 7.svg">	2LOLL 7	R U R' U R U2 R'	3x3x3 OLL 2-Look-OLL
