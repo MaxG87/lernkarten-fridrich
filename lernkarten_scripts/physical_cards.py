@@ -26,71 +26,22 @@ def generate_latex_pages(
     for start_idx in range(0, len(algorithms), 9):
         end_idx = min(start_idx + 9, len(algorithms))
         page_algorithms = algorithms[start_idx:end_idx]
-
-        if len(page_algorithms) == 9:
-            pages.append(_generate_full_page(page_algorithms, case_fnames, start_idx))
-        else:
-            pages.append(
-                _generate_partial_page(page_algorithms, case_fnames, start_idx)
-            )
+        front, back = _generate_front_and_back_page(
+            page_algorithms, case_fnames, start_idx
+        )
+        pages.append(front)
+        pages.append("")  # empty line as separator
+        pages.append(back)
+        pages.append("")  # empty line as separator
 
     return "\n".join(pages)
 
 
-def _generate_full_page(
+def _generate_front_and_back_page(
     page_algorithms: list[AlgorithmConfig],
     case_fnames: dict[AlgorithmConfig, Path],
     start_idx: int,
-) -> str:
-    """Generate LaTeX for a full page with 9 cards."""
-    # Convert SVG paths to PDF paths
-    icon_paths = [case_fnames[alg].with_suffix(".pdf").name for alg in page_algorithms]
-    # Get algorithm texts directly
-    algo_texts = [str(alg.human_algorithm()) + "\\\\\\\\" for alg in page_algorithms]
-
-    # Front page (icons) - 3x3 grid
-    front_table = "\\begin{center}\n"
-    front_table += (
-        "    \\begin{tabular}{|p{\\cellwidth}|p{\\cellwidth}|p{\\cellwidth}|}\n"
-    )
-    front_table += "        \\hline\n"
-
-    for row in range(3):
-        cells = []
-        for col in range(3):
-            idx = row * 3 + col
-            cells.append(f"\\cubeimg{{{icon_paths[idx]}}}")
-        front_table += "        " + " & ".join(cells) + " \\\\\\hline\n"
-
-    front_table += "    \\end{tabular}\n"
-    front_table += "\\end{center}\n"
-
-    # Back page (algorithms) - reversed order for proper alignment
-    back_table = "\\newpage\n\n"
-    back_table += "\\begin{center}\n"
-    back_table += (
-        "    \\begin{tabular}{|p{\\cellwidth}|p{\\cellwidth}|p{\\cellwidth}|}\n"
-    )
-    back_table += "        \\hline\n"
-
-    for row in range(3):
-        cells = []
-        for col in range(2, -1, -1):  # Reverse order: 2, 1, 0
-            idx = row * 3 + col
-            cells.append(f"\\cubealgo{{{algo_texts[idx]}}}")
-        back_table += "        " + " & ".join(cells) + " \\\\\\hline\n"
-
-    back_table += "    \\end{tabular}\n"
-    back_table += "\\end{center}\n"
-
-    return front_table + "\n" + back_table
-
-
-def _generate_partial_page(
-    page_algorithms: list[AlgorithmConfig],
-    case_fnames: dict[AlgorithmConfig, Path],
-    start_idx: int,
-) -> str:
+) -> tuple[str, str]:
     """Generate LaTeX for a partial page with fewer than 9 cards."""
     count = len(page_algorithms)
     rows = (count + 2) // 3  # Round up division
@@ -139,9 +90,6 @@ def _generate_partial_page(
         back_rows.append(" & ".join(cells) + r" \\\hline")
 
     back_table_lines = [
-        "",  # empty line before \newpage
-        r"\newpage",
-        "",  # empty line after \newpage
         r"\begin{center}",
         r"    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}",
         r"        \hline",
@@ -150,8 +98,7 @@ def _generate_partial_page(
         r"\end{center}",
     ]
     back_table = "\n".join(back_table_lines)
-
-    return front_table + "\n" + back_table
+    return front_table, back_table
 
 
 def create_makefile(target_dir: Path) -> None:
