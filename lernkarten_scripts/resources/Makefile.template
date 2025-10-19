@@ -1,4 +1,4 @@
-PDFS = $(shell find -iname "*.svg" | sed -e 's/\ /\\ /' | sed -e 's/svg$$/pdf/')
+PDFS = $(shell find -iname "*.svg" | sed -e 's/\ /\\ /g' | sed -e 's/svg$$/pdf/')
 
 .PHONY: all clean
 
