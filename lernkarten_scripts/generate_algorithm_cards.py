@@ -119,13 +119,6 @@ def main(
             help="Specific algorithms to generate. Only algorithms in the specified set will be considered. The value may be a glob to match several algorithms. Defaults to all algorithms in the set.",
         ),
     ] = "*",
-    generate_learning_cards: t.Annotated[
-        bool,
-        typer.Option(
-            ...,
-            help="Generate physical learning cards (Lernkarten.tex and Makefile) for printing",
-        ),
-    ] = False,
 ):
     algorithms_by_set_name: dict[AlgorithmSets, list[AlgorithmConfig]] = {
         "pll": PLL,
@@ -162,11 +155,9 @@ def main(
     targetdir.mkdir(parents=True, exist_ok=True)
     if not skip_image_generation:
         download_images(algorithm_to_generate, case_fnames, max_workers)
-    create_anki_csv(algorithms, case_fnames, targetdir, deckname)
 
-    # Generate physical learning cards if requested
-    if generate_learning_cards:
-        generate_physical_cards(algorithms, targetdir)
+    create_anki_csv(algorithms, case_fnames, targetdir, deckname)
+    generate_physical_cards(algorithms, case_fnames, targetdir)
 
 
 if __name__ == "__main__":

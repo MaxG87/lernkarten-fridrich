@@ -114,6 +114,7 @@ def create_algorithm_tex_files(
 
 def generate_physical_cards(
     algorithms: list[AlgorithmConfig],
+    case_fnames: dict[AlgorithmConfig, Path],
     target_dir: Path,
 ) -> None:
     """
