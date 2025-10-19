@@ -45,7 +45,8 @@ def _generate_full_page(
     """Generate LaTeX for a full page with 9 cards."""
     # Convert SVG paths to PDF paths
     icon_paths = [case_fnames[alg].with_suffix(".pdf").name for alg in page_algorithms]
-    algo_files = [f"algo-{start_idx + i + 1:02d}" for i in range(len(page_algorithms))]
+    # Get algorithm texts directly
+    algo_texts = [str(alg.human_algorithm()) + "\\\\\\\\" for alg in page_algorithms]
 
     # Front page (icons) - 3x3 grid
     front_table = "\\begin{center}\n"
@@ -76,7 +77,7 @@ def _generate_full_page(
         cells = []
         for col in range(2, -1, -1):  # Reverse order: 2, 1, 0
             idx = row * 3 + col
-            cells.append(f"\\cubealgo{{{algo_files[idx]}}}")
+            cells.append(f"\\cubealgo{{{algo_texts[idx]}}}")
         back_table += "        " + " & ".join(cells) + " \\\\\\hline\n"
 
     back_table += "    \\end{tabular}\n"
@@ -96,7 +97,8 @@ def _generate_partial_page(
 
     # Convert SVG paths to PDF paths
     icon_paths = [case_fnames[alg].with_suffix(".pdf").name for alg in page_algorithms]
-    algo_files = [f"algo-{start_idx + i + 1:02d}" for i in range(count)]
+    # Get algorithm texts directly
+    algo_texts = [str(alg.human_algorithm()) + "\\\\\\\\" for alg in page_algorithms]
 
     # Front page (icons)
     front_rows = []
@@ -128,7 +130,7 @@ def _generate_partial_page(
         for col in range(2, -1, -1):  # Reverse order: 2, 1, 0
             idx = row_start + col
             if idx < count:
-                cells.append(f"\\cubealgo{{{algo_files[idx]}}}")
+                cells.append(f"\\cubealgo{{{algo_texts[idx]}}}")
             else:
                 cells.append("")
         back_rows.append(" & ".join(cells) + " \\\\\\hline")
@@ -189,26 +191,24 @@ def generate_physical_cards(
     Generate physical learning cards setup in the target directory.
 
     This function creates:
-    - Algorithm .tex files for each algorithm
-    - A Lernkarten.tex file with the card layout
+    - A Lernkarten.tex file with the card layout and algorithms embedded
     - A Makefile to build the PDF
 
     Args:
         algorithms: List of AlgorithmConfig objects to generate cards for
+        case_fnames: Mapping of algorithms to their icon filenames
         target_dir: Directory where files will be created
     """
-    # Create algorithm files
-    create_algorithm_tex_files(algorithms, target_dir)
-
     # Create Makefile
     create_makefile(target_dir)
 
-    # Create LaTeX file
+    # Create LaTeX file with embedded algorithms
     create_latex_file(target_dir, algorithms, case_fnames)
 
     typer.echo(f"\nGenerated physical learning cards setup in {target_dir}")
-    typer.echo(f"  - Created {len(algorithms)} algorithm files")
-    typer.echo("  - Created Lernkarten.tex")
+    typer.echo(
+        f"  - Created Lernkarten.tex (with {len(algorithms)} algorithms embedded)"
+    )
     typer.echo("  - Created Makefile")
     typer.echo("\nTo build the PDF:")
     typer.echo("  1. Ensure SVG icon files are present (icon-01.svg, icon-02.svg, ...)")

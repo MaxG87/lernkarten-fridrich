@@ -31,7 +31,7 @@
     \begin{minipage}[t][\cellheight][c]{\cellwidth}
         \footnotesize
         \texttt{
-            \input{#1}
+            #1
         }
     \end{minipage}
 }
