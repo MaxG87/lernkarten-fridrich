@@ -8,6 +8,8 @@ for printing physical learning cards with algorithms and icons.
 import shutil
 from pathlib import Path
 
+import typer
+
 from .algorithms import AlgorithmConfig
 
 RESOURCES = Path(__file__).parent / "resources"
@@ -141,10 +143,10 @@ def generate_physical_cards(
     # Create LaTeX file
     create_latex_file(target_dir, len(algorithms))
 
-    print(f"\nGenerated physical learning cards setup in {target_dir}")
-    print(f"  - Created {len(algorithms)} algorithm files")
-    print("  - Created Lernkarten.tex")
-    print("  - Created Makefile")
-    print("\nTo build the PDF:")
-    print("  1. Ensure SVG icon files are present (icon-01.svg, icon-02.svg, ...)")
-    print(f"  2. Run 'make' in {target_dir}")
+    typer.echo(f"\nGenerated physical learning cards setup in {target_dir}")
+    typer.echo(f"  - Created {len(algorithms)} algorithm files")
+    typer.echo("  - Created Lernkarten.tex")
+    typer.echo("  - Created Makefile")
+    typer.echo("\nTo build the PDF:")
+    typer.echo("  1. Ensure SVG icon files are present (icon-01.svg, icon-02.svg, ...)")
+    typer.echo(f"  2. Run 'make' in {target_dir}")
