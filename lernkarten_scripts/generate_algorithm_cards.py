@@ -9,6 +9,7 @@ import requests
 import typer
 
 from .algorithms import BIG_CUBE, OLL, PLL, TWO_LOOK_OLL, Algorithm, AlgorithmConfig
+from .physical_cards import generate_physical_cards
 
 AlgorithmSets = t.Literal["all", "pll", "oll", "2-look-oll", "big-cube"]
 
@@ -118,6 +119,13 @@ def main(
             help="Specific algorithms to generate. Only algorithms in the specified set will be considered. The value may be a glob to match several algorithms. Defaults to all algorithms in the set.",
         ),
     ] = "*",
+    generate_learning_cards: t.Annotated[
+        bool,
+        typer.Option(
+            ...,
+            help="Generate physical learning cards (Lernkarten.tex and Makefile) for printing",
+        ),
+    ] = False,
 ):
     algorithms_by_set_name: dict[AlgorithmSets, list[AlgorithmConfig]] = {
         "pll": PLL,
@@ -155,6 +163,10 @@ def main(
     if not skip_image_generation:
         download_images(algorithm_to_generate, case_fnames, max_workers)
     create_anki_csv(algorithms, case_fnames, targetdir, deckname)
+    
+    # Generate physical learning cards if requested
+    if generate_learning_cards:
+        generate_physical_cards(algorithms, targetdir)
 
 
 if __name__ == "__main__":

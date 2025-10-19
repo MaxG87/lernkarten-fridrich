@@ -11,7 +11,6 @@ dependencies = [
 
 [project.scripts]
 generate-algorithm-cards = "lernkarten_scripts.generate_algorithm_cards:app"
-generate-physical-cards = "lernkarten_scripts.generate_physical_cards:main"
 
 [dependency-groups]
 dev = [

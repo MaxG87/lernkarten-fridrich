@@ -17,26 +17,36 @@ Lernkarten.tex` ausgeführt werden.
 
 ## Generierung von physischen Lernkarten
 
-Das Projekt enthält ein Skript zum Erstellen von Ordnern für physische Lernkarten.
-Das Skript erstellt eine LaTeX-Datei und ein Makefile, die SVG-Dateien in PDF
-konvertieren und die Lernkarten für den doppelseitigen Druck vorbereiten.
+Das Projekt enthält Funktionalität zum Erstellen von physischen Lernkarten als Teil des
+`generate-algorithm-cards` Skripts. Das Skript erstellt eine LaTeX-Datei und ein Makefile,
+die SVG-Dateien in PDF konvertieren und die Lernkarten für den doppelseitigen Druck vorbereiten.
 
 ### Verwendung
 
 ```bash
-python3 -m lernkarten_scripts.generate_physical_cards <zielordner>
+generate-algorithm-cards <zielordner> --algorithm-set <set> --generate-learning-cards
+```
+
+Beispiel für PLL-Karten:
+```bash
+generate-algorithm-cards pll-cards --algorithm-set pll --generate-learning-cards
 ```
 
 Das Skript:
-1. Erstellt die Dateien `Lernkarten.tex` und `Makefile` im Zielordner
-2. Scannt nach vorhandenen Icon-Dateien (`icon-01.svg`, `icon-02.svg`, ...) und Algorithmus-Dateien (`algo-01.tex`, `algo-02.tex`, ...)
-3. Generiert die LaTeX-Datei basierend auf der Anzahl der gefundenen Dateien
+1. Lädt die SVG-Ikonen für die Algorithmen herunter
+2. Erstellt eine CSV-Datei für Anki
+3. Erstellt die Algorithmus-Dateien (`algo-01.tex`, `algo-02.tex`, ...)
+4. Generiert `Lernkarten.tex` basierend auf den Algorithmen
+5. Erstellt ein `Makefile` zum Kompilieren
 
 ### Dateistruktur
 
-Der Zielordner sollte folgende Dateien enthalten:
-- `icon-01.svg`, `icon-02.svg`, ... (SVG-Dateien der Würfel-Icons)
-- `algo-01.tex`, `algo-02.tex`, ... (LaTeX-Dateien mit den Algorithmen)
+Nach dem Ausführen enthält der Zielordner:
+- `icon-01.svg`, `icon-02.svg`, ... (heruntergeladene SVG-Dateien der Würfel-Icons)
+- `algo-01.tex`, `algo-02.tex`, ... (generierte LaTeX-Dateien mit den Algorithmen)
+- `Lernkarten.tex` (generierte LaTeX-Datei mit der Kartenlayout)
+- `Makefile` (zum Kompilieren des PDFs)
+- `ankiCardSet.csv` (für Anki-Import)
 
 Nach dem Ausführen von `make` im Zielordner werden die SVG-Dateien in PDF konvertiert
 und eine `Lernkarten.pdf` erstellt, die für den doppelseitigen Druck optimiert ist.
