@@ -98,7 +98,7 @@ def _generate_partial_page(
     # Convert SVG paths to PDF paths
     icon_paths = [case_fnames[alg].with_suffix(".pdf").name for alg in page_algorithms]
     # Get algorithm texts directly
-    algo_texts = [str(alg.human_algorithm()) + "\\\\\\\\" for alg in page_algorithms]
+    algo_texts = [str(alg.human_algorithm()) for alg in page_algorithms]
 
     # Front page (icons)
     front_rows = []
