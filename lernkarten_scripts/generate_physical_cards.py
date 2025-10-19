@@ -132,8 +132,8 @@ def main():
     target_dir.mkdir(parents=True, exist_ok=True)
     
     # Check for existing icon files (SVG or PDF) to determine number of cards
-    svg_files = find_numbered_files(target_dir, r"(\d+)\.svg")
-    pdf_files = find_numbered_files(target_dir, r"(\d+)\.pdf")
+    svg_files = find_numbered_files(target_dir, r"icon-(\d+)\.svg")
+    pdf_files = find_numbered_files(target_dir, r"icon-(\d+)\.pdf")
     algo_files = find_numbered_files(target_dir, r"algo-(\d+)\.tex")
     
     # Determine the number of cards from existing files
@@ -146,9 +146,9 @@ def main():
         num_cards = max(num_cards, max(num for num, _ in algo_files))
     
     if num_cards == 0:
-        print(f"Warning: No numbered icon files (NN.svg or NN.pdf) or algorithm files (algo-NN.tex) found in {target_dir}")
+        print(f"Warning: No numbered icon files (icon-NN.svg or icon-NN.pdf) or algorithm files (algo-NN.tex) found in {target_dir}")
         print("The script will generate templates, but you need to add:")
-        print("  - Icon files: 01.svg, 02.svg, ... (or 01.pdf, 02.pdf, ...)")
+        print("  - Icon files: icon-01.svg, icon-02.svg, ... (or icon-01.pdf, icon-02.pdf, ...)")
         print("  - Algorithm files: algo-01.tex, algo-02.tex, ...")
         # Default to generating structure for at least one card
         num_cards = 1
@@ -164,7 +164,7 @@ def main():
     print(f"  - {target_dir / 'Lernkarten.tex'}")
     print("\nNext steps:")
     if num_cards == 1 and not (svg_files or pdf_files or algo_files):
-        print(f"1. Add icon files (01.svg, 02.svg, ...) to {target_dir}")
+        print(f"1. Add icon files (icon-01.svg, icon-02.svg, ...) to {target_dir}")
         print(f"2. Add algorithm files (algo-01.tex, algo-02.tex, ...) to {target_dir}")
         print(f"3. Re-run this script to update Lernkarten.tex with the correct number of cards")
         print(f"4. Run 'make' in {target_dir} to build the PDF")

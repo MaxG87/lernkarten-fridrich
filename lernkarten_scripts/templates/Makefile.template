@@ -1,4 +1,4 @@
-SVGS = $(wildcard *.svg)
+SVGS = $(wildcard icon-*.svg)
 PDFS = $(SVGS:.svg=.pdf)
 ALGOS = $(wildcard algo-*.tex)
 
