@@ -15,44 +15,103 @@ from .algorithms import AlgorithmConfig
 RESOURCES = Path(__file__).parent / "resources"
 
 
-def generate_latex_pages(num_cards: int) -> str:
+def generate_latex_pages(
+    algorithms: list[AlgorithmConfig],
+    case_fnames: dict[AlgorithmConfig, Path],
+) -> str:
     """Generate the page commands for the LaTeX document."""
     pages = []
 
     # Generate full pages (9 cards per page)
-    for start_idx in range(1, num_cards, 9):
-        if start_idx + 8 <= num_cards:
-            pages.append(f"\\cubepage{{{start_idx}}}")
+    for start_idx in range(0, len(algorithms), 9):
+        end_idx = min(start_idx + 9, len(algorithms))
+        page_algorithms = algorithms[start_idx:end_idx]
 
-    # Handle remaining cards if not a multiple of 9
-    remaining = num_cards % 9
-    if remaining > 0:
-        start_idx = (num_cards // 9) * 9 + 1
-        pages.append(_generate_partial_page(start_idx, remaining))
+        if len(page_algorithms) == 9:
+            pages.append(_generate_full_page(page_algorithms, case_fnames, start_idx))
+        else:
+            pages.append(
+                _generate_partial_page(page_algorithms, case_fnames, start_idx)
+            )
 
     return "\n".join(pages)
 
 
-def _generate_partial_page(start_idx: int, count: int) -> str:
+def _generate_full_page(
+    page_algorithms: list[AlgorithmConfig],
+    case_fnames: dict[AlgorithmConfig, Path],
+    start_idx: int,
+) -> str:
+    """Generate LaTeX for a full page with 9 cards."""
+    # Convert SVG paths to PDF paths
+    icon_paths = [case_fnames[alg].with_suffix(".pdf").name for alg in page_algorithms]
+    algo_files = [f"algo-{start_idx + i + 1:02d}" for i in range(len(page_algorithms))]
+
+    # Front page (icons) - 3x3 grid
+    front_table = "\\begin{center}\n"
+    front_table += (
+        "    \\begin{tabular}{|p{\\cellwidth}|p{\\cellwidth}|p{\\cellwidth}|}\n"
+    )
+    front_table += "        \\hline\n"
+
+    for row in range(3):
+        cells = []
+        for col in range(3):
+            idx = row * 3 + col
+            cells.append(f"\\cubeimg{{{icon_paths[idx]}}}")
+        front_table += "        " + " & ".join(cells) + " \\\\\\hline\n"
+
+    front_table += "    \\end{tabular}\n"
+    front_table += "\\end{center}\n"
+
+    # Back page (algorithms) - reversed order for proper alignment
+    back_table = "\\newpage\n\n"
+    back_table += "\\begin{center}\n"
+    back_table += (
+        "    \\begin{tabular}{|p{\\cellwidth}|p{\\cellwidth}|p{\\cellwidth}|}\n"
+    )
+    back_table += "        \\hline\n"
+
+    for row in range(3):
+        cells = []
+        for col in range(2, -1, -1):  # Reverse order: 2, 1, 0
+            idx = row * 3 + col
+            cells.append(f"\\cubealgo{{{algo_files[idx]}}}")
+        back_table += "        " + " & ".join(cells) + " \\\\\\hline\n"
+
+    back_table += "    \\end{tabular}\n"
+    back_table += "\\end{center}\n"
+
+    return front_table + "\n" + back_table
+
+
+def _generate_partial_page(
+    page_algorithms: list[AlgorithmConfig],
+    case_fnames: dict[AlgorithmConfig, Path],
+    start_idx: int,
+) -> str:
     """Generate LaTeX for a partial page with fewer than 9 cards."""
-    # Calculate how many rows we need
+    count = len(page_algorithms)
     rows = (count + 2) // 3  # Round up division
+
+    # Convert SVG paths to PDF paths
+    icon_paths = [case_fnames[alg].with_suffix(".pdf").name for alg in page_algorithms]
+    algo_files = [f"algo-{start_idx + i + 1:02d}" for i in range(count)]
 
     # Front page (icons)
     front_rows = []
-    counter = start_idx
+    counter = 0
     for row in range(rows):
         cells = []
         for col in range(3):
-            if counter <= start_idx + count - 1:
-                cells.append("\\cubeimgstep")
+            if counter < count:
+                cells.append(f"\\cubeimg{{{icon_paths[counter]}}}")
                 counter += 1
             else:
                 cells.append("")
         front_rows.append(" & ".join(cells) + " \\\\\\hline")
 
     front_table = (
-        "\\setcounter{cardcounter}{" + str(start_idx) + "}\n"
         "\\begin{center}\n"
         "    \\begin{tabular}{|p{\\cellwidth}|p{\\cellwidth}|p{\\cellwidth}|}\n"
         "        \\hline\n"
@@ -65,11 +124,11 @@ def _generate_partial_page(start_idx: int, count: int) -> str:
     back_rows = []
     for row in range(rows):
         cells = []
-        row_start = start_idx + row * 3
+        row_start = row * 3
         for col in range(2, -1, -1):  # Reverse order: 2, 1, 0
             idx = row_start + col
-            if idx <= start_idx + count - 1:
-                cells.append(f"\\cubealgo{{{idx:02d}}}")
+            if idx < count:
+                cells.append(f"\\cubealgo{{{algo_files[idx]}}}")
             else:
                 cells.append("")
         back_rows.append(" & ".join(cells) + " \\\\\\hline")
@@ -94,12 +153,16 @@ def create_makefile(target_dir: Path) -> None:
     shutil.copy(source, dest)
 
 
-def create_latex_file(target_dir: Path, num_cards: int) -> None:
+def create_latex_file(
+    target_dir: Path,
+    algorithms: list[AlgorithmConfig],
+    case_fnames: dict[AlgorithmConfig, Path],
+) -> None:
     """Generate the LaTeX file from the template."""
     template_path = RESOURCES / "Lernkarten.tex.template"
     template_content = template_path.read_text()
 
-    pages_content = generate_latex_pages(num_cards)
+    pages_content = generate_latex_pages(algorithms, case_fnames)
     latex_content = template_content.replace("{{PAGES}}", pages_content)
 
     (target_dir / "Lernkarten.tex").write_text(latex_content)
@@ -141,7 +204,7 @@ def generate_physical_cards(
     create_makefile(target_dir)
 
     # Create LaTeX file
-    create_latex_file(target_dir, len(algorithms))
+    create_latex_file(target_dir, algorithms, case_fnames)
 
     typer.echo(f"\nGenerated physical learning cards setup in {target_dir}")
     typer.echo(f"  - Created {len(algorithms)} algorithm files")
