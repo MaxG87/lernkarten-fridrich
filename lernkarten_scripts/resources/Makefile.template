@@ -1,15 +1,13 @@
-SVGS = $(wildcard icon-*.svg)
-PDFS = $(SVGS:.svg=.pdf)
-ALGOS = $(wildcard algo-*.tex)
+PDFS = $(shell find -iname "*.svg" | sed -e 's/\ /\\ /' | sed -e 's/svg$$/pdf/')
 
 .PHONY: all clean
 
 all: Lernkarten.pdf
 
 %.pdf: %.svg
-	inkscape --export-filename=$@ $<
+	inkscape --export-filename="$@" "$<"
 
-Lernkarten.pdf: Lernkarten.tex $(PDFS) $(ALGOS)
+Lernkarten.pdf: Lernkarten.tex $(PDFS)
 	latexmk -lualatex Lernkarten.tex
 
 clean:
