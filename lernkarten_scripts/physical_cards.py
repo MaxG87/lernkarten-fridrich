@@ -13,18 +13,18 @@ from .algorithms import AlgorithmConfig
 def generate_latex_pages(num_cards: int) -> str:
     """Generate the page commands for the LaTeX document."""
     pages = []
-    
+
     # Generate full pages (9 cards per page)
     for start_idx in range(1, num_cards, 9):
         if start_idx + 8 <= num_cards:
             pages.append(f"\\cubepage{{{start_idx}}}")
-    
+
     # Handle remaining cards if not a multiple of 9
     remaining = num_cards % 9
     if remaining > 0:
         start_idx = (num_cards // 9) * 9 + 1
         pages.append(_generate_partial_page(start_idx, remaining))
-    
+
     return "\n".join(pages)
 
 
@@ -32,7 +32,7 @@ def _generate_partial_page(start_idx: int, count: int) -> str:
     """Generate LaTeX for a partial page with fewer than 9 cards."""
     # Calculate how many rows we need
     rows = (count + 2) // 3  # Round up division
-    
+
     # Front page (icons)
     front_rows = []
     counter = start_idx
@@ -45,7 +45,7 @@ def _generate_partial_page(start_idx: int, count: int) -> str:
             else:
                 cells.append("")
         front_rows.append(" & ".join(cells) + " \\\\\\hline")
-    
+
     front_table = (
         "\\setcounter{cardcounter}{" + str(start_idx) + "}\n"
         "\\begin{center}\n"
@@ -55,7 +55,7 @@ def _generate_partial_page(start_idx: int, count: int) -> str:
         "    \\end{tabular}\n"
         "\\end{center}\n"
     )
-    
+
     # Back page (algorithms in reverse order)
     back_rows = []
     for row in range(rows):
@@ -68,7 +68,7 @@ def _generate_partial_page(start_idx: int, count: int) -> str:
             else:
                 cells.append("")
         back_rows.append(" & ".join(cells) + " \\\\\\hline")
-    
+
     back_table = (
         "\\newpage\n\n"
         "\\begin{center}\n"
@@ -78,7 +78,7 @@ def _generate_partial_page(start_idx: int, count: int) -> str:
         "    \\end{tabular}\n"
         "\\end{center}\n"
     )
-    
+
     return front_table + "\n" + back_table
 
 
@@ -93,10 +93,10 @@ def create_latex_file(target_dir: Path, num_cards: int) -> None:
     """Generate the LaTeX file from the template."""
     template_path = Path(__file__).parent / "templates" / "Lernkarten.tex.template"
     template_content = template_path.read_text()
-    
+
     pages_content = generate_latex_pages(num_cards)
     latex_content = template_content.replace("{{PAGES}}", pages_content)
-    
+
     (target_dir / "Lernkarten.tex").write_text(latex_content)
 
 
@@ -118,29 +118,29 @@ def generate_physical_cards(
 ) -> None:
     """
     Generate physical learning cards setup in the target directory.
-    
+
     This function creates:
     - Algorithm .tex files for each algorithm
     - A Lernkarten.tex file with the card layout
     - A Makefile to build the PDF
-    
+
     Args:
         algorithms: List of AlgorithmConfig objects to generate cards for
         target_dir: Directory where files will be created
     """
     # Create algorithm files
     create_algorithm_tex_files(algorithms, target_dir)
-    
+
     # Create Makefile
     create_makefile(target_dir)
-    
+
     # Create LaTeX file
     create_latex_file(target_dir, len(algorithms))
-    
+
     print(f"\nGenerated physical learning cards setup in {target_dir}")
     print(f"  - Created {len(algorithms)} algorithm files")
-    print(f"  - Created Lernkarten.tex")
-    print(f"  - Created Makefile")
-    print(f"\nTo build the PDF:")
-    print(f"  1. Ensure SVG icon files are present (icon-01.svg, icon-02.svg, ...)")
+    print("  - Created Lernkarten.tex")
+    print("  - Created Makefile")
+    print("\nTo build the PDF:")
+    print("  1. Ensure SVG icon files are present (icon-01.svg, icon-02.svg, ...)")
     print(f"  2. Run 'make' in {target_dir}")

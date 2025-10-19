@@ -163,7 +163,7 @@ def main(
     if not skip_image_generation:
         download_images(algorithm_to_generate, case_fnames, max_workers)
     create_anki_csv(algorithms, case_fnames, targetdir, deckname)
-    
+
     # Generate physical learning cards if requested
     if generate_learning_cards:
         generate_physical_cards(algorithms, targetdir)
