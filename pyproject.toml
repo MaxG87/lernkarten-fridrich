@@ -3,7 +3,7 @@ name = "lernkarten-fridrich"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "requests>=2.32.5",
     "typer>=0.19.2",
@@ -11,6 +11,7 @@ dependencies = [
 
 [project.scripts]
 generate-algorithm-cards = "lernkarten_scripts.generate_algorithm_cards:app"
+generate-physical-cards = "lernkarten_scripts.generate_physical_cards:main"
 
 [dependency-groups]
 dev = [

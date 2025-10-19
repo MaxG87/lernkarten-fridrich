@@ -1,0 +1,73 @@
+\documentclass[12pt,a4paper,landscape]{scrartcl}
+% evtl. nützliche Pakete
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\usepackage[margin=0.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+\title{Speedcubing Lernkarten}
+\author{Max Görner}
+\date{\today}
+
+\newcounter{cardcounter}
+\newlength{\cellheight}
+\setlength{\cellheight}{0.3\textheight}  % 1/3 von 90% der Papierhöhe, damit 3x3 Karten auf eine Seite passen
+\newlength{\cellwidth}
+\setlength{\cellwidth}{\cellheight} % quadratische Karten eignen sich besser zum Lernen
+
+
+\newcommand{\cubeimg}[1] {
+    \begin{minipage}[t][\cellheight][c]{\cellwidth}
+        \begin{center}
+            \includegraphics[width=\cellwidth, height=\cellheight, keepaspectratio]{#1.pdf}
+        \end{center}
+    \end{minipage}
+}
+
+
+\newcommand{\cubealgo}[1] {
+    \begin{minipage}[t][\cellheight][c]{\cellwidth}
+        \footnotesize
+        \texttt{
+            \input{algo-#1}
+        }
+    \end{minipage}
+}
+
+\newcommand{\cvalue} {\ifnum\value{cardcounter}<10 0\fi\the\value{cardcounter}}
+\newcommand{\cubeimgstep} {\cubeimg{\cvalue} \stepcounter{cardcounter}}
+\newcommand{\cubealgostep} {\cubealgo{\cvalue} \addtocounter{cardcounter}{-1}}
+
+\newcommand{\cubepage}[1] {
+    \setcounter{cardcounter}{#1}
+    \begin{center}
+        \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
+            \hline
+            \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+            \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+            \cubeimgstep & \cubeimgstep & \cubeimgstep \\\hline
+        \end{tabular}
+    \end{center}
+
+    \begin{center}
+        \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}
+            \hline
+            \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{2}
+            \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+            \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{5}
+            \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+            \setcounter{cardcounter}{#1} \addtocounter{cardcounter}{8}
+            \cubealgostep & \cubealgostep & \cubealgostep \\\hline
+        \end{tabular}
+    \end{center}
+
+}
+
+\begin{document}
+
+{{PAGES}}
+
+\end{document}

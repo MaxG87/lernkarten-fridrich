@@ -1,0 +1,17 @@
+SVGS = $(wildcard *.svg)
+PDFS = $(SVGS:.svg=.pdf)
+ALGOS = $(wildcard algo-*.tex)
+
+.PHONY: all clean
+
+all: Lernkarten.pdf
+
+%.pdf: %.svg
+	inkscape --export-filename=$@ $<
+
+Lernkarten.pdf: Lernkarten.tex $(PDFS) $(ALGOS)
+	latexmk -lualatex Lernkarten.tex
+
+clean:
+	rm -f *.aux *.fdb_latexmk *.fls *.log *.out
+	rm -f Lernkarten.pdf
