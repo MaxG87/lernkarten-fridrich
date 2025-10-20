@@ -1,5 +1,9 @@
 # Lernkarten for Rubik's Cube - Fridrich Method
 
+![Example OLL](<./oll/S1 - 5.svg>)
+![Example PLL](<./pll-with-arrows/Ra.svg>)
+![Example PLL](<./big-cubes/5x5x5 Parity.svg>)
+
 This project provides Lernkarten (German for learning cards) for memorizing the algorithms
 needed to solve a Rubik's Cube using the Fridrich Method (CFOP). Two kinds of
 cards are provided:
@@ -16,14 +20,14 @@ getting into technical details.
 
 ## Structure of the Repository
 
-The repository is structured into folders for each type of algorithm:
+The repository is structured into folders for each type of algorithm.
 
-* `2LookOLL`: Lernkarten for the 8 2-Look OLL algorithms (ommitting edge
-  orientation)
-* `oll`: Lernkarten for the 57 OLL (Orientation of the Last Layer) algorithms
-* `pll-with-arrows`: Lernkarten for the 21 PLL (Permutation of the Last Layer)
-  algorithms including rotation arrows
-* `big-cubes`: Lernkarten for some big cube algorithms (4x4 and larger)
+| Algorithm Set | Example | Description |
+|---------------|---------|-------------|
+| **2-look-oll** | ![2LookOLL](<./2LookOLL/2LOLL 5.svg>) | Lernkarten for the eight 2-Look OLL algorithms (omitting edge orientation) |
+| **oll** | ![OLL](<./oll/I3 - 55.svg>) | Lernkarten for the 57 OLL (Orientation of the Last Layer) algorithms |
+| **pll** | ![PLL](<./pll-with-arrows/Y.svg>) | Lernkarten for the 21 PLL (Permutation of the Last Layer) algorithms including rotation arrows.<br><br>**Note:** The icons show the cube you get by applying the algorithm repeatedly with the blue face in front.|
+| **big-cube** | ![Big Cubes](<./big-cubes/4x4x4 OLL Parity.svg>) | Lernkarten for some big cube algorithms (4x4 and larger) |
 
 Additionally, there is the `lernkarten_scripts` folder containing a Python
 program for regeneration of the icons, CSVs and PDFs.
@@ -31,6 +35,8 @@ program for regeneration of the icons, CSVs and PDFs.
 ## Using the Lernkarten
 
 ### Anki Flashcards
+
+<img src="./docs/images/screenshot_anki_Ja.png" alt="Anki Card Browser Example" width="256"/>
 
 Each flashcard folder contains icons and a file `ankiCardSet.csv`. In order to import them
 into Anki, follow these steps:
