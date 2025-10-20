@@ -13,12 +13,12 @@
 \newlength{\cellheight}
 \newlength{\cellwidth}
 \directlua{
-  local usesquarecells = true
-  local numrows = 3
-  local numcols = 3
+  local usesquarecells = {{USE_SQUARE_ICONS}}
+  local icons_per_row = {{ICONS_PER_ROW}}
+  local icons_per_column = {{ICONS_PER_COLUMN}}
   local shrinkfactor = 0.9 % 0.95 was too large and caused display issues
-  local h = shrinkfactor * tex.dimen.textheight / numrows
-  local w = shrinkfactor * tex.dimen.textwidth / numcols
+  local h = shrinkfactor * tex.dimen.textheight / icons_per_column
+  local w = shrinkfactor * tex.dimen.textwidth / icons_per_row
 
   if usesquarecells then
     local minsize = math.min(h, w)

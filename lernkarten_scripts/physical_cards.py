@@ -18,16 +18,19 @@ RESOURCES = Path(__file__).parent / "resources"
 def generate_latex_pages(
     algorithms: list[AlgorithmConfig],
     case_fnames: dict[AlgorithmConfig, Path],
+    icons_per_row: int,
+    icons_per_column: int,
 ) -> str:
     """Generate the page commands for the LaTeX document."""
     pages = []
 
-    # Generate full pages (9 cards per page)
-    for start_idx in range(0, len(algorithms), 9):
-        end_idx = min(start_idx + 9, len(algorithms))
+    total_icons_per_page = icons_per_row * icons_per_column
+
+    for start_idx in range(0, len(algorithms), total_icons_per_page):
+        end_idx = min(start_idx + total_icons_per_page, len(algorithms))
         page_algorithms = algorithms[start_idx:end_idx]
         for cur_page in _generate_front_and_back_page(
-            page_algorithms, case_fnames, start_idx
+            page_algorithms, case_fnames, icons_per_row, icons_per_column
         ):
             pages.append(cur_page)
             pages.append("")  # empty line as visual separator
@@ -44,11 +47,12 @@ def generate_latex_pages(
 def _generate_front_and_back_page(
     page_algorithms: list[AlgorithmConfig],
     case_fnames: dict[AlgorithmConfig, Path],
-    start_idx: int,
+    icons_per_row: int,
+    icons_per_column: int,
 ) -> tuple[str, str]:
     """Generate LaTeX for a partial page with fewer than 9 cards."""
     count = len(page_algorithms)
-    rows = (count + 2) // 3  # Round up division
+    table_header = "|" + "|".join(r"p{\cellwidth}" for _ in range(icons_per_row)) + "|"
 
     # Convert SVG paths to PDF paths
     icon_paths = [case_fnames[alg].with_suffix(".pdf").name for alg in page_algorithms]
@@ -58,9 +62,9 @@ def _generate_front_and_back_page(
     # Front page (icons)
     front_rows = []
     counter = 0
-    for _ in range(rows):
+    for _ in range(icons_per_column):
         cells = []
-        for _ in range(3):
+        for _ in range(icons_per_row):
             if counter < count:
                 cells.append(rf"\cubeimg{{{icon_paths[counter]}}}")
                 counter += 1
@@ -72,7 +76,7 @@ def _generate_front_and_back_page(
 
     front_table_lines = [
         r"\begin{center}",
-        r"    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}",
+        rf"    \begin{{tabular}}{{{table_header}}}",
         r"        \hline",
         *[f"        {cur}" for cur in front_rows],
         r"    \end{tabular}",
@@ -82,10 +86,10 @@ def _generate_front_and_back_page(
 
     # Back page (algorithms in reverse order)
     back_rows = []
-    for row in range(rows):
+    for row in range(icons_per_column):
         cells = []
-        row_start = row * 3
-        for col in range(2, -1, -1):  # Reverse order: 2, 1, 0
+        row_start = row * icons_per_row
+        for col in range(icons_per_row - 1, -1, -1):  # Reverse order: 2, 1, 0
             idx = row_start + col
             if idx < count:
                 cells.append(rf"\cubealgo{{{algo_texts[idx]}}}")
@@ -95,7 +99,7 @@ def _generate_front_and_back_page(
 
     back_table_lines = [
         r"\begin{center}",
-        r"    \begin{tabular}{|p{\cellwidth}|p{\cellwidth}|p{\cellwidth}|}",
+        rf"    \begin{{tabular}}{{{table_header}}}",
         r"        \hline",
         *[f"        {cur}" for cur in back_rows],
         r"    \end{tabular}",
@@ -116,13 +120,23 @@ def create_latex_file(
     target_dir: Path,
     algorithms: list[AlgorithmConfig],
     case_fnames: dict[AlgorithmConfig, Path],
+    icons_per_row: int,
+    icons_per_column: int,
+    use_square_icons: bool,
 ) -> None:
     """Generate the LaTeX file from the template."""
     template_path = RESOURCES / "Lernkarten.tex.template"
     template_content = template_path.read_text()
 
-    pages_content = generate_latex_pages(algorithms, case_fnames)
-    latex_content = template_content.replace("{{PAGES}}", pages_content)
+    pages_content = generate_latex_pages(
+        algorithms, case_fnames, icons_per_row, icons_per_column
+    )
+    latex_content = (
+        template_content.replace("{{PAGES}}", pages_content)
+        .replace("{{ICONS_PER_ROW}}", str(icons_per_row))
+        .replace("{{ICONS_PER_COLUMN}}", str(icons_per_column))
+        .replace("{{USE_SQUARE_ICONS}}", "true" if use_square_icons else "false")
+    )
 
     (target_dir / "Lernkarten.tex").write_text(latex_content)
 
@@ -143,6 +157,9 @@ def generate_physical_cards(
     algorithms: list[AlgorithmConfig],
     case_fnames: dict[AlgorithmConfig, Path],
     target_dir: Path,
+    icons_per_row: int,
+    icons_per_column: int,
+    use_square_icons: bool,
 ) -> None:
     """
     Generate physical learning cards setup in the target directory.
@@ -160,7 +177,14 @@ def generate_physical_cards(
     create_makefile(target_dir)
 
     # Create LaTeX file with embedded algorithms
-    create_latex_file(target_dir, algorithms, case_fnames)
+    create_latex_file(
+        target_dir,
+        algorithms,
+        case_fnames,
+        icons_per_row,
+        icons_per_column,
+        use_square_icons,
+    )
 
     typer.echo(f"\nGenerated physical learning cards setup in {target_dir}")
     typer.echo(
