@@ -95,6 +95,8 @@ Regarding Anki, this is all that is needed.
 In order to regenerate the printable cards, the $\LaTeX$ file needs to be compiled to a PDF file. Ideally, this can be done using the Makefile:
 
 ```bash
+# Regenerate printable Lernkarten for OLL. Replace "oll" with any other
+# algorithm set folder name as needed.
 make -C oll
 ```
 
