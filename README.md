@@ -1,5 +1,9 @@
 # Lernkarten for Rubik's Cube - Fridrich Method
 
+![Example OLL](<./oll/S1 - 5.svg>)
+![Example PLL](<./pll-with-arrows/Ra.svg>)
+![Example PLL](<./big-cubes/5x5x5 Parity.svg>)
+
 This project provides Lernkarten (German for learning cards) for memorizing the algorithms
 needed to solve a Rubik's Cube using the Fridrich Method (CFOP). Two kinds of
 cards are provided:
