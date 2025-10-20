@@ -1,6 +1,6 @@
 # Lernkarten for Rubik's Cube - Fridrich Method
 
-This project provides Lernkarten (learning cards) for memorizing the algorithms
+This project provides Lernkarten (German for learning cards) for memorizing the algorithms
 needed to solve a Rubik's Cube using the Fridrich Method (CFOP). Two kinds of
 cards are provided:
 
@@ -13,6 +13,20 @@ guaranteed to match the algorithms exactly.
 All SVGs, CSVs and PDFs are easily regenerable using the provided scripts.
 However, they are added here so that users can directly use them without
 getting into technical details.
+
+## Structure of the Repository
+
+The repository is structured into folders for each type of algorithm:
+
+* `2LookOLL`: Lernkarten for the 8 2-Look OLL algorithms (ommitting edge
+  orientation)
+* `oll`: Lernkarten for the 57 OLL (Orientation of the Last Layer) algorithms
+* `pll-with-arrows`: Lernkarten for the 21 PLL (Permutation of the Last Layer)
+  algorithms including rotation arrows
+* `big-cubes`: Lernkarten for some big cube algorithms (4x4 and larger)
+
+Additionally, there is the `lernkarten_scripts` folder containing a Python
+program for regeneration of the icons, CSVs and PDFs.
 
 ## Using the Lernkarten
 
