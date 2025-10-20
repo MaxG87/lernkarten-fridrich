@@ -49,7 +49,77 @@ two-sided. Then the algorithms will be on the back of the corresponding icons.
 The PDFs are designed to be cuttable in batches, allowing for more convenient
 preparation.
 
-## Regenerating the Lernkarten
+## How to Regenerate the Lernkarten
+
+Everything required to regenerate the Lernkarten is provided by the Python
+program in `lernkarten_scripts/`. In order to run it, one needs to have [`uv`](https://docs.astral.sh/uv/) and Python 3 installed.
+One ad-hoc way to install `uv` is to run
+
+```bash
+pipx install uv
+```
+
+, but make sure to check the [official installation
+instructions](https://docs.astral.sh/uv/getting-started/installation/) and your
+platform's best practices. For instance, on [Arch
+Linux](https://archlinux.org/), `uv` can be installed via `pacman`.
+
+
+After that, the script can be executed by running
+
+```bash
+uv run generate-algorithm-cards --help
+```
+
+, which will show the available options.
+
+### How to regenerate Anki flashcards
+
+In order to regenerate the Anki flashcards for algorithm set OLL, run the following command from the project's root folder:
+
+```bash
+uv run generate-algorithm-cards --algorithm-set oll oll
+```
+
+This will regenerate
+
+* the SVG icons using
+  [visualcube.api.cubing.net](https://visualcube.api.cubing.net)
+* the `ankiCardSet.csv` file for Anki import
+* a `Makefile` and `Lernkarten.tex` file for generating printable cards
+
+Regarding Anki, this is all that is needed.
+
+### How to regenerate physical printable cards
+
+In order to regenerate the printable cards, the $\LaTeX$ file needs to be compiled to a PDF file. Ideally, this can be done using the Makefile:
+
+```bash
+make -C oll
+```
+
+Unfortunately, the Makefile is not portable across different systems. If it
+cannot be used, the following steps need to be done manually:
+
+* All SVG files need to be converted to PDF files with the same name. For
+  instance, the file `pll/Ja.svg` needs to be converted to `pll/Ja.pdf`.
+* The `Lernkarten.tex` file needs to be compiled using `lualatex`. The
+  time-honoured `pdflatex` will not work.
+
+
+### How to change algorithms
+
+In order to change the algorithms used for generating the Lernkarten, the
+file `lernkarten_scripts/algorithms.py` needs to be edited. There, the
+algorithms are defined in Python lists. Since the icons are generated from the
+algorithms, changing the algorithms and regenerating the Lernkarten will
+automatically update the icons as well. This works very well for OLL and
+2-Look OLL.
+
+**Attention:** The arrows and setup rotations for PLL algorithms are not
+generated automatically. They need to be adjusted manually too. They are
+defined right next to the algorithm.
+
 
 ## Acknowledgements
 
@@ -62,8 +132,9 @@ https://www.cubeskills.com/. The provided algorithms there allowed me to fine
 tune the algorithms used in this project.
 
 While there are some cube visualization tools available online, none of them
-match the brilliance of https://visualcube.api.cubing.net. It is feature-rich,
-scriptable and produces impressive icons.
+match the brilliance of
+[visualcube.api.cubing.net](https://visualcube.api.cubing.net). It is
+feature-rich, scriptable and produces impressive icons.
 
 Last but not least I want to thank the anonymous contributor of Anki cubing
 flashcards found [here](https://ankiweb.net/shared/by-author/916788332).
