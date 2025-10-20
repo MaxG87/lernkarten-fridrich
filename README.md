@@ -22,12 +22,12 @@ getting into technical details.
 
 The repository is structured into folders for each type of algorithm.
 
-| Algorithm Set | Example |Description |
+| Algorithm Set | Example | Description |
 |---------------|---------|-------------|
-| **2LookOLL** | ![2LookOLL](<./2LookOLL/2LOLL 5.svg>) | Lernkarten for the eight 2-Look OLL algorithms (ommitting edge orientation) |
-| **OLL** | ![OLL](<./oll/I3 - 55.svg>) | Lernkarten for the 57 OLL (Orientation of the Last Layer) algorithms |
-| **PLL** | ![PLL](<./pll-with-arrows/Y.svg>) | Lernkarten for the 21 PLL (Permutation of the Last Layer) algorithms including rotation arrows. <br> **Note:** The icons show the cube you get by applying the algorithm repeatedly with the blue face in front.|
-| **Big Cubes** | ![Big Cubes](<./big-cubes/4x4x4 OLL Parity.svg>) | Lernkarten for some big cube algorithms (4x4 and larger) |
+| **2-look-oll** | ![2LookOLL](<./2LookOLL/2LOLL 5.svg>) | Lernkarten for the eight 2-Look OLL algorithms (omitting edge orientation) |
+| **oll** | ![OLL](<./oll/I3 - 55.svg>) | Lernkarten for the 57 OLL (Orientation of the Last Layer) algorithms |
+| **pll** | ![PLL](<./pll-with-arrows/Y.svg>) | Lernkarten for the 21 PLL (Permutation of the Last Layer) algorithms including rotation arrows.<br><br>**Note:** The icons show the cube you get by applying the algorithm repeatedly with the blue face in front.|
+| **big-cube** | ![Big Cubes](<./big-cubes/4x4x4 OLL Parity.svg>) | Lernkarten for some big cube algorithms (4x4 and larger) |
 
 Additionally, there is the `lernkarten_scripts` folder containing a Python
 program for regeneration of the icons, CSVs and PDFs.
