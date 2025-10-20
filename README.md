@@ -1,4 +1,4 @@
-# Generate Lernkarten for Rubik's Cube - Fridrich Method
+# Lernkarten for Rubik's Cube - Fridrich Method
 
 This project provides Lernkarten (learning cards) for memorizing the algorithms
 needed to solve a Rubik's Cube using the Fridrich Method (CFOP). Two kinds of
