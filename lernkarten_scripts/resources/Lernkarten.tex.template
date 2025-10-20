@@ -1,0 +1,56 @@
+\documentclass[12pt,a4paper,landscape]{scrartcl}
+% evtl. nützliche Pakete
+\usepackage{amsmath}
+\usepackage{fontspec}
+\usepackage[margin=0.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{lmodern}
+
+\title{Speedcubing Lernkarten}
+\author{Max Görner}
+\date{\today}
+
+\newlength{\cellheight}
+\newlength{\cellwidth}
+\directlua{
+  local usesquarecells = {{USE_SQUARE_ICONS}}
+  local icons_per_row = {{ICONS_PER_ROW}}
+  local icons_per_column = {{ICONS_PER_COLUMN}}
+  local shrinkfactor = 0.9 % 0.95 was too large and caused display issues
+  local h = shrinkfactor * tex.dimen.textheight / icons_per_column
+  local w = shrinkfactor * tex.dimen.textwidth / icons_per_row
+
+  if usesquarecells then
+    local minsize = math.min(h, w)
+    tex.sprint("\\setlength{\\cellheight}{" .. minsize .. "sp}")
+    tex.sprint("\\setlength{\\cellwidth}{" .. minsize .. "sp}")
+  else
+    tex.sprint("\\setlength{\\cellheight}{" .. h .. "sp}")
+    tex.sprint("\\setlength{\\cellwidth}{" .. w .. "sp}")
+  end
+}
+
+
+\newcommand{\cubeimg}[1] {
+    \begin{minipage}[t][\cellheight][c]{\cellwidth}
+        \begin{center}
+            \includegraphics[width=\cellwidth, height=\cellheight, keepaspectratio]{#1}
+        \end{center}
+    \end{minipage}
+}
+
+
+\newcommand{\cubealgo}[1] {
+    \begin{minipage}[t][\cellheight][c]{\cellwidth}
+        \footnotesize
+        \texttt{
+            #1
+        }
+    \end{minipage}
+}
+
+\begin{document}
+
+{{PAGES}}
+
+\end{document}

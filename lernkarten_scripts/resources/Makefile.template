@@ -1,0 +1,15 @@
+PDFS = $(shell find -iname "*.svg" | sed -e 's/\ /\\ /g' | sed -e 's/svg$$/pdf/')
+
+.PHONY: all clean
+
+all: Lernkarten.pdf
+
+%.pdf: %.svg
+	inkscape --export-filename="$@" "$<"
+
+Lernkarten.pdf: Lernkarten.tex $(PDFS)
+	latexmk -lualatex Lernkarten.tex
+
+clean:
+	rm -f *.aux *.fdb_latexmk *.fls *.log *.out
+	rm -f Lernkarten.pdf

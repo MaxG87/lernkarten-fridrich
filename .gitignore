@@ -5,6 +5,9 @@
 *.out
 *.pdf
 
+*/Makefile
+*.tex
+
 .mypy_cache
 .venv
 __pycache__

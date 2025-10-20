@@ -340,7 +340,7 @@ OLL: list[AlgorithmConfig] = [
     OLLAlgorithmConfig("F1 - 9", 3, Algorithm("(R U R' U') R' F (R2 U R' U') F'")),
     OLLAlgorithmConfig("F2 - 10", 3, Algorithm("(R U R' U) (R' F R F') (R U2' R')")),
     OLLAlgorithmConfig("F3 - 35", 3, Algorithm("(R U2) (R2 F R F') (R U2 R')")),
-    OLLAlgorithmConfig("F4 - 37", 3, Algorithm("F (R U'  R' U') (R U R' F')")),
+    OLLAlgorithmConfig("F4 - 37", 3, Algorithm("F (R U' R' U') (R U R' F')")),
     # Knight Move Shapes
     OLLAlgorithmConfig("K1 - 13", 3, Algorithm("(r U' r') (U' r U r') y' (R' U R)")),
     OLLAlgorithmConfig("K2 - 14", 3, Algorithm("(R' F R) (U R' F' R) y' (R U' R')")),

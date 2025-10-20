@@ -9,6 +9,7 @@ import requests
 import typer
 
 from .algorithms import BIG_CUBE, OLL, PLL, TWO_LOOK_OLL, Algorithm, AlgorithmConfig
+from .physical_cards import generate_physical_cards
 
 AlgorithmSets = t.Literal["all", "pll", "oll", "2-look-oll", "big-cube"]
 
@@ -118,6 +119,29 @@ def main(
             help="Specific algorithms to generate. Only algorithms in the specified set will be considered. The value may be a glob to match several algorithms. Defaults to all algorithms in the set.",
         ),
     ] = "*",
+    icons_per_row: t.Annotated[
+        int,
+        typer.Option(
+            ...,
+            help="Number of icons per row in the physical card layout",
+            min=1,
+        ),
+    ] = 3,
+    icons_per_column: t.Annotated[
+        int,
+        typer.Option(
+            ...,
+            help="Number of icons per column in the physical card layout",
+            min=1,
+        ),
+    ] = 3,
+    use_square_icons: t.Annotated[
+        bool,
+        typer.Option(
+            ...,
+            help="Use square icons in the physical card layout. Highly recommended, as otherwise the correct orientation is easier to spot.",
+        ),
+    ] = True,
 ):
     algorithms_by_set_name: dict[AlgorithmSets, list[AlgorithmConfig]] = {
         "pll": PLL,
@@ -154,7 +178,16 @@ def main(
     targetdir.mkdir(parents=True, exist_ok=True)
     if not skip_image_generation:
         download_images(algorithm_to_generate, case_fnames, max_workers)
+
     create_anki_csv(algorithms, case_fnames, targetdir, deckname)
+    generate_physical_cards(
+        algorithms,
+        case_fnames,
+        targetdir,
+        icons_per_row,
+        icons_per_column,
+        use_square_icons,
+    )
 
 
 if __name__ == "__main__":
