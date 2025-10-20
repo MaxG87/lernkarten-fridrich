@@ -20,14 +20,14 @@ getting into technical details.
 
 ## Structure of the Repository
 
-The repository is structured into folders for each type of algorithm:
+The repository is structured into folders for each type of algorithm.
 
-* `2LookOLL`: Lernkarten for the 8 2-Look OLL algorithms (ommitting edge
-  orientation)
-* `oll`: Lernkarten for the 57 OLL (Orientation of the Last Layer) algorithms
-* `pll-with-arrows`: Lernkarten for the 21 PLL (Permutation of the Last Layer)
-  algorithms including rotation arrows
-* `big-cubes`: Lernkarten for some big cube algorithms (4x4 and larger)
+| Algorithm Set | Example |Description |
+|---------------|---------|-------------|
+| **2LookOLL** | ![2LookOLL](<./2LookOLL/2LOLL 5.svg>) | Lernkarten for the eight 2-Look OLL algorithms (ommitting edge orientation) |
+| **OLL** | ![OLL](<./oll/I3 - 55.svg>) | Lernkarten for the 57 OLL (Orientation of the Last Layer) algorithms |
+| **PLL** | ![PLL](<./pll-with-arrows/Y.svg>) | Lernkarten for the 21 PLL (Permutation of the Last Layer) algorithms including rotation arrows |
+| **Big Cubes** | ![Big Cubes](<./big-cubes/4x4x4 OLL Parity.svg>) | Lernkarten for some big cube algorithms (4x4 and larger) |
 
 Additionally, there is the `lernkarten_scripts` folder containing a Python
 program for regeneration of the icons, CSVs and PDFs.
