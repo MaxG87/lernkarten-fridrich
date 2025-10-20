@@ -11,9 +11,24 @@
 \date{\today}
 
 \newlength{\cellheight}
-\setlength{\cellheight}{0.3\textheight}  % 1/3 von 90% der Papierhöhe, damit 3x3 Karten auf eine Seite passen
 \newlength{\cellwidth}
-\setlength{\cellwidth}{\cellheight} % quadratische Karten eignen sich besser zum Lernen
+\directlua{
+  local usesquarecells = true
+  local numrows = 3
+  local numcols = 3
+  local shrinkfactor = 0.9 % 0.95 was too large and caused display issues
+  local h = shrinkfactor * tex.dimen.textheight / numrows
+  local w = shrinkfactor * tex.dimen.textwidth / numcols
+
+  if usesquarecells then
+    local minsize = math.min(h, w)
+    tex.sprint("\\setlength{\\cellheight}{" .. minsize .. "sp}")
+    tex.sprint("\\setlength{\\cellwidth}{" .. minsize .. "sp}")
+  else
+    tex.sprint("\\setlength{\\cellheight}{" .. h .. "sp}")
+    tex.sprint("\\setlength{\\cellwidth}{" .. w .. "sp}")
+  end
+}
 
 
 \newcommand{\cubeimg}[1] {
