@@ -1,63 +1,56 @@
-# Lernkarten zur Lösung eines Zauberwürfels nach der Fridrich-Methode
+# Generate Lernkarten for Rubik's Cube - Fridrich Method
 
-Dieses Projekt ermöglicht die Erstellung Lernkarten zur Erlernung der für die
-Lösung eines Zauberwürfels nach Fridrich-Methode nötigen Schrittfolgen. Hierbei
-wurde darauf geachtet, dass alle Seiten exakt dem selben Format entsprechen.
-Dadurch können die Lernkarten sehr bequem in großen Stapeln zurechtgeschnitten
-werden.
+This project provides Lernkarten (learning cards) for memorizing the algorithms
+needed to solve a Rubik's Cube using the Fridrich Method (CFOP). Two kinds of
+cards are provided:
 
-## Erstellung der PDF
+* Anki flashcards for spaced repetition learning
+* physical printable cards for offline study
 
-Um eine PDF zu erstellen, wird ein funktionierendes LaTeX-Setup mit `lualatex`
-vorausgesetzt. Ist dies gegeben, reicht zur Erstellung der PDF ein einfaches
-`make`.
+The icons will be generated from provided algorithms, so that the icons are
+guaranteed to match the algorithms exactly.
 
-Sollte `make` nicht zur Verfügung stehen, kann auch manuell mehrfach `lualatex
-Lernkarten.tex` ausgeführt werden.
+All SVGs, CSVs and PDFs are easily regenerable using the provided scripts.
+However, they are added here so that users can directly use them without
+getting into technical details.
 
-## Generierung von physischen Lernkarten
+## Using the Lernkarten
 
-Das Projekt enthält Funktionalität zum Erstellen von physischen Lernkarten als Teil des
-`generate-algorithm-cards` Skripts. Das Skript erstellt eine LaTeX-Datei und ein Makefile,
-die SVG-Dateien in PDF konvertieren und die Lernkarten für den doppelseitigen Druck vorbereiten.
+### Anki Flashcards
 
-### Verwendung
+Each flashcard folder contains icons and a file `ankiCardSet.csv`. In order to import them
+into Anki, follow these steps:
 
-```bash
-generate-algorithm-cards <zielordner> --algorithm-set <set> --generate-learning-cards
-```
+* copy the SVG files into Anki's media collection folder (see
+  [here](https://superuser.com/q/963526/913769) for how to find it)
+* import the `ankiCardSet.csv` file using Anki's import function
 
-Beispiel für PLL-Karten:
-```bash
-generate-algorithm-cards pll-cards --algorithm-set pll --generate-learning-cards
-```
+Now you should see the cards in your Anki collection.
 
-Das Skript:
-1. Lädt die SVG-Ikonen für die Algorithmen herunter
-2. Erstellt eine CSV-Datei für Anki
-3. Erstellt die Algorithmus-Dateien (`algo-01.tex`, `algo-02.tex`, ...)
-4. Generiert `Lernkarten.tex` basierend auf den Algorithmen
-5. Erstellt ein `Makefile` zum Kompilieren
+### Physical Printable Cards
 
-### Dateistruktur
+The printable cards are provided as PDF files. They are designed to be printed
+two-sided. Then the algorithms will be on the back of the corresponding icons.
 
-Nach dem Ausführen enthält der Zielordner:
-- `icon-01.svg`, `icon-02.svg`, ... (heruntergeladene SVG-Dateien der Würfel-Icons)
-- `algo-01.tex`, `algo-02.tex`, ... (generierte LaTeX-Dateien mit den Algorithmen)
-- `Lernkarten.tex` (generierte LaTeX-Datei mit der Kartenlayout)
-- `Makefile` (zum Kompilieren des PDFs)
-- `ankiCardSet.csv` (für Anki-Import)
+The PDFs are designed to be cuttable in batches, allowing for more convenient
+preparation.
 
-Nach dem Ausführen von `make` im Zielordner werden die SVG-Dateien in PDF konvertiert
-und eine `Lernkarten.pdf` erstellt, die für den doppelseitigen Druck optimiert ist.
+## Regenerating the Lernkarten
 
-**Wichtig:** Die Algorithmen auf der Rückseite werden automatisch in umgekehrter
-Reihenfolge angeordnet (z.B. für Icons A, B, C werden die Algorithmen C, B, A
-gedruckt), um nach dem doppelseitigen Druck und Zuschneiden eine korrekte
-Zuordnung zu gewährleisten.
+## Acknowledgements
 
-## Lizenz
+I want to thank Andy Klise of https://www.kungfoomanchu.com/ for providing
+excellent guides. Without these I wouldn't have started learning the
+Fridrich Method in the first place.
 
-Sowohl die Schrittfolgen als auch die Bilder sind Anleitungen von
-https://www.kungfoomanchu.com/ entnommen. Sie wurden hier nur neu
-zusammengesetzt.
+Another great source of algorithms was Feliks Zemdegs project
+https://www.cubeskills.com/. The provided algorithms there allowed me to fine
+tune the algorithms used in this project.
+
+While there are some cube visualization tools available online, none of them
+match the brilliance of https://visualcube.api.cubing.net. It is feature-rich,
+scriptable and produces impressive icons.
+
+Last but not least I want to thank the anonymous contributor of Anki cubing
+flashcards found [here](https://ankiweb.net/shared/by-author/916788332).
+They were a great starting point for creating my own Anki cards.
