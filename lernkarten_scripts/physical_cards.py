@@ -26,13 +26,17 @@ def generate_latex_pages(
     for start_idx in range(0, len(algorithms), 9):
         end_idx = min(start_idx + 9, len(algorithms))
         page_algorithms = algorithms[start_idx:end_idx]
-        front, back = _generate_front_and_back_page(
+        for cur_page in _generate_front_and_back_page(
             page_algorithms, case_fnames, start_idx
-        )
-        pages.append(front)
-        pages.append("")  # empty line as separator
-        pages.append(back)
-        pages.append("")  # empty line as separator
+        ):
+            pages.append(cur_page)
+            pages.append("")  # empty line as visual separator
+            # Without this \newpage, LaTeX may try to fit both sides on one page. This
+            # will happen especially when the last page has only cards for one row.
+            pages.append(r"\newpage")
+            pages.append("")  # empty line as visual separator
+    pages.pop()  # Remove the last empty line
+    pages.pop()  # Remove the last unnecessary \newpage
 
     return "\n".join(pages)
 
