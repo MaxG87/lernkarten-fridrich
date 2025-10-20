@@ -36,6 +36,8 @@ program for regeneration of the icons, CSVs and PDFs.
 
 ### Anki Flashcards
 
+<img src="./docs/images/screenshot_anki_Ja.png" alt="Anki Card Browser Example" width="256"/>
+
 Each flashcard folder contains icons and a file `ankiCardSet.csv`. In order to import them
 into Anki, follow these steps:
 
