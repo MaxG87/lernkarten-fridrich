@@ -1,11 +1,9 @@
 \documentclass[12pt,a4paper,landscape]{scrartcl}
 % evtl. nützliche Pakete
 \usepackage{amsmath}
-\usepackage[T1]{fontenc}
 \usepackage{fontspec}
 \usepackage[margin=0.5cm]{geometry}
 \usepackage{graphicx}
-\usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 
 \title{Speedcubing Lernkarten}
