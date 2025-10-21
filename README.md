@@ -81,10 +81,11 @@ uv run generate-algorithm-cards --help
 
 ### How to regenerate Anki flashcards
 
-In order to regenerate the Anki flashcards for algorithm set OLL, run the following command from the project's root folder:
+In order to regenerate the Anki flashcards for algorithm set OLL, run the
+following command from the project's root folder:
 
 ```bash
-uv run generate-algorithm-cards --algorithm-set oll oll
+uv run generate-algorithm-cards --algorithm-set oll oll-output-dir
 ```
 
 This will regenerate
@@ -98,12 +99,13 @@ Regarding Anki, this is all that is needed.
 
 ### How to regenerate physical printable cards
 
-In order to regenerate the printable cards, the $\LaTeX$ file needs to be compiled to a PDF file. Ideally, this can be done using the Makefile:
+In order to regenerate the printable cards, the $\LaTeX$ file needs to be
+compiled to a PDF file. Ideally, this can be done using the Makefile:
 
 ```bash
 # Regenerate printable Lernkarten for OLL. Replace "oll" with any other
 # algorithm set folder name as needed.
-make -C oll
+make -C oll-output-dir
 ```
 
 Unfortunately, the Makefile is not portable across different systems. If it
