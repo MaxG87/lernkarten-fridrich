@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [project.scripts]
-generate-algorithm-cards = "lernkarten_scripts.generate_algorithm_cards:app"
+generate-algorithm-cards = "lernkarten_scripts.cli:app"
 
 [dependency-groups]
 dev = [
