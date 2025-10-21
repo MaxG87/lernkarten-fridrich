@@ -50,7 +50,8 @@ Now you should see the cards in your Anki collection.
 ### Physical Printable Cards
 
 The printable cards are provided as PDF files. They are designed to be printed
-two-sided. Then the algorithms will be on the back of the corresponding icons.
+two-sided (long edge tumble). Then the algorithms will be on the back of the
+corresponding icons.
 
 The PDFs are designed to be cuttable in batches, allowing for more convenient
 preparation.
@@ -58,8 +59,9 @@ preparation.
 ## How to Regenerate the Lernkarten
 
 Everything required to regenerate the Lernkarten is provided by the Python
-program in `lernkarten_scripts/`. In order to run it, one needs to have [`uv`](https://docs.astral.sh/uv/) and Python 3 installed.
-One ad-hoc way to install `uv` is to run
+program in `lernkarten_scripts/`. In order to run it, one needs to have
+[`uv`](https://docs.astral.sh/uv/) and Python 3 installed. One ad-hoc way to
+install `uv` is to run
 
 ```bash
 pipx install uv
@@ -69,7 +71,6 @@ pipx install uv
 instructions](https://docs.astral.sh/uv/getting-started/installation/) and your
 platform's best practices. For instance, on [Arch
 Linux](https://archlinux.org/), `uv` can be installed via `pacman`.
-
 
 After that, the script can be executed by running
 
