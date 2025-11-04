@@ -50,8 +50,9 @@ Now you should see the cards in your Anki collection.
 ### Physical Printable Cards
 
 The printable cards are provided as PDF files. They are designed to be printed
-two-sided (long edge tumble). Then the algorithms will be on the back of the
-corresponding icons.
+two-sided ([short edge
+tumble](https://superuser.com/questions/221343/lpr-printing-tumble-mode)). Then
+the algorithms will be on the back of the corresponding icons.
 
 The PDFs are designed to be cuttable in batches, allowing for more convenient
 preparation.
