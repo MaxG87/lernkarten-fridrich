@@ -133,6 +133,26 @@ generated automatically. They need to be adjusted manually too. They are
 defined right next to the algorithm.
 
 
+## A Note on Deck Usage
+
+When using the Lernkarten in Anki, it is recommended to set up a big deck
+containing all the cards. This allows for better spaced repetition learning
+across all algorithm sets. This is in line with [the recommendations of Anki
+itself](https://docs.ankiweb.net/editing.html#using-decks-appropriately).
+
+The author started with four decks (OLL, PLL, F2L and Big Cubes) only to be
+overburdened by tracking progress on multiple decks. Switching to a single deck
+hands over the bookkeeping to Anki. In particular, limits for new cards are
+consolidated across all algorithm sets. Without that, after learning some new
+cards for one deck Anki would have you learn new cards for another deck, which
+is counterproductive and overburdening.
+
+Instead of multi-deck usage, the tags can be used to create filtered decks for
+focused study sessions on a particular algorithm set. With that, one can still
+learn some cards first, e.g. 2-Look OLL or PLL, before moving on to the full
+set.
+
+
 ## Acknowledgements
 
 I want to thank Andy Klise of https://www.kungfoomanchu.com/ for providing
