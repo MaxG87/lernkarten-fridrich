@@ -327,7 +327,7 @@ OLL: list[AlgorithmConfig] = [
     # P-Shapes
     OLLAlgorithmConfig("P1 - 31", 3, Algorithm("(R' U' F)(U R U' R') F' R")),
     OLLAlgorithmConfig("P2 - 32", 3, Algorithm("R U B' (U' R' U) (R B R')")),
-    OLLAlgorithmConfig("P3 - 43", 3, Algorithm("R' U' F' U F R")),
+    OLLAlgorithmConfig("P3 - 43", 3, Algorithm("F' U' L' U L F")),
     OLLAlgorithmConfig("P4 - 44", 3, Algorithm("f (R U R' U') f'")),
     # I-Shapes
     OLLAlgorithmConfig("I1 - 51", 3, Algorithm("f (R U R' U')(R U R' U') f'")),
